@@ -1,0 +1,33 @@
+{
+  "name": "arcgis-react-hooks",
+  "version": "1.0.0",
+  "description": "React hook wrappers around the @arcgis/core library",
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samMatenaer/arcgis-react-hooks.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "arcgis",
+    "hooks"
+  ],
+  "devDependencies": {
+    "@arcgis/core": "^4.24.2",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@vitejs/plugin-react": "^1.3.2",
+    "react": "^18.2.0",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.12"
+  },
+  "peerDependencies": {
+    "react": "^17 || ^18",
+    "@arcgis/core": "^4.24.2"
+  },
+  "author": "Sam Matenaer",
+  "license": "Apache-2.0"
+}
