@@ -1,15 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useMapView } from "../src/hooks/useMapView";
-import MapViewComponent from "../src/components/MapViewComponent";
-import { ViewUIComponent } from "../src/components/ViewUIComponent";
-import { useWidget } from "../src/hooks/useWidget";
+import React, { useContext, useState } from "react";
+import MapViewComponent, {
+  MapContext,
+} from "../src/components/MapViewComponent";
+import {
+  ViewUIComponent,
+  ViewUIComponentProps,
+} from "../src/components/ViewUIComponent";
+import {
+  useWidget,
+  useMapView,
+  useOnEvent,
+  useWatchEffect,
+} from "../src/hooks";
 import Search from "@arcgis/core/widgets/Search";
 
-import { useWatchEffect, useOnEvent } from "../src/hooks/useWatchEffect";
+const StyledUIComponent: React.FC<ViewUIComponentProps> = (props) => (
+  <ViewUIComponent {...props} style={{ backgroundColor: "white" }} />
+);
+
+const MouseTracker = () => {
+  const mapView = useContext(MapContext);
+  const [pointerPos, setPointerPos] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  useOnEvent(mapView, "pointer-move", (event) => {
+    setPointerPos({ x: event.x, y: event.y });
+  });
+
+  return (
+    <div>
+      X: {pointerPos.x}, Y: {pointerPos.y}
+    </div>
+  );
+};
+
 export function App() {
   const mapView = useMapView({ basemap: "gray-vector" }, {});
 
-  const [search, SearchComponent] = useWidget(Search, { view: mapView });
+  const [SearchComponent] = useWidget(Search, { view: mapView });
   const [zoom, setZoom] = useState(10);
 
   useWatchEffect(
@@ -20,21 +50,15 @@ export function App() {
     "zoom"
   );
 
-  useOnEvent(mapView as __esri.View, "click", (event) => {
-    console.log(event);
-  });
-
-  useEffect(() => {
-    console.log(zoom);
-  }, [zoom]);
-
-  console.log("UPDATING");
-
   return (
     <MapViewComponent view={mapView} style={{ height: 500, width: 500 }}>
-      <ViewUIComponent position={"top-right"}>
+      <StyledUIComponent position={"top-right"}>
         <SearchComponent />
-      </ViewUIComponent>
+        <div>Zoom: {zoom}</div>
+      </StyledUIComponent>
+      <StyledUIComponent position={"bottom-left"}>
+        <MouseTracker />
+      </StyledUIComponent>
     </MapViewComponent>
   );
 }

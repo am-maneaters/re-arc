@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { MapContext } from "./MapViewComponent";
 import "./Map.css";
-interface MapWidgetProps {
+
+export type ViewUIComponentProps = {
   position: __esri.UIAddPosition;
   children?: React.ReactNode;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function ViewUIComponent({
+export const ViewUIComponent: React.FC<ViewUIComponentProps> = ({
   position,
   children,
-}: MapWidgetProps): JSX.Element {
+  ...divProps
+}) => {
   const widgetRef = useRef<HTMLDivElement>(null);
   const view = useContext(MapContext);
 
@@ -22,8 +24,8 @@ export function ViewUIComponent({
   }, [position, view]);
 
   return (
-    <div ref={widgetRef} className={"MapUIComponent"}>
+    <div ref={widgetRef} className={"MapUIComponent"} {...divProps}>
       {children}
     </div>
   );
-}
+};

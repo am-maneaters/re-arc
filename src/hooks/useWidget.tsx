@@ -6,7 +6,7 @@ export function useWidget<
 >(
   WidgetConstructor: WidgetConstructorType,
   widgetParams: ConstructorParameters<WidgetConstructorType>[0]
-): [Widget, FC<HTMLAttributes<HTMLDivElement>>] {
+): [FC<HTMLAttributes<HTMLDivElement>>, Widget] {
   // The current instance of the widget
   const widgetInstance = useMemo(
     () => new WidgetConstructor(widgetParams) as Widget,
@@ -35,5 +35,5 @@ export function useWidget<
     [refFn]
   );
 
-  return [widgetInstance, component];
+  return [component, widgetInstance];
 }

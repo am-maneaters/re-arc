@@ -6,13 +6,13 @@ export const MapContext = createContext<MapView>(new MapView());
 type MapViewComponentProps = {
   view: MapView;
   children?: React.ReactNode;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 export default function MapViewComponent({
   view,
   children,
   ...divAttributes
-}: MapViewComponentProps & HTMLAttributes<HTMLDivElement>) {
+}: MapViewComponentProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
