@@ -1,21 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react';
 import MapViewComponent, {
   MapContext,
-} from "../src/components/MapViewComponent";
+} from '../src/components/MapViewComponent';
 import {
   ViewUIComponent,
   ViewUIComponentProps,
-} from "../src/components/ViewUIComponent";
+} from '../src/components/ViewUIComponent';
 import {
   useWidget,
   useMapView,
   useOnEvent,
   useWatchEffect,
-} from "../src/hooks";
-import Search from "@arcgis/core/widgets/Search";
+} from '../src/hooks';
+import Search from '@arcgis/core/widgets/Search';
 
 const StyledUIComponent: React.FC<ViewUIComponentProps> = (props) => (
-  <ViewUIComponent {...props} style={{ backgroundColor: "white" }} />
+  <ViewUIComponent {...props} style={{ backgroundColor: 'white' }} />
 );
 
 const MouseTracker = () => {
@@ -25,7 +25,7 @@ const MouseTracker = () => {
     y: 0,
   });
 
-  useOnEvent(mapView, "pointer-move", (event) => {
+  useOnEvent(mapView, 'pointer-move', (event) => {
     setPointerPos({ x: event.x, y: event.y });
   });
 
@@ -37,7 +37,7 @@ const MouseTracker = () => {
 };
 
 export function App() {
-  const mapView = useMapView({ basemap: "gray-vector" }, {});
+  const mapView = useMapView({ basemap: 'gray-vector' }, {});
 
   const [SearchComponent] = useWidget(Search, { view: mapView });
   const [zoom, setZoom] = useState(10);
@@ -47,16 +47,16 @@ export function App() {
       if (zoom !== undefined && Number.isInteger(zoom)) setZoom(zoom);
     },
     mapView,
-    "zoom"
+    'zoom'
   );
 
   return (
     <MapViewComponent view={mapView} style={{ height: 500, width: 500 }}>
-      <StyledUIComponent position={"top-right"}>
+      <StyledUIComponent position={'top-right'}>
         <SearchComponent />
         <div>Zoom: {zoom}</div>
       </StyledUIComponent>
-      <StyledUIComponent position={"bottom-left"}>
+      <StyledUIComponent position={'bottom-left'}>
         <MouseTracker />
       </StyledUIComponent>
     </MapViewComponent>

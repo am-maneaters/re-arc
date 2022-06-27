@@ -47,5 +47,8 @@
       "import": "./dist/arcgis-react-hooks.es.js",
       "require": "./dist/arcgis-react-hooks.umd.js"
     }
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

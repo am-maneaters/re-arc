@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import { watch, on } from "@arcgis/core/core/reactiveUtils";
-import { Overloads } from "../typings/utilityTypes";
+import { useEffect, useRef } from 'react';
+import { watch, on } from '@arcgis/core/core/reactiveUtils';
+import { Overloads } from '../typings/utilityTypes';
 
 /**
  * Hook wrapper around ArcGIS JS API watch reactiveUtils function.
@@ -43,7 +43,7 @@ export function useWatchEffect<
  */
 export function useOnEvent<
   Target extends __esri.Evented,
-  Event extends Parameters<Overloads<Target["on"]>>,
+  Event extends Parameters<Overloads<Target['on']>>,
   EventName extends Event[0]
 >(
   target: Target,
