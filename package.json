@@ -9,7 +9,9 @@
     "url": "git+https://github.com/samMatenaer/arcgis-react-hooks.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && vite build"
   },
   "keywords": [
     "arcgis",
@@ -17,18 +19,33 @@
   ],
   "devDependencies": {
     "@arcgis/core": "^4.24.2",
+    "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
     "@vitejs/plugin-react": "^1.3.2",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.1.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.6.4",
     "vite": "^2.9.13"
   },
   "peerDependencies": {
-    "@arcgis/core": "^4.24.2",
+    "@arcgis/core": "^4.24",
     "react": "^17 || ^18"
   },
   "author": "Sam Matenaer",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "import": "./dist/arcgis-react-hooks.es.js",
+      "require": "./dist/arcgis-react-hooks.umd.js"
+    }
+  }
 }
