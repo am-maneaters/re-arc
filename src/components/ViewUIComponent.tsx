@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useContext } from "react";
-import { MapContext } from "./MapViewComponent";
-import "./Map.css";
+import React, { useRef, useEffect, useContext } from 'react';
+import { MapContext } from './MapViewComponent';
+import './Map.css';
 
 export type ViewUIComponentProps = {
-  position: __esri.UIAddPosition;
+  position: __esri.UIAddPosition['position'];
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -24,7 +24,7 @@ export const ViewUIComponent: React.FC<ViewUIComponentProps> = ({
   }, [position, view]);
 
   return (
-    <div ref={widgetRef} className={"MapUIComponent"} {...divProps}>
+    <div ref={widgetRef} className="MapUIComponent" {...divProps}>
       {children}
     </div>
   );

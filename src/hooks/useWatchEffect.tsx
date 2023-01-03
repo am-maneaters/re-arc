@@ -1,35 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { watch, on } from '@arcgis/core/core/reactiveUtils';
 import { Overloads } from '../typings/utilityTypes';
 
-/**
- * Hook wrapper around ArcGIS JS API watch reactiveUtils function.
- * Use this hook to watch a single property of an Accessor object (most ArcGIS JS API objects).
- * @param accessor - Accessor object to watch (e.g. MapView, FeatureLayerView, etc.)
- * @param property - Property on the Accessor object to watch (e.g. "extent", "geometry", "geometry.spatialReference", etc.)
- * @see https://developers.arcgis.com/javascript/latest/api-reference/esri-core-reactiveUtils.html#watch
- */
-export function useWatchEffect<
-  Accessor extends __esri.Accessor,
-  Property extends keyof Accessor
->(
-  callback: (
-    newValue?: Accessor[Property] | undefined,
-    oldValue?: Accessor[Property] | undefined
-  ) => void,
-  accessor: Accessor,
-  property: Property
-): void {
-  const handleRef = useRef<__esri.Handle>();
+export function useWatchEffect<T>(
+  getValue: () => T,
+  callback: (newValue?: T, oldValue?: T) => void,
+  options?: __esri.ReactiveWatchOptions
+) {
   useEffect(() => {
-    let handle = handleRef.current;
-    handle?.remove();
+    const handle = watch(getValue, callback, options);
+    return () => handle.remove();
+  }, [callback, getValue, options]);
+}
 
-    if (accessor && property in accessor)
-      handle = watch(() => accessor[property], callback);
+export function useWatchState<T>(
+  getValue: () => T,
+  options?: __esri.ReactiveWatchOptions
+): T | undefined {
+  const [state, setState] = useState<T>();
 
-    return () => handle?.remove();
-  }, [callback, accessor, property]);
+  useWatchEffect(getValue, setState, options);
+  return state;
 }
 
 /**
@@ -46,7 +37,7 @@ export function useOnEvent<
   Event extends Parameters<Overloads<Target['on']>>,
   EventName extends Event[0]
 >(
-  target: Target,
+  target: Target | (() => Target),
   event: EventName,
   callback: Event extends [EventName, infer CallbackHandler]
     ? CallbackHandler
@@ -54,7 +45,12 @@ export function useOnEvent<
   options?: __esri.ReactiveListenerOptions<Target>
 ): void {
   useEffect(() => {
-    const handle = on(() => target, event as string, callback, options);
+    const handle = on(
+      typeof target === 'function' ? target : () => target,
+      event as string,
+      callback,
+      options
+    );
     return () => handle.remove();
   }, [callback, event, options, target]);
 }

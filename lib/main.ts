@@ -1,2 +1,1 @@
-const t = 5;
-export { t };
+export { useWidget } from '../src/hooks/useWidget';

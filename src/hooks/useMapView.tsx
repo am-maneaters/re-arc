@@ -1,18 +1,33 @@
 import MapView from '@arcgis/core/views/MapView';
-import Map from '@arcgis/core/Map';
-import { useMemo } from 'react';
+import Map from '@arcgis/core/WebMap';
+import { useEffect, useRef, useState } from 'react';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { useWatchEffect } from './useWatchEffect';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
+/**
+ * Hook to create a MapView instance
+ * @param mapProps The props to pass to the Map constructor
+ * @param mapViewProps The props to pass to the MapView constructor
+ * @returns The mapView instance
+ */
 export function useMapView(
   mapProps: ConstructorParameters<typeof Map>[0],
   mapViewProps: Exclude<__esri.MapViewProperties, 'map' | 'container'>
 ): MapView {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const map = useMemo<Map>(() => new Map(mapProps), []);
-  const view = useMemo<MapView>(
-    () => new MapView({ ...mapViewProps, map }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [map]
-  );
+  const mapRef = useRef<Map>(new Map(mapProps));
 
-  return view;
+  const [mapView, setMapView] = useState<MapView>();
+
+  const mapViewRef = useRef<MapView>(
+    new MapView({ ...mapViewProps, map: mapRef.current })
+  );
+  // useWatchEffect(
+  //   () => mapRef.current.loaded,
+  //   () => {
+  //     setMapView(mapViewRef.current);
+  //   }
+  // );
+
+  return mapViewRef.current;
 }

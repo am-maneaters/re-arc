@@ -1,5 +1,5 @@
-import MapView from "@arcgis/core/views/MapView";
-import React, { useRef, useEffect, createContext, HTMLAttributes } from "react";
+import MapView from '@arcgis/core/views/MapView';
+import React, { useRef, useEffect, createContext, HTMLAttributes } from 'react';
 
 export const MapContext = createContext<MapView>(new MapView());
 

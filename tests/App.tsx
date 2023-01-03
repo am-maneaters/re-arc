@@ -1,64 +1,113 @@
-import React, { useContext, useState } from 'react';
-import MapViewComponent, {
-  MapContext,
-} from '../src/components/MapViewComponent';
+import React, { useEffect, useState } from 'react';
+import './App.css';
+import MapViewComponent from '../src/components/MapViewComponent';
 import {
   ViewUIComponent,
   ViewUIComponentProps,
 } from '../src/components/ViewUIComponent';
-import {
-  useWidget,
-  useMapView,
-  useOnEvent,
-  useWatchEffect,
-} from '../src/hooks';
-import Search from '@arcgis/core/widgets/Search';
+import { useWidget, useOnEvent, useMapView } from '../src/hooks';
+import Sketch from '@arcgis/core/widgets/Sketch';
+import Zoom from '@arcgis/core/widgets/Zoom';
+import { useGraphicsLayer } from '../src/hooks/useGraphicsLayer';
+import { useWatchState } from '../src/hooks/useWatchEffect';
 
 const StyledUIComponent: React.FC<ViewUIComponentProps> = (props) => (
   <ViewUIComponent {...props} style={{ backgroundColor: 'white' }} />
 );
 
-const MouseTracker = () => {
-  const mapView = useContext(MapContext);
-  const [pointerPos, setPointerPos] = useState({
-    x: 0,
-    y: 0,
+export function App() {
+  const [showCircleTool, setShowCircleTool] = useState(false);
+  const [leftMapFocused, setLeftMapFocused] = useState(true);
+
+  const mapView = useMapView(
+    { portalItem: { id: '34e47f4d83934024a73d6841b81d6cfb' } },
+    {
+      ui: { components: [] },
+    }
+  );
+
+  const center = useWatchState(() => mapView.center);
+  const zoom = useWatchState(() => mapView.zoom);
+
+  const mapView2 = useMapView(
+    { basemap: 'dark-gray-vector' },
+    { zoom, center }
+  );
+
+  useEffect(() => {
+    mapView2.goTo({ center, zoom }, { animate: false });
+  }, [center, mapView2, zoom]);
+
+  const sketchLayer = useGraphicsLayer(mapView, undefined);
+
+  useEffect(() => {
+    console.log('sketchLayer', sketchLayer);
+  }, [sketchLayer]);
+
+  const [SketchComponent] = useWidget(
+    Sketch,
+    {
+      view: mapView,
+      layer: sketchLayer,
+    },
+    (sketchWidget) => {
+      sketchWidget.availableCreateTools = [
+        'rectangle',
+        ...(showCircleTool ? ['circle'] : []),
+      ];
+    }
+  );
+
+  const [pointerPos, setPointerPos] = useState<[number, number]>([0, 0]);
+
+  const [ZoomWidget] = useWidget(Zoom, {
+    view: leftMapFocused ? mapView : mapView2,
   });
 
-  useOnEvent(mapView, 'pointer-move', (event) => {
-    setPointerPos({ x: event.x, y: event.y });
-  });
+  const visibleLayerIds = useWatchState(() =>
+    mapView.layerViews.map((v) => v.layer.title)
+  );
+
+  useOnEvent(mapView, 'click', (event) => setPointerPos([event.x, event.y]));
+  useOnEvent(mapView, 'focus', () => setLeftMapFocused(true));
+  useOnEvent(mapView2, 'focus', () => setLeftMapFocused(false));
+
+  const [mouseX, mouseY] = pointerPos;
 
   return (
     <div>
-      X: {pointerPos.x}, Y: {pointerPos.y}
+      <div style={{ display: 'flex' }}>
+        <MapViewComponent view={mapView} style={{ height: 500, width: '50%' }}>
+          <StyledUIComponent position="top-right">
+            <div>Zoom: {zoom}</div>
+          </StyledUIComponent>
+          <StyledUIComponent position="bottom-left">
+            <div>
+              X: {mouseX}, Y: {mouseY}
+            </div>
+            {/* <div>Visible layers: {visibleLayerIds?.join('\n')}</div> */}
+          </StyledUIComponent>
+          <StyledUIComponent position="manual">
+            {SketchComponent({
+              style: {
+                display: mouseX === 0 ? 'none' : 'block',
+                position: 'fixed',
+                top: mouseY,
+                left: mouseX,
+              },
+            })}
+          </StyledUIComponent>
+        </MapViewComponent>
+        <MapViewComponent
+          view={mapView2}
+          style={{ height: 500, width: '50%' }}
+        />
+      </div>
+
+      <button onClick={() => setShowCircleTool((v) => !v)}>
+        {showCircleTool ? 'Hide' : 'Show'} circle sketch tool
+      </button>
+      {ZoomWidget({ style: { display: 'contents' } })}
     </div>
-  );
-};
-
-export function App() {
-  const mapView = useMapView({ basemap: 'gray-vector' }, {});
-
-  const [SearchComponent] = useWidget(Search, { view: mapView });
-  const [zoom, setZoom] = useState(10);
-
-  useWatchEffect(
-    (zoom) => {
-      if (zoom !== undefined && Number.isInteger(zoom)) setZoom(zoom);
-    },
-    mapView,
-    'zoom'
-  );
-
-  return (
-    <MapViewComponent view={mapView} style={{ height: 500, width: 500 }}>
-      <StyledUIComponent position={'top-right'}>
-        <SearchComponent />
-        <div>Zoom: {zoom}</div>
-      </StyledUIComponent>
-      <StyledUIComponent position={'bottom-left'}>
-        <MouseTracker />
-      </StyledUIComponent>
-    </MapViewComponent>
   );
 }

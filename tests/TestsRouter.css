@@ -1,0 +1,21 @@
+html,
+body,
+#viewDiv {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#calcite-block {
+  overflow: auto;
+}
+
+calcite-panel {
+  --calcite-ui-text-2: #ffbfc9;
+}
+
+.title {
+  color: #e6772e;
+}
