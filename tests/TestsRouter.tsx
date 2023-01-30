@@ -3,18 +3,11 @@ import {
   ViewUIComponent,
   ViewUIComponentProps,
 } from '../src/components/ViewUIComponent';
-import { useMapView, useWidget } from '../src/hooks';
 import './TestsRouter.css';
 
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Expand from '@arcgis/core/widgets/Expand';
-
-import '@esri/calcite-components/dist/components/calcite-block';
-import '@esri/calcite-components/dist/components/calcite-label';
-import '@esri/calcite-components/dist/components/calcite-panel';
-import '@esri/calcite-components/dist/components/calcite-shell';
-import '@esri/calcite-components/dist/components/calcite-shell-panel';
 
 import {
   CalciteBlock,
@@ -24,52 +17,23 @@ import {
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
 import { useWatchState } from '../src/hooks/useWatchEffect';
-import { useRef, useEffect } from 'react';
+import { useState } from 'react';
+import MapView from '@arcgis/core/views/MapView';
+import { WidgetComponent } from '../src/components/WidgetComponent';
 
 const StyledUIComponent: React.FC<ViewUIComponentProps> = (props) => (
   <ViewUIComponent {...props} style={{ backgroundColor: 'white' }} />
 );
 
-const WidgetComponent = ({ widget }: { widget: __esri.Widget }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (ref.current === null || !widget) return;
-
-    // Create new widget instance and place it in the DOM
-    widget.container = ref.current;
-  }, [widget]);
-
-  return <div ref={ref} />;
-};
-
 export function TestsRouter() {
-  const mapView = useMapView(
-    {
-      portalItem: {
-        id: '2361e8f3f8114c0fa544090d2ff1cbe6',
-      },
-    },
-    {}
-  );
+  const [mapView, setMapView] = useState<MapView>();
 
-  const layerList = useWidget(new LayerList({ view: mapView }));
-
-  const expand = useWidget(
-    new Expand({
-      view: mapView,
-      content: new Legend({
-        view: mapView,
-      }),
-      expandTooltip: 'Legend',
-    })
-  );
-
-  const popupVisible = useWatchState(() => mapView.popup.visible);
+  const popupVisible = useWatchState(() => mapView?.popup.visible);
 
   const renderExtent = (type: string, extent: __esri.Extent) => undefined;
 
-  const allLayersVisible = useWatchState(async () =>
-    mapView.map.allLayers.every((layer) => layer.visible)
+  const allLayersVisible = useWatchState(() =>
+    mapView?.map.allLayers.every((layer) => layer.visible)
   );
 
   console.log('allLayersVisible', allLayersVisible);
@@ -77,12 +41,36 @@ export function TestsRouter() {
   return (
     <div>
       <CalciteShell className="calcite-theme-dark">
-        <MapViewComponent view={mapView} style={{ height: '100vh' }}>
+        <MapViewComponent
+          mapProps={{
+            portalItem: {
+              id: '2361e8f3f8114c0fa544090d2ff1cbe6',
+            },
+          }}
+          mapViewProps={{}}
+          onMapViewLoad={setMapView}
+          style={{ height: '100vh' }}
+        >
           <StyledUIComponent position="top-right">
-            <WidgetComponent widget={layerList} />
+            <WidgetComponent
+              widgetInit={() => new LayerList({ view: mapView })}
+            />
           </StyledUIComponent>
           <StyledUIComponent position="bottom-right">
-            <WidgetComponent widget={expand} />
+            <WidgetComponent
+              widgetInit={() =>
+                new Expand({
+                  view: mapView,
+                  content: new Legend({
+                    view: mapView,
+                  }),
+                  expandTooltip: 'Legend',
+                })
+              }
+              onWidgetLoad={(widget) => {
+                widget.expand();
+              }}
+            />
           </StyledUIComponent>
         </MapViewComponent>
         <CalciteShellPanel slot="contextual-panel">

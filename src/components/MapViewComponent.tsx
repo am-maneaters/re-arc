@@ -1,27 +1,56 @@
 import MapView from '@arcgis/core/views/MapView';
-import React, { useRef, useEffect, createContext, HTMLAttributes } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  createContext,
+  HTMLAttributes,
+  useState,
+} from 'react';
+import Map from '@arcgis/core/WebMap';
+import { useWatchEffect } from '../hooks';
 
-export const MapContext = createContext<MapView>(new MapView());
+export const MapContext = createContext<MapView | undefined>(new MapView());
 
 type MapViewComponentProps = {
-  view: MapView;
   children?: React.ReactNode;
+  mapProps: __esri.WebMapProperties;
+  mapViewProps: __esri.MapViewProperties;
+  onMapViewLoad?: (map: MapView) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 export default function MapViewComponent({
-  view,
   children,
+  mapProps,
+  mapViewProps,
+  onMapViewLoad,
   ...divAttributes
 }: MapViewComponentProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<Map>(new Map(mapProps));
+
+  const [mapView, setMapView] = useState<MapView>();
+
+  const mapViewRef = useRef<MapView>(
+    new MapView({ ...mapViewProps, map: mapRef.current })
+  );
+  useWatchEffect(
+    () => mapViewRef.current.ready,
+    () => {
+      setMapView(mapViewRef.current);
+      onMapViewLoad?.(mapViewRef.current);
+    }
+  );
 
   useEffect(() => {
-    if (mapRef.current) view.container = mapRef.current;
-  }, [view]);
+    if (mapContainer.current)
+      mapViewRef.current.container = mapContainer.current;
+  }, []);
 
   return (
-    <div ref={mapRef} {...divAttributes}>
-      <MapContext.Provider value={view}>{children}</MapContext.Provider>
-    </div>
+    <MapContext.Provider value={mapView}>
+      <div ref={mapContainer} {...divAttributes}>
+        {mapView && children}
+      </div>
+    </MapContext.Provider>
   );
 }

@@ -14,7 +14,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 export function useMapView(
   mapProps: ConstructorParameters<typeof Map>[0],
   mapViewProps: Exclude<__esri.MapViewProperties, 'map' | 'container'>
-): MapView {
+): MapView | undefined {
   const mapRef = useRef<Map>(new Map(mapProps));
 
   const [mapView, setMapView] = useState<MapView>();
@@ -22,12 +22,12 @@ export function useMapView(
   const mapViewRef = useRef<MapView>(
     new MapView({ ...mapViewProps, map: mapRef.current })
   );
-  // useWatchEffect(
-  //   () => mapRef.current.loaded,
-  //   () => {
-  //     setMapView(mapViewRef.current);
-  //   }
-  // );
+  useWatchEffect(
+    () => mapViewRef.current.ready,
+    () => {
+      setMapView(mapViewRef.current);
+    }
+  );
 
-  return mapViewRef.current;
+  return mapView;
 }
