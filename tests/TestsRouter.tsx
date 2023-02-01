@@ -1,13 +1,10 @@
 import MapViewComponent from '../src/components/MapViewComponent';
-import {
-  ViewUIComponent,
-  ViewUIComponentProps,
-} from '../src/components/ViewUIComponent';
-import './TestsRouter.css';
+import { ViewUIComponent } from '../src/components/ViewUIComponent';
 
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Expand from '@arcgis/core/widgets/Expand';
+import './TestsRouter.css';
 
 import {
   CalciteBlock,
@@ -16,27 +13,74 @@ import {
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { useWatchState } from '../src/hooks/useWatchEffect';
+import { useWatchEffect, useWatchState } from '../src/hooks/useWatchEffect';
 import { useState } from 'react';
 import MapView from '@arcgis/core/views/MapView';
 import { WidgetComponent } from '../src/components/WidgetComponent';
 
-const StyledUIComponent: React.FC<ViewUIComponentProps> = (props) => (
-  <ViewUIComponent {...props} style={{ backgroundColor: 'white' }} />
+const Coord = ({ num = 0, label = '' }) => (
+  <div>
+    {label}: {(Math.round(num * 100) / 100).toFixed(4)}
+  </div>
 );
+
+const Extent = ({
+  isNew = false,
+  extent,
+}: {
+  isNew?: boolean;
+  extent?: __esri.Extent;
+}) =>
+  extent ? (
+    <CalciteLabel id="current-extent-label">
+      <span className="title">
+        {isNew ? 'Current Extent' : 'Previous Extent'}
+      </span>
+      <Coord label="xmax" num={extent.xmax} />
+      <Coord label="xmin" num={extent.xmin} />
+      <Coord label="ymax" num={extent.ymax} />
+      <Coord label="ymin" num={extent.ymin} />
+    </CalciteLabel>
+  ) : null;
 
 export function TestsRouter() {
   const [mapView, setMapView] = useState<MapView>();
 
-  const popupVisible = useWatchState(() => mapView?.popup.visible);
+  const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
+  const [currentExtent, setCurrentExtent] = useState<__esri.Extent>();
 
-  const renderExtent = (type: string, extent: __esri.Extent) => undefined;
+  const popupVisible = useWatchState(() => mapView?.popup.visible, [mapView]);
 
-  const allLayersVisible = useWatchState(() =>
-    mapView?.map.allLayers.every((layer) => layer.visible)
+  const allLayersVisible = useWatchState(
+    () => mapView?.layerViews.every((layer) => layer.visible) ?? false,
+    [mapView?.layerViews]
   );
 
-  console.log('allLayersVisible', allLayersVisible);
+  const visibleLayers = useWatchState(
+    () =>
+      mapView?.allLayerViews
+        .filter((layer) => layer.visible)
+        .map(({ layer }) => layer.title),
+    [mapView?.allLayerViews]
+  );
+
+  const [scale, setScale] = useState<string>();
+
+  useWatchEffect(
+    () => [mapView?.stationary, mapView?.extent, mapView?.scale] as const,
+    ([stationary, extent, scale], [wasStationary]) => {
+      if (stationary) {
+        if (scale) setScale((Math.round(scale * 100) / 100).toFixed(4));
+
+        if (extent !== currentExtent) {
+          setCurrentExtent(extent);
+          setPreviousExtent(currentExtent);
+        }
+      } else if (wasStationary) {
+        setCurrentExtent(extent);
+      }
+    }
+  );
 
   return (
     <div>
@@ -51,12 +95,15 @@ export function TestsRouter() {
           onMapViewLoad={setMapView}
           style={{ height: '100vh' }}
         >
-          <StyledUIComponent position="top-right">
+          <ViewUIComponent position="top-left" style={{ background: 'white' }}>
+            Zoom level: {mapView?.zoom}
+          </ViewUIComponent>
+          <ViewUIComponent position="top-right">
             <WidgetComponent
               widgetInit={() => new LayerList({ view: mapView })}
             />
-          </StyledUIComponent>
-          <StyledUIComponent position="bottom-right">
+          </ViewUIComponent>
+          <ViewUIComponent position="bottom-right">
             <WidgetComponent
               widgetInit={() =>
                 new Expand({
@@ -67,11 +114,8 @@ export function TestsRouter() {
                   expandTooltip: 'Legend',
                 })
               }
-              onWidgetLoad={(widget) => {
-                widget.expand();
-              }}
             />
-          </StyledUIComponent>
+          </ViewUIComponent>
         </MapViewComponent>
         <CalciteShellPanel slot="contextual-panel">
           <CalcitePanel heading="ReactiveUtils Watch Events">
@@ -82,12 +126,8 @@ export function TestsRouter() {
               open
               id="CalciteBlock"
             >
-              <CalciteLabel id="current-extent-label">
-                {/* {renderExtent('current', extent)} */}
-              </CalciteLabel>
-              <CalciteLabel id="previous-extent-label">
-                {/* {renderExtent('previous', extent)} */}
-              </CalciteLabel>
+              <Extent isNew extent={currentExtent} />
+              <Extent extent={previousExtent} />
             </CalciteBlock>
             <CalciteBlock
               heading="Scale Property"
@@ -99,7 +139,9 @@ export function TestsRouter() {
               <CalciteLabel
                 id="current-scale-label"
                 layout="inline-space-between"
-              />
+              >
+                <span className="title">current extent: </span> {scale}
+              </CalciteLabel>
             </CalciteBlock>
             <CalciteBlock
               heading="Popup Visible Property"
@@ -126,6 +168,9 @@ export function TestsRouter() {
                     ? 'All layers are visible'
                     : 'Not all layers are visible'}
                 </span>
+                {visibleLayers?.map((layer) => (
+                  <div key={layer}>- {layer}</div>
+                ))}
               </CalciteLabel>
             </CalciteBlock>
           </CalcitePanel>

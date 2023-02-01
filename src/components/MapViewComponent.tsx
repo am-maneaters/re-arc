@@ -33,13 +33,13 @@ export default function MapViewComponent({
   const mapViewRef = useRef<MapView>(
     new MapView({ ...mapViewProps, map: mapRef.current })
   );
-  useWatchEffect(
-    () => mapViewRef.current.ready,
-    () => {
+
+  useEffect(() => {
+    mapViewRef.current.when(() => {
       setMapView(mapViewRef.current);
       onMapViewLoad?.(mapViewRef.current);
-    }
-  );
+    });
+  }, [onMapViewLoad]);
 
   useEffect(() => {
     if (mapContainer.current)
