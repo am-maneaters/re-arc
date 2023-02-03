@@ -1,10 +1,11 @@
-import MapViewComponent from '../src/components/MapViewComponent';
-import { ViewUIComponent } from '../src/components/ViewUIComponent';
+import MapViewComponent from '../components/MapViewComponent';
+import { ViewUIComponent } from '../components/ViewUIComponent';
 
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Expand from '@arcgis/core/widgets/Expand';
-import './TestsRouter.css';
+
+import './ReactiveDemo.css';
 
 import {
   CalciteBlock,
@@ -13,17 +14,16 @@ import {
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { useWatchEffect, useWatchState } from '../src/hooks/useWatchEffect';
+import { useWatchEffect, useWatchState } from '../hooks/useWatchEffect';
 import { useState } from 'react';
 import MapView from '@arcgis/core/views/MapView';
-import { WidgetComponent } from '../src/components/WidgetComponent';
+import { WidgetComponent } from '../components/WidgetComponent';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>
     {label}: {(Math.round(num * 100) / 100).toFixed(4)}
   </div>
 );
-
 const Extent = ({
   isNew = false,
   extent,
@@ -42,10 +42,8 @@ const Extent = ({
       <Coord label="ymin" num={extent.ymin} />
     </CalciteLabel>
   ) : null;
-
 export function TestsRouter() {
   const [mapView, setMapView] = useState<MapView>();
-
   const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
   const [currentExtent, setCurrentExtent] = useState<__esri.Extent>();
 
@@ -55,7 +53,6 @@ export function TestsRouter() {
     () => mapView?.layerViews.every((layer) => layer.visible) ?? false,
     [mapView?.layerViews]
   );
-
   const visibleLayers = useWatchState(
     () =>
       mapView?.allLayerViews
@@ -63,15 +60,12 @@ export function TestsRouter() {
         .map(({ layer }) => layer.title),
     [mapView?.allLayerViews]
   );
-
   const [scale, setScale] = useState<string>();
-
   useWatchEffect(
     () => [mapView?.stationary, mapView?.extent, mapView?.scale] as const,
     ([stationary, extent, scale], [wasStationary]) => {
       if (stationary) {
         if (scale) setScale((Math.round(scale * 100) / 100).toFixed(4));
-
         if (extent !== currentExtent) {
           setCurrentExtent(extent);
           setPreviousExtent(currentExtent);
@@ -81,7 +75,6 @@ export function TestsRouter() {
       }
     }
   );
-
   return (
     <div>
       <CalciteShell className="calcite-theme-dark">
