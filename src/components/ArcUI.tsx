@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useContext } from 'react';
 import { MapContext } from './MapViewComponent';
 import './Map.css';
 
-export type ViewUIComponentProps = {
+export type ArcUIProps = {
   position: __esri.UIAddPosition['position'];
   children?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const ViewUIComponent: React.FC<ViewUIComponentProps> = ({
+export const ArcUI: React.FC<ArcUIProps> = ({
   position,
   children,
   ...divProps

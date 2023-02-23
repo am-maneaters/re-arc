@@ -1,9 +1,7 @@
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/WebMap';
-import { useEffect, useRef, useState } from 'react';
-import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { useRef, useState } from 'react';
 import { useWatchEffect } from './useWatchEffect';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 /**
  * Hook to create a MapView instance
@@ -14,7 +12,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 export function useMapView(
   mapProps: ConstructorParameters<typeof Map>[0],
   mapViewProps: Exclude<__esri.MapViewProperties, 'map' | 'container'>
-): MapView {
+): MapView | undefined {
   const mapRef = useRef<Map>(new Map(mapProps));
 
   const [mapView, setMapView] = useState<MapView>();
@@ -22,12 +20,12 @@ export function useMapView(
   const mapViewRef = useRef<MapView>(
     new MapView({ ...mapViewProps, map: mapRef.current })
   );
-  // useWatchEffect(
-  //   () => mapRef.current.loaded,
-  //   () => {
-  //     setMapView(mapViewRef.current);
-  //   }
-  // );
+  useWatchEffect(
+    () => mapViewRef.current.ready,
+    () => {
+      setMapView(mapViewRef.current);
+    }
+  );
 
-  return mapViewRef.current;
+  return mapView;
 }

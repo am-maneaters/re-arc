@@ -1,25 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { watch, on } from '@arcgis/core/core/reactiveUtils';
 import { Overloads } from '../typings/utilityTypes';
 
 export function useWatchEffect<T>(
   getValue: () => T,
-  callback: (newValue?: T, oldValue?: T) => void,
+  callback: (newValue: T, oldValue: T) => void,
   options?: __esri.ReactiveWatchOptions
 ) {
   useEffect(() => {
-    const handle = watch(getValue, callback, options);
+    // Watch for changes to value
+    const handle = watch(getValue, callback, { initial: true, ...options });
+
+    // Remove watch when component unmounts
     return () => handle.remove();
   }, [callback, getValue, options]);
 }
 
 export function useWatchState<T>(
   getValue: () => T,
+  deps: any[],
   options?: __esri.ReactiveWatchOptions
 ): T | undefined {
   const [state, setState] = useState<T>();
 
-  useWatchEffect(getValue, setState, options);
+  const cb = useCallback(getValue, deps);
+
+  useWatchEffect(cb, setState, options);
+
   return state;
 }
 
@@ -37,7 +44,7 @@ export function useOnEvent<
   Event extends Parameters<Overloads<Target['on']>>,
   EventName extends Event[0]
 >(
-  target: Target | (() => Target),
+  target: Target | (() => Target) | undefined,
   event: EventName,
   callback: Event extends [EventName, infer CallbackHandler]
     ? CallbackHandler

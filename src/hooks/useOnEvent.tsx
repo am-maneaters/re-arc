@@ -19,7 +19,7 @@ export function useOnEvent<
     ? CallbackHandler
     : never
 >(
-  target: Target,
+  target: Target | undefined,
   event: EventName,
   callback: Callback,
   options?: __esri.ReactiveListenerOptions<Target>
