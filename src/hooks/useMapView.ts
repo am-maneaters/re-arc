@@ -1,9 +1,7 @@
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/WebMap';
-import { useEffect, useRef, useState } from 'react';
-import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { useRef, useState } from 'react';
 import { useWatchEffect } from './useWatchEffect';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 /**
  * Hook to create a MapView instance

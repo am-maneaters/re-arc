@@ -1,5 +1,5 @@
 import MapViewComponent from '../components/MapViewComponent';
-import { ViewUIComponent } from '../components/ViewUIComponent';
+import { ArcUI } from '../components/ArcUI';
 
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
@@ -88,15 +88,15 @@ export function TestsRouter() {
           onMapViewLoad={setMapView}
           style={{ height: '100vh' }}
         >
-          <ViewUIComponent position="top-left" style={{ background: 'white' }}>
+          <ArcUI position="top-left" style={{ background: 'white' }}>
             Zoom level: {mapView?.zoom}
-          </ViewUIComponent>
-          <ViewUIComponent position="top-right">
+          </ArcUI>
+          <ArcUI position="top-right">
             <WidgetComponent
               widgetInit={() => new LayerList({ view: mapView })}
             />
-          </ViewUIComponent>
-          <ViewUIComponent position="bottom-right">
+          </ArcUI>
+          <ArcUI position="bottom-right">
             <WidgetComponent
               widgetInit={() =>
                 new Expand({
@@ -108,7 +108,7 @@ export function TestsRouter() {
                 })
               }
             />
-          </ViewUIComponent>
+          </ArcUI>
         </MapViewComponent>
         <CalciteShellPanel slot="contextual-panel">
           <CalcitePanel heading="ReactiveUtils Watch Events">

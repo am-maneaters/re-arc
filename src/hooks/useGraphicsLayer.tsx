@@ -1,8 +1,9 @@
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import MapView from '@arcgis/core/views/MapView';
-import { useId, useMemo, useEffect, useRef } from 'react';
+import { useId, useMemo, useEffect, useRef, useState } from 'react';
 import { useWatchEffect } from './useWatchEffect';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 
 // Add a layer to the map and get the reference to the layer
 export function useGraphicsLayer(
@@ -48,12 +49,7 @@ export function useFeatureLayer(
 ): FeatureLayer {
   const id = useId();
 
-  const modifiedParams = useMemo(
-    () => ({ ...layerParams, id }),
-    [id, layerParams]
-  );
-
-  const layer = useRef(new FeatureLayer(modifiedParams));
+  const layer = useRef(new FeatureLayer({ ...layerParams, id }));
 
   useEffect(() => {
     if (!mapView) return;
@@ -69,12 +65,21 @@ export function useFeatureLayer(
     };
   }, [id, layer, mapView]);
 
-  useWatchEffect(
-    () => modifiedParams,
-    () => {
-      if (modifiedParams) layer.current.set(modifiedParams);
-    }
-  );
-
   return layer.current;
 }
+
+export const useFeatureLayerView = (
+  mapView: MapView | undefined,
+  layer: FeatureLayer
+) => {
+  const [layerView, setLayerView] = useState<FeatureLayerView>();
+
+  useEffect(() => {
+    if (!layer || !mapView) return;
+    mapView.whenLayerView(layer).then((layerView) => {
+      setLayerView(layerView);
+    });
+  }, [layer, mapView]);
+
+  return layerView;
+};
