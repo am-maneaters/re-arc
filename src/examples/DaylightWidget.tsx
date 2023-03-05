@@ -6,6 +6,8 @@ import { ArcUI } from '../components/ArcUI';
 import { WidgetComponent } from '../components/WidgetComponent';
 import Daylight from '@arcgis/core/widgets/Daylight';
 import SceneView from '@arcgis/core/views/SceneView';
+import Expand from '@arcgis/core/widgets/Expand';
+import { CalciteButton } from '@esri/calcite-components-react';
 
 type Props = {};
 
@@ -32,6 +34,7 @@ const camera = {
 
 export default function DaylightWidget({}: Props) {
   const [sceneView, setSceneView] = useState<SceneView>();
+  const [scaleMode, setScaleMode] = useState<'global' | 'city'>('city');
   console.log('Rendering daylight');
 
   const map = useMemo(
@@ -50,6 +53,14 @@ export default function DaylightWidget({}: Props) {
       }),
     []
   );
+
+  const onScaleChange = (mode: 'global' | 'city') => {
+    setScaleMode(mode);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (sceneView) sceneView.camera = camera[mode];
+  };
 
   return (
     <div>
@@ -78,13 +89,47 @@ export default function DaylightWidget({}: Props) {
         onViewCreated={(view) => {
           setSceneView(view);
         }}
-        style={{ height: '100vh' }}
+        style={{ height: '100vh', position: 'relative' }}
       >
         <ArcUI position="top-right">
           <WidgetComponent
-            widgetInit={() => new Daylight({ view: sceneView })}
+            widgetInit={() =>
+              new Expand({
+                content: new Daylight({ view: sceneView }),
+                expanded: true,
+              })
+            }
           />
         </ArcUI>
+        <div
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            justifyContent: 'center',
+            bottom: 20,
+            left: 20,
+            right: 20,
+            gap: 8,
+          }}
+        >
+          <CalciteButton
+            title="city"
+            appearance={scaleMode === 'city' ? 'solid' : 'outline'}
+            color="blue"
+            onClick={() => onScaleChange('city')}
+            style={{ width: '40%' }}
+          >
+            City Scale
+          </CalciteButton>
+          <CalciteButton
+            appearance={scaleMode === 'global' ? 'solid' : 'outline'}
+            color="blue"
+            onClick={() => onScaleChange('global')}
+            style={{ width: '40%' }}
+          >
+            Global Scale
+          </CalciteButton>
+        </div>
       </MapViewComponent>
     </div>
   );

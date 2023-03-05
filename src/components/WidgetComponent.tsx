@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useView } from './MapViewContext';
 
 export const WidgetComponent = <T extends __esri.Widget>({
   widgetInit,
