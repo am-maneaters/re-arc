@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { watch, on } from '@arcgis/core/core/reactiveUtils';
+import { watch, on, when } from '@arcgis/core/core/reactiveUtils';
 import { Overloads } from '../typings/utilityTypes';
 
 export function useWatchEffect<T>(
@@ -10,6 +10,20 @@ export function useWatchEffect<T>(
   useEffect(() => {
     // Watch for changes to value
     const handle = watch(getValue, callback, { initial: true, ...options });
+
+    // Remove watch when component unmounts
+    return () => handle.remove();
+  }, [callback, getValue, options]);
+}
+
+export function useWhenEffect<T>(
+  getValue: () => T,
+  callback: (newValue: T, oldValue: T) => void,
+  options?: __esri.ReactiveWatchOptions
+) {
+  useEffect(() => {
+    // Watch for changes to value
+    const handle = when(getValue, callback, { initial: true, ...options });
 
     // Remove watch when component unmounts
     return () => handle.remove();

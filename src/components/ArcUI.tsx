@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import { MapContext } from './MapViewComponent';
+import React, { useRef, useEffect } from 'react';
 import './Map.css';
+import { useView } from './MapViewContext';
 
 export type ArcUIProps = {
   position: __esri.UIAddPosition['position'];
-  children?: React.ReactNode;
+  children: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const ArcUI: React.FC<ArcUIProps> = ({
@@ -13,19 +13,28 @@ export const ArcUI: React.FC<ArcUIProps> = ({
   ...divProps
 }) => {
   const widgetRef = useRef<HTMLDivElement>(null);
-  const view = useContext(MapContext);
+  const view = useView();
 
   useEffect(() => {
     const ref = widgetRef.current;
-    if (!ref) return () => undefined;
+    if (!ref || !view) return () => undefined;
 
-    view?.ui.add(ref, position);
-    return () => view?.ui.remove(ref);
+    const viewUi = view.ui;
+    viewUi.add(ref, position);
+    return () => {
+      viewUi.remove(ref);
+    };
   }, [position, view]);
 
   return (
-    <div ref={widgetRef} className="MapUIComponent" {...divProps}>
-      {children}
+    // We need to wrap the ref in an empty div because when this component
+    // is rendered, the div with the ref on it is placed in a different spot
+    // in the DOM by the View UI. This is basically the same as trying to
+    // render a fragment.
+    <div>
+      <div ref={widgetRef} className="MapUIComponent" {...divProps}>
+        {children}
+      </div>
     </div>
   );
 };
