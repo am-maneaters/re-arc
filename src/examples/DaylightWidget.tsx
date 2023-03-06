@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import MapViewComponent from '../components/MapViewContext';
 import Map from '@arcgis/core/Map';
 import SceneLayer from '@arcgis/core/layers/SceneLayer';
@@ -11,7 +11,7 @@ import { CalciteButton } from '@esri/calcite-components-react';
 
 type Props = {};
 
-const camera = {
+const camera: Record<string, __esri.Camera> = {
   city: {
     position: {
       longitude: -4.492_922_54,
@@ -35,7 +35,24 @@ const camera = {
 export default function DaylightWidget({}: Props) {
   const [sceneView, setSceneView] = useState<SceneView>();
   const [scaleMode, setScaleMode] = useState<'global' | 'city'>('city');
-  console.log('Rendering daylight');
+
+  const daylight = useMemo(() => {
+    const daylight = new Daylight({
+      view: sceneView,
+    });
+
+    daylight.viewModel.sunLightingEnabled = scaleMode === 'city';
+
+    return new Expand({
+      view: sceneView,
+      content: new Daylight({
+        view: sceneView,
+      }),
+      expandTooltip: 'Daylight',
+      collapseTooltip: scaleMode,
+      expanded: true,
+    });
+  }, [sceneView, scaleMode]);
 
   const map = useMemo(
     () =>
@@ -56,81 +73,69 @@ export default function DaylightWidget({}: Props) {
 
   const onScaleChange = (mode: 'global' | 'city') => {
     setScaleMode(mode);
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (sceneView) sceneView.camera = camera[mode];
   };
 
   return (
-    <div>
-      <MapViewComponent
-        initView={() =>
-          new SceneView({
-            map,
-            // position in Brest, France
-            camera: camera.city,
-            qualityProfile: 'high',
-            environment: {
-              atmosphere: {
-                // creates a realistic view of the atmosphere
-                quality: 'high',
-              },
-              lighting: {
-                // autocasts as new SunLighting()
-                type: 'sun',
-                date: new Date('December 21, 2021 09:40:00 UTC'),
-
-                directShadowsEnabled: true,
-              },
+    <MapViewComponent
+      initView={() =>
+        new SceneView({
+          map,
+          // position in Brest, France
+          camera: camera.city,
+          qualityProfile: 'high',
+          environment: {
+            atmosphere: {
+              quality: 'high',
             },
-          })
-        }
-        onViewCreated={(view) => {
-          setSceneView(view);
+            lighting: {
+              type: 'sun',
+              date: new Date('December 21, 2021 09:40:00 UTC'),
+
+              directShadowsEnabled: true,
+            },
+          },
+        })
+      }
+      reactiveProps={{
+        camera: scaleMode === 'city' ? camera.city : camera.global,
+      }}
+      onViewCreated={(view) => {
+        setSceneView(view);
+      }}
+      style={{ height: '100vh', position: 'relative' }}
+    >
+      <ArcUI position="top-right">
+        <WidgetComponent widget={daylight} />
+      </ArcUI>
+      <div
+        style={{
+          position: 'absolute',
+          display: 'flex',
+          justifyContent: 'center',
+          bottom: 20,
+          left: 20,
+          right: 20,
+          gap: 8,
         }}
-        style={{ height: '100vh', position: 'relative' }}
       >
-        <ArcUI position="top-right">
-          <WidgetComponent
-            widgetInit={() =>
-              new Expand({
-                content: new Daylight({ view: sceneView }),
-                expanded: true,
-              })
-            }
-          />
-        </ArcUI>
-        <div
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            justifyContent: 'center',
-            bottom: 20,
-            left: 20,
-            right: 20,
-            gap: 8,
-          }}
+        <CalciteButton
+          title="city"
+          appearance={scaleMode === 'city' ? 'solid' : 'outline'}
+          color="blue"
+          onClick={() => onScaleChange('city')}
+          style={{ width: '40%' }}
         >
-          <CalciteButton
-            title="city"
-            appearance={scaleMode === 'city' ? 'solid' : 'outline'}
-            color="blue"
-            onClick={() => onScaleChange('city')}
-            style={{ width: '40%' }}
-          >
-            City Scale
-          </CalciteButton>
-          <CalciteButton
-            appearance={scaleMode === 'global' ? 'solid' : 'outline'}
-            color="blue"
-            onClick={() => onScaleChange('global')}
-            style={{ width: '40%' }}
-          >
-            Global Scale
-          </CalciteButton>
-        </div>
-      </MapViewComponent>
-    </div>
+          City Scale
+        </CalciteButton>
+        <CalciteButton
+          appearance={scaleMode === 'global' ? 'solid' : 'outline'}
+          color="blue"
+          onClick={() => onScaleChange('global')}
+          style={{ width: '40%' }}
+        >
+          Global Scale
+        </CalciteButton>
+      </div>
+    </MapViewComponent>
   );
 }

@@ -1,27 +1,23 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 export const WidgetComponent = <T extends __esri.Widget>({
-  widgetInit,
+  widget,
 }: {
-  widgetInit: () => T;
+  widget: T;
 }) => {
-  const [widget, setWidget] = useState<T | null>();
-
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const widgetDiv = ref.current;
     if (!widgetDiv) return;
 
-    const newWidget = widgetInit();
-    newWidget.container = document.createElement('div');
-    widgetDiv.append(newWidget.container);
-    setWidget(newWidget);
+    widget.container = document.createElement('div');
+    widgetDiv.append(widget.container);
 
     return () => {
-      newWidget.destroy();
+      widgetDiv.replaceChildren();
     };
-  }, [widgetInit]);
+  }, [widget]);
 
   return (
     <div>

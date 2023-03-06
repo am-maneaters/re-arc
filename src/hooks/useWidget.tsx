@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export function useWidget<Widget extends __esri.Widget>(
-  Widget: Widget
+  widgetInit: () => Widget,
+  dependencies: any[] = []
 ): Widget {
-  return React.useRef(Widget).current;
+  const [widget, setWidget] = useState<Widget>(widgetInit());
+
+  useEffect(() => {
+    const newWidget = widgetInit();
+    newWidget.container = document.createElement('div');
+    setWidget(newWidget);
+
+    return () => {
+      newWidget.destroy();
+    };
+  }, [widgetInit, ...dependencies]);
+
+  return widget;
 }

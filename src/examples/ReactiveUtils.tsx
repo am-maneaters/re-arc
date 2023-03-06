@@ -15,7 +15,7 @@ import {
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
 import { useWatchState, useWatchEffect } from '../hooks/useWatchEffect';
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { WidgetComponent } from '../components/WidgetComponent';
 import MapViewComponent from '../components/MapViewContext';
 import MapView from '@arcgis/core/views/MapView';
@@ -81,10 +81,23 @@ export function ReactiveUtils() {
     }
   );
 
-  const layerList = useCallback(
+  const layerList = useMemo(
     () =>
       new LayerList({
         view: mapView,
+      }),
+    [mapView]
+  );
+
+  const legend = useMemo(
+    () =>
+      new Expand({
+        view: mapView,
+        content: new Legend({
+          view: mapView,
+        }),
+        expandTooltip: 'Legend',
+        expanded: true,
       }),
     [mapView]
   );
@@ -113,21 +126,11 @@ export function ReactiveUtils() {
         </ArcUI>
         <ArcUI position="top-right">
           Layer List
-          <WidgetComponent widgetInit={layerList} />
+          <WidgetComponent widget={layerList} />
         </ArcUI>
-        {/* <ArcUI position="bottom-right">
-          <WidgetComponent
-            widgetInit={() =>
-              new Expand({
-                view: mapView,
-                content: new Legend({
-                  view: mapView,
-                }),
-                expandTooltip: 'Legend',
-              })
-            }
-          />
-        </ArcUI> */}
+        <ArcUI position="bottom-right">
+          <WidgetComponent widget={legend} />
+        </ArcUI>
       </MapViewComponent>
       <CalciteShellPanel slot="panel-end" position="end">
         <CalcitePanel heading="ReactiveUtils Watch Events">

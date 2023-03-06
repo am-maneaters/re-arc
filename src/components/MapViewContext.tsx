@@ -1,6 +1,12 @@
 import MapView from '@arcgis/core/views/MapView';
 import SceneView from '@arcgis/core/views/SceneView';
-import React, { HTMLAttributes, createContext, useEffect, useRef } from 'react';
+import React, {
+  HTMLAttributes,
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 
 const MapContext = createContext<MapView | SceneView | undefined>(undefined);
 
@@ -32,6 +38,7 @@ type MapViewComponentProps<View extends __esri.MapView | __esri.SceneView> = {
   children?: React.ReactNode;
   initView: () => View;
   onViewCreated?: (view: View) => void;
+  reactiveProps: Partial<View>;
 } & HTMLAttributes<HTMLDivElement>;
 
 export default function MapViewComponent<
@@ -40,6 +47,7 @@ export default function MapViewComponent<
   children,
   initView,
   onViewCreated,
+  reactiveProps,
   ...divAttributes
 }: MapViewComponentProps<View>) {
   const [mapView, setMapView] = React.useState<MapView | SceneView>();
@@ -60,13 +68,20 @@ export default function MapViewComponent<
     return () => {
       setMapView(undefined);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useLayoutEffect(() => {
+    if (!mapView) return;
+
+    mapView.set(reactiveProps);
+  }, [mapView, reactiveProps]);
 
   return (
     <MapContext.Provider value={mapView}>
-      <div ref={mapContainer} {...divAttributes}>
-        {mapView && children}
+      <div>
+        <div ref={mapContainer} {...divAttributes}>
+          {mapView && children}
+        </div>
       </div>
     </MapContext.Provider>
   );
