@@ -23,7 +23,7 @@ export function useMapView() {
 export function useSceneView() {
   const view = useView();
   if (view.type === '2d')
-    throw new Error(`useMapView must be used within a 3D MapContext`);
+    throw new Error(`useSceneView must be used within a 3D MapContext`);
 
   return view;
 }
@@ -35,12 +35,10 @@ export const ArcView = <
   children,
   init,
   onViewCreated,
-  reactiveProps,
   ...divAttributes
 }: {
   init: () => View;
-  onViewCreated: ViewCreated;
-  reactiveProps?: Partial<View>;
+  onViewCreated?: ViewCreated;
 } & HTMLAttributes<HTMLDivElement>) => {
   const [mapView, setMapView] = React.useState<MapView | SceneView>();
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -62,12 +60,6 @@ export const ArcView = <
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (!mapView || !reactiveProps) return;
-
-    mapView.set(reactiveProps);
-  }, [mapView, reactiveProps]);
 
   return (
     <MapContext.Provider value={mapView}>

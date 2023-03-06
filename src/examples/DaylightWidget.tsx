@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { ArcView } from '../components/MapViewContext';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ArcView, useSceneView } from '../components/MapViewContext';
 import Map from '@arcgis/core/Map';
 import SceneLayer from '@arcgis/core/layers/SceneLayer';
 import { ArcUI } from '../components/ArcUI';
@@ -32,32 +32,45 @@ const camera: Record<string, __esri.Camera> = {
   },
 };
 
-export default function DaylightWidget({}: Props) {
-  const [sceneView, setSceneView] = useState<SceneView>();
-  const [scaleMode, setScaleMode] = useState<'global' | 'city'>('city');
+function DaylightWidget({ cityScale }: { cityScale: boolean }) {
+  const sceneView = useSceneView();
 
-  const daylight = useMemo(() => {
-    const daylight = new Daylight({
-      view: sceneView,
-    });
-
-    daylight.viewModel.sunLightingEnabled = scaleMode === 'city';
-
-    return new Expand({
-      view: sceneView,
-      content: new Daylight({
+  const daylight = useMemo(
+    () =>
+      new Daylight({
         view: sceneView,
       }),
-      expandTooltip: 'Daylight',
-      collapseTooltip: scaleMode,
-      expanded: true,
-    });
-  }, [sceneView, scaleMode]);
+    [sceneView]
+  );
+
+  useEffect(() => {
+    daylight.viewModel.sunLightingEnabled = cityScale;
+    sceneView.camera = cityScale ? camera.city : camera.global;
+  }, [daylight, cityScale, sceneView]);
+
+  const expand = useMemo(
+    () =>
+      new Expand({
+        view: sceneView,
+        content: daylight,
+        expandTooltip: 'Daylight',
+        collapseTooltip: 'Daylight',
+        expanded: true,
+      }),
+    [daylight, sceneView]
+  );
+
+  return <WidgetComponent widget={expand} />;
+}
+
+export default function DaylightWidgetExample({}: Props) {
+  const [isCityScale, setIsCityScale] = useState(true);
 
   const map = useMemo(
     () =>
       new Map({
         basemap: 'satellite',
+
         ground: 'world-elevation',
         layers: [
           new SceneLayer({
@@ -70,10 +83,6 @@ export default function DaylightWidget({}: Props) {
       }),
     []
   );
-
-  const onScaleChange = (mode: 'global' | 'city') => {
-    setScaleMode(mode);
-  };
 
   return (
     <ArcView
@@ -96,14 +105,10 @@ export default function DaylightWidget({}: Props) {
           },
         })
       }
-      reactiveProps={{
-        camera: scaleMode === 'city' ? camera.city : camera.global,
-      }}
-      onViewCreated={setSceneView}
       style={{ height: '100vh', position: 'relative' }}
     >
       <ArcUI position="top-right">
-        <WidgetComponent widget={daylight} />
+        <DaylightWidget cityScale={isCityScale} />
       </ArcUI>
       <div
         style={{
@@ -118,17 +123,17 @@ export default function DaylightWidget({}: Props) {
       >
         <CalciteButton
           title="city"
-          appearance={scaleMode === 'city' ? 'solid' : 'outline'}
+          appearance={isCityScale ? 'solid' : 'outline'}
           color="blue"
-          onClick={() => onScaleChange('city')}
+          onClick={() => setIsCityScale(true)}
           style={{ width: '40%' }}
         >
           City Scale
         </CalciteButton>
         <CalciteButton
-          appearance={scaleMode === 'global' ? 'solid' : 'outline'}
+          appearance={isCityScale ? 'outline' : 'solid'}
           color="blue"
-          onClick={() => onScaleChange('global')}
+          onClick={() => setIsCityScale(false)}
           style={{ width: '40%' }}
         >
           Global Scale
