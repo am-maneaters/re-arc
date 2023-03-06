@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import MapViewComponent from '../components/MapViewContext';
+import React, { useMemo, useState } from 'react';
+import { ArcView } from '../components/MapViewContext';
 import Map from '@arcgis/core/Map';
 import SceneLayer from '@arcgis/core/layers/SceneLayer';
 import { ArcUI } from '../components/ArcUI';
@@ -76,8 +76,8 @@ export default function DaylightWidget({}: Props) {
   };
 
   return (
-    <MapViewComponent
-      initView={() =>
+    <ArcView
+      init={() =>
         new SceneView({
           map,
           // position in Brest, France
@@ -136,6 +136,6 @@ export default function DaylightWidget({}: Props) {
           Global Scale
         </CalciteButton>
       </div>
-    </MapViewComponent>
+    </ArcView>
   );
 }

@@ -22,7 +22,7 @@ export const ArcUI: React.FC<ArcUIProps> = ({
     const viewUi = view.ui;
     viewUi.add(ref, position);
     return () => {
-      viewUi.remove(ref);
+      if (!view.destroyed) viewUi.remove(ref);
     };
   }, [position, view]);
 

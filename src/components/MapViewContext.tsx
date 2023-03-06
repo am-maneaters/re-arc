@@ -1,12 +1,6 @@
 import MapView from '@arcgis/core/views/MapView';
 import SceneView from '@arcgis/core/views/SceneView';
-import React, {
-  HTMLAttributes,
-  createContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from 'react';
+import React, { HTMLAttributes, createContext, useEffect, useRef } from 'react';
 
 const MapContext = createContext<MapView | SceneView | undefined>(undefined);
 
@@ -34,55 +28,52 @@ export function useSceneView() {
   return view;
 }
 
-type MapViewComponentProps<View extends __esri.MapView | __esri.SceneView> = {
-  children?: React.ReactNode;
-  initView: () => View;
-  onViewCreated?: (view: View) => void;
-  reactiveProps: Partial<View>;
-} & HTMLAttributes<HTMLDivElement>;
-
-export default function MapViewComponent<
-  View extends __esri.MapView | __esri.SceneView
+export const ArcView = <
+  View extends __esri.MapView | __esri.SceneView,
+  ViewCreated extends (view: View) => void
 >({
   children,
-  initView,
+  init,
   onViewCreated,
   reactiveProps,
   ...divAttributes
-}: MapViewComponentProps<View>) {
+}: {
+  init: () => View;
+  onViewCreated: ViewCreated;
+  reactiveProps?: Partial<View>;
+} & HTMLAttributes<HTMLDivElement>) => {
   const [mapView, setMapView] = React.useState<MapView | SceneView>();
   const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    const view = initView();
+    const view = init();
     view.container = mapContainer.current;
 
     view.when(() => {
       setMapView(view);
 
-      if (onViewCreated) onViewCreated(view);
+      onViewCreated?.(view);
     });
 
     return () => {
-      setMapView(undefined);
+      mapView?.destroy();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useLayoutEffect(() => {
-    if (!mapView) return;
+  useEffect(() => {
+    if (!mapView || !reactiveProps) return;
 
     mapView.set(reactiveProps);
   }, [mapView, reactiveProps]);
 
   return (
     <MapContext.Provider value={mapView}>
-      <div>
-        <div ref={mapContainer} {...divAttributes}>
-          {mapView && children}
-        </div>
+      <div ref={mapContainer} {...divAttributes}>
+        {mapView && children}
       </div>
     </MapContext.Provider>
   );
-}
+};

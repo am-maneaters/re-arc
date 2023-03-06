@@ -17,7 +17,7 @@ import {
 import { useWatchState, useWatchEffect } from '../hooks/useWatchEffect';
 import { useMemo, useState } from 'react';
 import { WidgetComponent } from '../components/WidgetComponent';
-import MapViewComponent from '../components/MapViewContext';
+import { ArcView } from '../components/MapViewContext';
 import MapView from '@arcgis/core/views/MapView';
 
 const Coord = ({ num = 0, label = '' }) => (
@@ -104,8 +104,8 @@ export function ReactiveUtils() {
 
   return (
     <>
-      <MapViewComponent
-        initView={() =>
+      <ArcView
+        init={() =>
           new MapView({
             map: new Map({
               portalItem: {
@@ -116,9 +116,7 @@ export function ReactiveUtils() {
             zoom: 7,
           })
         }
-        onViewCreated={(view) => {
-          setMapView(view);
-        }}
+        onViewCreated={setMapView}
         style={{ height: '100vh' }}
       >
         <ArcUI position="top-left" style={{ background: 'white' }}>
@@ -131,7 +129,7 @@ export function ReactiveUtils() {
         <ArcUI position="bottom-right">
           <WidgetComponent widget={legend} />
         </ArcUI>
-      </MapViewComponent>
+      </ArcView>
       <CalciteShellPanel slot="panel-end" position="end">
         <CalcitePanel heading="ReactiveUtils Watch Events">
           <CalciteBlock
