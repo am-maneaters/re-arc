@@ -99,9 +99,7 @@ export default function DaylightWidget({}: Props) {
       reactiveProps={{
         camera: scaleMode === 'city' ? camera.city : camera.global,
       }}
-      onViewCreated={(view) => {
-        setSceneView(view);
-      }}
+      onViewCreated={setSceneView}
       style={{ height: '100vh', position: 'relative' }}
     >
       <ArcUI position="top-right">
