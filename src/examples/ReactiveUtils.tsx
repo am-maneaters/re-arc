@@ -4,8 +4,6 @@ import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Expand from '@arcgis/core/widgets/Expand';
 
-import Map from '@arcgis/core/WebMap';
-
 import './ReactiveDemo.css';
 
 import {
@@ -17,7 +15,7 @@ import {
 import { useWatchState, useWatchEffect } from '../hooks/useWatchEffect';
 import { useMemo, useState } from 'react';
 import { WidgetComponent } from '../components/WidgetComponent';
-import { ArcView } from '../components/MapViewContext';
+import { ArcMapView } from '../components/MapViewContext';
 import MapView from '@arcgis/core/views/MapView';
 
 const Coord = ({ num = 0, label = '' }) => (
@@ -44,7 +42,7 @@ const Extent = ({
     </CalciteLabel>
   ) : null;
 
-export function ReactiveUtils() {
+export default function ReactiveUtils() {
   const [mapView, setMapView] = useState<MapView>();
 
   const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
@@ -104,18 +102,10 @@ export function ReactiveUtils() {
 
   return (
     <>
-      <ArcView
-        init={() =>
-          new MapView({
-            map: new Map({
-              portalItem: {
-                id: '2361e8f3f8114c0fa544090d2ff1cbe6',
-              },
-            }),
-            center: [-118.805, 34.027],
-            zoom: 7,
-          })
-        }
+      <ArcMapView
+        map={{ portalItem: { id: '2361e8f3f8114c0fa544090d2ff1cbe6' } }}
+        center={[-118.805, 34.027]}
+        zoom={7}
         onViewCreated={setMapView}
         style={{ height: '100vh' }}
       >
@@ -129,7 +119,7 @@ export function ReactiveUtils() {
         <ArcUI position="bottom-right">
           <WidgetComponent widget={legend} />
         </ArcUI>
-      </ArcView>
+      </ArcMapView>
       <CalciteShellPanel slot="panel-end" position="end">
         <CalcitePanel heading="ReactiveUtils Watch Events">
           <CalciteBlock

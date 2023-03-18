@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArcView, useSceneView } from '../components/MapViewContext';
-import Map from '@arcgis/core/Map';
+import { ArcSceneView, useSceneView } from '../components/MapViewContext';
 import SceneLayer from '@arcgis/core/layers/SceneLayer';
 import { ArcUI } from '../components/ArcUI';
 import { WidgetComponent } from '../components/WidgetComponent';
 import Daylight from '@arcgis/core/widgets/Daylight';
-import SceneView from '@arcgis/core/views/SceneView';
 import Expand from '@arcgis/core/widgets/Expand';
 import { CalciteButton } from '@esri/calcite-components-react';
+import { ArcLayer } from '../components/ArcLayer';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
-type Props = {};
-
-const camera: Record<string, __esri.Camera> = {
+const camera = {
   city: {
     position: {
       longitude: -4.492_922_54,
@@ -20,7 +18,7 @@ const camera: Record<string, __esri.Camera> = {
     },
     heading: 250.18,
     tilt: 87.91,
-  },
+  } as __esri.Camera,
   global: {
     position: {
       longitude: 27.054_536_08,
@@ -29,7 +27,7 @@ const camera: Record<string, __esri.Camera> = {
     },
     heading: 357.3,
     tilt: 0.19,
-  },
+  } as __esri.Camera,
 };
 
 function DaylightWidget({ cityScale }: { cityScale: boolean }) {
@@ -63,50 +61,38 @@ function DaylightWidget({ cityScale }: { cityScale: boolean }) {
   return <WidgetComponent widget={expand} />;
 }
 
-export default function DaylightWidgetExample({}: Props) {
+export default function DaylightWidgetExample() {
   const [isCityScale, setIsCityScale] = useState(true);
 
-  const map = useMemo(
-    () =>
-      new Map({
-        basemap: 'satellite',
-
-        ground: 'world-elevation',
-        layers: [
-          new SceneLayer({
-            popupEnabled: false,
-            portalItem: {
-              id: 'b343e14455fe45b98a2c20ebbceec0b0',
-            },
-          }),
-        ],
-      }),
-    []
-  );
-
   return (
-    <ArcView
-      init={() =>
-        new SceneView({
-          map,
-          // position in Brest, France
-          camera: camera.city,
-          qualityProfile: 'high',
-          environment: {
-            atmosphere: {
-              quality: 'high',
-            },
-            lighting: {
-              type: 'sun',
-              date: new Date('December 21, 2021 09:40:00 UTC'),
-
-              directShadowsEnabled: true,
-            },
-          },
-        })
-      }
+    <ArcSceneView
+      map={{
+        basemap: 'satellite',
+        ground: 'world-elevation',
+      }}
+      camera={camera.city}
+      qualityProfile="high"
+      environment={{
+        atmosphere: {
+          quality: 'high',
+        },
+        lighting: {
+          type: 'sun',
+          date: new Date('December 21, 2021 09:40:00 UTC'),
+          directShadowsEnabled: true,
+        },
+      }}
       style={{ height: '100vh', position: 'relative' }}
     >
+      <ArcLayer
+        type="scene"
+        layerProps={{
+          popupEnabled: false,
+          portalItem: {
+            id: 'b343e14455fe45b98a2c20ebbceec0b0',
+          },
+        }}
+      />
       <ArcUI position="top-right">
         <DaylightWidget cityScale={isCityScale} />
       </ArcUI>
@@ -139,6 +125,6 @@ export default function DaylightWidgetExample({}: Props) {
           Global Scale
         </CalciteButton>
       </div>
-    </ArcView>
+    </ArcSceneView>
   );
 }
