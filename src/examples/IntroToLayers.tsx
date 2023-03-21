@@ -7,6 +7,7 @@ import {
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
+
 export default function Simple() {
   return (
     <ArcMapView

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "declaration": true,
     "lib": ["DOM", "ESNext"],
     "allowJs": false,
@@ -14,9 +14,10 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "jsx": "react-jsx",
-    "outDir": "dist"
+    "outDir": "dist",
+    "noEmit": true
   },
-  "include": ["src"],
+  "include": ["src", "scripts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
 

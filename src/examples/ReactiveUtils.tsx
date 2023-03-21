@@ -4,8 +4,6 @@ import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
 import Expand from '@arcgis/core/widgets/Expand';
 
-import './ReactiveDemo.css';
-
 import {
   CalciteBlock,
   CalciteLabel,
@@ -32,7 +30,7 @@ const Extent = ({
 }) =>
   extent ? (
     <CalciteLabel id="current-extent-label">
-      <span className="title">
+      <span style={titleStyle}>
         {isNew ? 'Current Extent' : 'Previous Extent'}
       </span>
       <Coord label="xmax" num={extent.xmax} />
@@ -41,6 +39,8 @@ const Extent = ({
       <Coord label="ymin" num={extent.ymin} />
     </CalciteLabel>
   ) : null;
+
+const titleStyle = { color: '#e6772e' };
 
 export default function ReactiveUtils() {
   const [mapView, setMapView] = useState<MapView>();
@@ -120,7 +120,7 @@ export default function ReactiveUtils() {
           <WidgetComponent widget={legend} />
         </ArcUI>
       </ArcMapView>
-      <CalciteShellPanel slot="panel-end" position="end">
+      <CalciteShellPanel slot="panel-end" position="end" style={titleStyle}>
         <CalcitePanel heading="ReactiveUtils Watch Events">
           <CalciteBlock
             heading="Extent Property"
@@ -143,7 +143,7 @@ export default function ReactiveUtils() {
               id="current-scale-label"
               layout="inline-space-between"
             >
-              <span className="title">current extent: </span> {scale}
+              <span style={{ color: '#e6772e' }}>current extent: </span> {scale}
             </CalciteLabel>
           </CalciteBlock>
           <CalciteBlock
@@ -154,7 +154,7 @@ export default function ReactiveUtils() {
             id="CalciteBlock"
           >
             <CalciteLabel id="popup-label" layout="inline-space-between">
-              <span className="title">Popup visible: </span>
+              <span style={titleStyle}>Popup visible: </span>
               <b>{popupVisible ? 'true' : 'false'}</b>
             </CalciteLabel>
           </CalciteBlock>
@@ -166,7 +166,7 @@ export default function ReactiveUtils() {
             id="CalciteBlock"
           >
             <CalciteLabel id="layers-label">
-              <span className="title">
+              <span style={titleStyle}>
                 {allLayersVisible
                   ? 'All layers are visible'
                   : 'Not all layers are visible'}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { layerFactory } from './layerFactory';
+import { layerFactory } from '../generated/layerFactory';
 import { useView } from './MapViewContext';
 import { Overloads } from '../typings/utilityTypes';
 import { ArcReactiveProp } from './ArcReactiveProp';
@@ -61,7 +61,7 @@ export function ArcLayer<
 
     return () => {
       destroyed = true;
-      mapView.map.remove(layer);
+      if (layer) mapView.map.remove(layer);
       setLayer(undefined);
     };
 
@@ -73,7 +73,7 @@ export function ArcLayer<
   useEffect(() => {
     if (layer === undefined || !eventHandlers) return;
     const handles = Object.entries(eventHandlers).map(([event, handler]) =>
-      layer.on(event, handler)
+      layer.on(event as any, handler as any)
     );
 
     return () => {

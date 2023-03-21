@@ -20,7 +20,7 @@ const Examples = [
   },
   {
     name: 'Intro to Layers',
-    component: React.lazy(() => import('../examples/Simple')),
+    component: React.lazy(() => import('../examples/IntroToLayers')),
     icon: 'layers',
   },
 ];

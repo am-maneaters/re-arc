@@ -44,12 +44,5 @@
     "arrow-body-style": [2, "as-needed"],
     "object-shorthand": [2, "always"],
     "prettier/prettier": ["warn", {}, { "usePrettierrc": true }]
-  },
-  "overrides": [
-    {
-      "files": ["tasks/**/*.ts", "vite.config.ts"],
-      "parserOptions": { "project": "./tsconfig.node.json" },
-      "rules": { "unicorn/error-message": 0 }
-    }
-  ]
+  }
 }

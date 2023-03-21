@@ -61,8 +61,10 @@ export const ArcView = <View extends __esri.MapView | __esri.SceneView>({
     });
 
     return () => {
+      // @ts-expect-error - unset the view container
       view.container = undefined;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -99,6 +101,7 @@ const createViewComponent = <
     const initCallback = React.useCallback(
       () =>
         new ViewConstructor({
+          // @ts-expect-error - constructed is a private property
           map: map?.constructed ? map : new Map(map),
           ...mapViewProps,
         }),
