@@ -45,7 +45,9 @@ export const ArcView = <View extends __esri.MapView | __esri.SceneView>({
   className,
   style,
 }: ArcViewProps<View>) => {
-  const [mapView, setMapView] = React.useState<MapView | SceneView>();
+  const [mapView, setMapView] = React.useState<
+    __esri.MapView | __esri.SceneView
+  >();
   const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
