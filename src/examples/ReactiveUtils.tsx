@@ -21,6 +21,7 @@ const Coord = ({ num = 0, label = '' }) => (
     {label}: {(Math.round(num * 100) / 100).toFixed(4)}
   </div>
 );
+
 const Extent = ({
   isNew = false,
   extent,
@@ -45,15 +46,21 @@ const titleStyle = { color: '#e6772e' };
 export default function ReactiveUtils() {
   const [mapView, setMapView] = useState<MapView>();
 
+  const [scale, setScale] = useState<string>();
+
   const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
   const [currentExtent, setCurrentExtent] = useState<__esri.Extent>();
 
+  // Match the state of Popup visbility
   const popupVisible = useWatchState(() => mapView?.popup.visible, [mapView]);
 
+  // Check if all layers are visible
   const allLayersVisible = useWatchState(
     () => mapView?.layerViews.every((layer) => layer.visible) ?? false,
     [mapView?.layerViews]
   );
+
+  // Get the titles of all visible layers
   const visibleLayers = useWatchState(
     () =>
       mapView?.allLayerViews
@@ -62,18 +69,17 @@ export default function ReactiveUtils() {
     [mapView?.allLayerViews]
   );
 
-  const [scale, setScale] = useState<string>();
-
+  // When the map is stationary, update the scale and extent
   useWatchEffect(
     () => [mapView?.stationary, mapView?.extent, mapView?.scale] as const,
-    ([stationary, extent, scale], [wasStationary]) => {
+    ([stationary, extent, scale], [prevStationary]) => {
       if (stationary) {
         if (scale) setScale((Math.round(scale * 100) / 100).toFixed(4));
         if (extent !== currentExtent) {
           setCurrentExtent(extent);
           setPreviousExtent(currentExtent);
         }
-      } else if (wasStationary) {
+      } else if (prevStationary) {
         setCurrentExtent(extent);
       }
     }
@@ -102,6 +108,7 @@ export default function ReactiveUtils() {
 
   return (
     <>
+      {/* Map View Container */}
       <ArcMapView
         map={{ portalItem: { id: '2361e8f3f8114c0fa544090d2ff1cbe6' } }}
         center={[-118.805, 34.027]}
@@ -109,17 +116,18 @@ export default function ReactiveUtils() {
         onViewCreated={setMapView}
         style={{ height: '100vh' }}
       >
-        <ArcUI position="top-left" style={{ background: 'white' }}>
-          Zoom level: {mapView?.zoom}
-        </ArcUI>
+        {/* Render the LayerList widget */}
         <ArcUI position="top-right">
-          Layer List
           <WidgetComponent widget={layerList} />
         </ArcUI>
+
+        {/* Render the Legend Widget */}
         <ArcUI position="bottom-right">
           <WidgetComponent widget={legend} />
         </ArcUI>
       </ArcMapView>
+
+      {/* Side Panel UI */}
       <CalciteShellPanel slot="panel-end" position="end" style={titleStyle}>
         <CalcitePanel heading="ReactiveUtils Watch Events">
           <CalciteBlock
@@ -143,7 +151,8 @@ export default function ReactiveUtils() {
               id="current-scale-label"
               layout="inline-space-between"
             >
-              <span style={{ color: '#e6772e' }}>current extent: </span> {scale}
+              <span style={titleStyle}>current extent: </span>
+              {scale}
             </CalciteLabel>
           </CalciteBlock>
           <CalciteBlock
@@ -167,9 +176,7 @@ export default function ReactiveUtils() {
           >
             <CalciteLabel id="layers-label">
               <span style={titleStyle}>
-                {allLayersVisible
-                  ? 'All layers are visible'
-                  : 'Not all layers are visible'}
+                {allLayersVisible ? 'All' : 'Not all'} layers are visible
               </span>
               {visibleLayers?.map((layer) => (
                 <div key={layer}>- {layer}</div>

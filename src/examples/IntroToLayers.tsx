@@ -8,6 +8,13 @@ import {
   CalciteSwitch,
 } from '@esri/calcite-components-react';
 
+const config = {
+  streetsUrl:
+    'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer',
+  popUrl:
+    'https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/New_York_Housing_Density/MapServer',
+};
+
 export default function Simple() {
   return (
     <ArcMapView
@@ -26,6 +33,16 @@ function Layers() {
 
   const [streetsVisible, setStreetsVisible] = React.useState(false);
 
+  const onPopViewCreated = (e: __esri.TileLayerLayerviewCreateEvent) => {
+    const layer = e.layerView.layer;
+    mapView.goTo(layer.fullExtent);
+    console.log('LayerView for male population created!', layer.title);
+  };
+
+  const onStreetsViewCreated = (e: __esri.TileLayerLayerviewCreateEvent) => {
+    console.log('LayerView for streets created!', e.layerView.layer.title);
+  };
+
   return (
     <>
       <ArcUI position="top-right">
@@ -39,40 +56,19 @@ function Layers() {
           </CalciteLabel>
         </CalciteCard>
       </ArcUI>
+
+      {/* Streets Layer */}
       <ArcLayer
         type="tile"
-        layerProps={{
-          url: 'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer',
-          // This property can be used to uniquely identify the layer
-          id: 'streets',
-          visible: streetsVisible,
-        }}
-        eventHandlers={{
-          'layerview-create': (event) => {
-            console.log(
-              'LayerView for streets created!',
-              event.layerView.layer.title
-            );
-          },
-        }}
+        layerProps={{ url: config.streetsUrl, visible: streetsVisible }}
+        eventHandlers={{ 'layerview-create': onStreetsViewCreated }}
       />
+
+      {/* Population Layer */}
       <ArcLayer
         type="tile"
-        layerProps={{
-          url: 'https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/New_York_Housing_Density/MapServer',
-          opacity: 0.9,
-        }}
-        onLayerCreated={(layer) => {
-          mapView.goTo(layer.fullExtent);
-        }}
-        eventHandlers={{
-          'layerview-create': (event) => {
-            console.log(
-              'LayerView for male population created!',
-              event.layerView
-            );
-          },
-        }}
+        layerProps={{ url: config.popUrl, opacity: 0.9 }}
+        eventHandlers={{ 'layerview-create': onPopViewCreated }}
       />
     </>
   );
