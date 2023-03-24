@@ -1,4 +1,4 @@
-import { ArcUI } from '../components/ArcUI';
+import { ArcUI } from '../components/ArcUI/ArcUI';
 
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
@@ -12,8 +12,8 @@ import {
 } from '@esri/calcite-components-react';
 import { useWatchState, useWatchEffect } from '../hooks/useWatchEffect';
 import { useMemo, useState } from 'react';
-import { WidgetComponent } from '../components/WidgetComponent';
-import { ArcMapView } from '../components/MapViewContext';
+import { ArcWidget } from '../components/ArcWidget/ArcWidget';
+import { ArcMapView } from '../components/ArcView/ArcView';
 import MapView from '@arcgis/core/views/MapView';
 
 const Coord = ({ num = 0, label = '' }) => (
@@ -118,12 +118,12 @@ export default function ReactiveUtils() {
       >
         {/* Render the LayerList widget */}
         <ArcUI position="top-right">
-          <WidgetComponent widget={layerList} />
+          <ArcWidget widget={layerList} />
         </ArcUI>
 
         {/* Render the Legend Widget */}
         <ArcUI position="bottom-right">
-          <WidgetComponent widget={legend} />
+          <ArcWidget widget={legend} />
         </ArcUI>
       </ArcMapView>
 

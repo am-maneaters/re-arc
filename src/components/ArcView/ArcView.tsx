@@ -1,34 +1,9 @@
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/WebMap';
 import SceneView from '@arcgis/core/views/SceneView';
-import React, { createContext, memo, useEffect, useId, useRef } from 'react';
+import React, { memo, useEffect, useId, useRef } from 'react';
 import isEqual from 'react-fast-compare';
-
-const MapContext = createContext<MapView | SceneView | undefined>(undefined);
-
-export function useView() {
-  const view = React.useContext(MapContext);
-
-  if (!view) throw new Error(`useMapView must be used within a MapContext`);
-
-  return view;
-}
-
-export function useMapView() {
-  const view = useView();
-  if (view.type === '3d')
-    throw new Error(`useMapView must be used within a 2D MapContext`);
-
-  return view;
-}
-
-export function useSceneView() {
-  const view = useView();
-  if (view.type === '2d')
-    throw new Error(`useSceneView must be used within a 3D MapContext`);
-
-  return view;
-}
+import { MapContext } from './ViewContext';
 
 type ArcViewProps<View extends __esri.MapView | __esri.SceneView> = {
   children: React.ReactNode;
@@ -38,7 +13,7 @@ type ArcViewProps<View extends __esri.MapView | __esri.SceneView> = {
   className?: string;
 };
 
-export const ArcView = <View extends __esri.MapView | __esri.SceneView>({
+const ArcView = <View extends __esri.MapView | __esri.SceneView>({
   children,
   init,
   onViewCreated,
@@ -122,6 +97,7 @@ const createViewComponent = <
       </ArcView>
     );
   };
+
   return memo(ArcMapView, isEqual);
 };
 

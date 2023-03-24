@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { layerFactory } from '../generated/layerFactory';
-import { useView } from './MapViewContext';
-import { Overloads } from '../typings/utilityTypes';
-import { ArcReactiveProp } from './ArcReactiveProp';
+import { layerFactory } from './layerFactory';
+import { Overloads } from '../../typings/utilityTypes';
+import { ArcReactiveProp } from '../util/ArcReactiveProp';
+import { useView } from '../ArcView/ViewContext';
 
 type LayerType = keyof typeof layerFactory;
 type AsyncReturnType<T extends (...args: unknown[]) => unknown> = T extends (
@@ -37,7 +37,6 @@ export function ArcLayer<
       : never;
   };
 }) {
-  // const [layer, setLayer] = useState<LayerInstance>();
   const mapView = useView();
 
   const [layer, setLayer] = useState<LayerInstance>();
@@ -50,13 +49,7 @@ export function ArcLayer<
 
       layer = res(layerProps as any) as LayerInstance;
 
-      mapView.map.add(layer);
       setLayer(layer);
-
-      layer.when(() => {
-        if (destroyed || layer === null) return;
-        onLayerCreated?.(layer);
-      });
     });
 
     return () => {
@@ -80,6 +73,23 @@ export function ArcLayer<
       for (const handle of handles) handle.remove();
     };
   }, [eventHandlers, layer]);
+
+  useEffect(() => {
+    let destroyed = false;
+    if (layer === undefined) return;
+
+    mapView.map.add(layer);
+
+    layer.when(() => {
+      if (destroyed || layer === null) return;
+      onLayerCreated?.(layer);
+    });
+
+    return () => {
+      destroyed = true;
+      if (layer) mapView.map.remove(layer);
+    };
+  }, [layer, mapView, onLayerCreated]);
 
   return (
     <>

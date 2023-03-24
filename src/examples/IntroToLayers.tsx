@@ -1,12 +1,13 @@
 import React from 'react';
-import { ArcMapView, useMapView } from '../components/MapViewContext';
-import { ArcLayer } from '../components/ArcLayer';
-import { ArcUI } from '../components/ArcUI';
+import { ArcMapView } from '../components/ArcView/ArcView';
+import { ArcLayer } from '../components/ArcLayer/ArcLayer';
+import { ArcUI } from '../components/ArcUI/ArcUI';
 import {
   CalciteCard,
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
+import { useMapView } from '../components/ArcView/ViewContext';
 
 const config = {
   streetsUrl:
@@ -29,6 +30,7 @@ export default function Simple() {
 }
 
 function Layers() {
+  console.log('Test');
   const mapView = useMapView();
 
   const [streetsVisible, setStreetsVisible] = React.useState(false);

@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArcSceneView, useSceneView } from '../components/MapViewContext';
-import SceneLayer from '@arcgis/core/layers/SceneLayer';
-import { ArcUI } from '../components/ArcUI';
-import { WidgetComponent } from '../components/WidgetComponent';
+import { ArcSceneView } from '../components/ArcView/ArcView';
+import { ArcUI } from '../components/ArcUI/ArcUI';
+import { ArcWidget } from '../components/ArcWidget/ArcWidget';
 import Daylight from '@arcgis/core/widgets/Daylight';
 import Expand from '@arcgis/core/widgets/Expand';
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcLayer } from '../components/ArcLayer';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import { ArcLayer } from '../components/ArcLayer/ArcLayer';
+import { useSceneView } from '../components/ArcView/ViewContext';
 
 const camera = {
   city: {
@@ -34,10 +33,7 @@ function DaylightWidget({ cityScale }: { cityScale: boolean }) {
   const sceneView = useSceneView();
 
   const daylight = useMemo(
-    () =>
-      new Daylight({
-        view: sceneView,
-      }),
+    () => new Daylight({ view: sceneView }),
     [sceneView]
   );
 
@@ -51,14 +47,12 @@ function DaylightWidget({ cityScale }: { cityScale: boolean }) {
       new Expand({
         view: sceneView,
         content: daylight,
-        expandTooltip: 'Daylight',
-        collapseTooltip: 'Daylight',
         expanded: true,
       }),
     [daylight, sceneView]
   );
 
-  return <WidgetComponent widget={expand} />;
+  return <ArcWidget widget={expand} />;
 }
 
 export default function DaylightWidgetExample() {

@@ -71,7 +71,7 @@ async function main() {
     ','
   )}};`;
 
-  writeFile('./src/generated/layerFactory.ts', generatedLayerImports);
+  writeFile('./src/components/ArcLayer/layerFactory.ts', generatedLayerImports);
 }
 
 await main();

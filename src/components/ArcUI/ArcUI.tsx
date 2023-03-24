@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import './Map.css';
-import { useView } from './MapViewContext';
+import './ArcUI.css';
+import { useView } from '../ArcView/ViewContext';
 
 export type ArcUIProps = {
   position: __esri.UIAddPosition['position'];

@@ -24,11 +24,8 @@ export function useCalciteActionBar(
     [currentActionName, items]
   );
 
-  const action = (
-    e: React.MouseEvent<HTMLCalciteActionElement, MouseEvent>
-  ) => {
-    // @ts-expect-error - calcite types are wrong
-    const action = e.target.text;
+  const action: React.MouseEventHandler<HTMLCalciteActionElement> = (e) => {
+    const action = e.currentTarget.text;
 
     setCurrentActionName(action);
   };

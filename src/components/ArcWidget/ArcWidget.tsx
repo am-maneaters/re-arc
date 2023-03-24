@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-export const WidgetComponent = <T extends __esri.Widget>({
+export const ArcWidget = <T extends __esri.Widget>({
   widget,
 }: {
   widget: T;
