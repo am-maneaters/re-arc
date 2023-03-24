@@ -21,12 +21,12 @@ export function ArcLayer<
   LayerEvents extends Parameters<Overloads<LayerInstance['on']>>
 >({
   type,
-  layerProps,
+  layerProps = {},
   onLayerCreated,
   eventHandlers,
 }: {
   type: LayerName;
-  layerProps: Parameters<AsyncReturnType<(typeof layerFactory)[LayerName]>>[0];
+  layerProps?: Parameters<AsyncReturnType<(typeof layerFactory)[LayerName]>>[0];
   onLayerCreated?: (layer: LayerInstance) => void;
   eventHandlers?: {
     [EventName in LayerEvents[0]]?: LayerEvents extends [
@@ -55,7 +55,7 @@ export function ArcLayer<
     return () => {
       destroyed = true;
       if (layer) mapView.map.remove(layer);
-      setLayer(undefined);
+      layer?.destroy();
     };
 
     // Only run this effect when the map view changes

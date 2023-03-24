@@ -23,6 +23,11 @@ const Examples = [
     component: React.lazy(() => import('./examples/IntroToLayers')),
     icon: 'layers',
   },
+  {
+    name: 'Sketch Widget',
+    component: React.lazy(() => import('./examples/SketchWidget')),
+    icon: 'pencil',
+  },
 ];
 
 export function App() {
