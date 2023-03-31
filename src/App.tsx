@@ -28,6 +28,16 @@ const Examples = [
     component: React.lazy(() => import('./examples/SketchWidget')),
     icon: 'pencil',
   },
+  {
+    name: 'Client-Side Stream Layer',
+    component: React.lazy(() => import('./examples/ClientSideStreamLayer')),
+    icon: 'layer-graphics',
+  },
+  {
+    name: 'Basemap Picker',
+    component: React.lazy(() => import('./examples/BasemapPicker')),
+    icon: 'basemap',
+  },
 ];
 
 export function App() {

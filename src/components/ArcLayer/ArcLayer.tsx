@@ -1,45 +1,47 @@
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { layerFactory } from './layerFactory';
-import { Overloads } from '../../typings/utilityTypes';
+import { AsyncReturnType, Overloads } from '../../typings/utilityTypes';
 import { ArcReactiveProp } from '../util/ArcReactiveProp';
 import { useView } from '../ArcView/ViewContext';
+import { EventHandlers } from '../../typings/EsriTypes';
 
-type LayerType = keyof typeof layerFactory;
-type AsyncReturnType<T extends (...args: unknown[]) => unknown> = T extends (
-  ...args: unknown[]
-) => Promise<infer U>
-  ? U
-  : T extends (...args: unknown[]) => infer U
-  ? U
-  : T;
+type LayerTypes = typeof layerFactory;
+
+type LayerType = keyof LayerTypes;
+
+const LayerViewContext = createContext<__esri.LayerView | undefined>(undefined);
+
+export const useLayerView = () => {
+  const view = useContext(LayerViewContext);
+
+  if (!view) {
+    throw new Error('useLayerView must be used within a LayerViewContext');
+  }
+
+  return view;
+};
 
 export function ArcLayer<
   LayerName extends LayerType,
-  LayerInstance extends ReturnType<
-    AsyncReturnType<(typeof layerFactory)[LayerName]>
-  >,
+  LayerInstance extends ReturnType<AsyncReturnType<LayerTypes[LayerName]>>,
   LayerEvents extends Parameters<Overloads<LayerInstance['on']>>
 >({
   type,
   layerProps = {},
   onLayerCreated,
   eventHandlers,
+  children,
 }: {
   type: LayerName;
   layerProps?: Parameters<AsyncReturnType<(typeof layerFactory)[LayerName]>>[0];
   onLayerCreated?: (layer: LayerInstance) => void;
-  eventHandlers?: {
-    [EventName in LayerEvents[0]]?: LayerEvents extends [
-      EventName,
-      infer CallbackHandler
-    ]
-      ? CallbackHandler
-      : never;
-  };
+  eventHandlers?: EventHandlers<LayerInstance, LayerEvents>;
+  children?: React.ReactNode;
 }) {
   const mapView = useView();
 
   const [layer, setLayer] = useState<LayerInstance>();
+  const [layerView, setLayerView] = useState<__esri.LayerView>();
 
   useEffect(() => {
     let destroyed = false;
@@ -55,7 +57,6 @@ export function ArcLayer<
     return () => {
       destroyed = true;
       if (layer) mapView.map.remove(layer);
-      layer?.destroy();
     };
 
     // Only run this effect when the map view changes
@@ -83,16 +84,24 @@ export function ArcLayer<
     layer.when(() => {
       if (destroyed || layer === null) return;
       onLayerCreated?.(layer);
+      mapView.whenLayerView(layer).then((layerView) => {
+        if (destroyed || layer === null) return;
+        setLayerView?.(layerView);
+      });
     });
 
     return () => {
       destroyed = true;
-      if (layer) mapView.map.remove(layer);
     };
   }, [layer, mapView, onLayerCreated]);
 
   return (
     <>
+      {layerView && (
+        <LayerViewContext.Provider value={layerView}>
+          {children}
+        </LayerViewContext.Provider>
+      )}
       {layerProps &&
         layer &&
         Object.entries(layerProps).map(([key, val]) => (

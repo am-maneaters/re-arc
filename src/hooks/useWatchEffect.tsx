@@ -75,3 +75,31 @@ export function useOnEvent<
     return () => handle.remove();
   }, [callback, event, options, target]);
 }
+
+export function useArcState<
+  T extends __esri.Accessor,
+  Property extends keyof T
+>(
+  acc: T,
+  property: Property
+): [T[Property], React.Dispatch<React.SetStateAction<T[Property]>>] {
+  const [state, setState] = useState<T[Property]>(acc[property]);
+
+  useWatchEffect(() => acc[property], setState);
+
+  const setArcState = useCallback(
+    (newValue: React.SetStateAction<T[keyof T]>) => {
+      if (typeof newValue === 'function') {
+        newValue = (newValue as (oldValue: T[Property]) => T[Property])(
+          acc[property]
+        );
+      }
+
+      acc.set(property as string, newValue);
+      setState(newValue);
+    },
+    [acc, property]
+  );
+
+  return [state, setArcState];
+}

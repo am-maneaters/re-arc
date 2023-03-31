@@ -1,0 +1,184 @@
+import React, { useEffect } from 'react';
+import { ArcMapView } from '../components/ArcView/ArcView';
+import { ArcLayer } from '../components/ArcLayer/ArcLayer';
+
+export default function ClientSideStreamLayer() {
+  const [layer, setLayer] = React.useState<__esri.StreamLayer>();
+
+  useEffect(() => {
+    if (!layer) {
+      return;
+    }
+    const status = ['blocked', 'unknown', 'open'];
+
+    let objectIdCounter = 0;
+    const t = setInterval(() => {
+      layer.sendMessageToClient({
+        type: 'features',
+        features: [
+          {
+            attributes: {
+              TRACKID: 1,
+              OBJECTID: objectIdCounter++,
+              STATUS: status[Math.floor(Math.random() * status.length)],
+            },
+            geometry: {
+              rings: [
+                [
+                  [-13_180_792.011_510_11, 4_037_145.930_395_948_7],
+                  [-13_180_509.058_277_348, 4_037_145.930_395_948_7],
+                  [-13_180_509.058_277_348, 4_036_824.292_114_444_5],
+                  [-13_180_792.011_510_11, 4_036_824.292_114_444_5],
+                  [-13_180_792.011_510_11, 4_037_145.930_395_948_7],
+                ],
+              ],
+            },
+          },
+          {
+            attributes: {
+              TRACKID: 2,
+              OBJECTID: objectIdCounter++,
+              STATUS: status[Math.floor(Math.random() * status.length)],
+            },
+            geometry: {
+              rings: [
+                [
+                  [-13_180_458.980_453_761, 4_036_356.273_937_947_6],
+                  [-13_180_207.564_959_718, 4_036_356.273_937_947_6],
+                  [-13_180_207.564_959_718, 4_036_190.056_991_914],
+                  [-13_180_458.980_453_761, 4_036_190.056_991_914],
+                  [-13_180_458.980_453_761, 4_036_356.273_937_947_6],
+                ],
+              ],
+            },
+          },
+          {
+            attributes: {
+              TRACKID: 3,
+              OBJECTID: objectIdCounter++,
+              STATUS: status[Math.floor(Math.random() * status.length)],
+            },
+            geometry: {
+              rings: [
+                [
+                  [-13_179_890.918_598_393, 4_036_915.303_683_526],
+                  [-13_179_661.411_569_001, 4_036_915.303_683_526],
+                  [-13_179_661.411_569_001, 4_036_673.041_598_266],
+                  [-13_179_890.918_598_393, 4_036_673.041_598_266],
+                  [-13_179_890.918_598_393, 4_036_915.303_683_526],
+                ],
+              ],
+            },
+          },
+        ],
+      });
+    }, 2000);
+
+    // clear interval on unmount
+    return () => clearInterval(t);
+  }, [layer]);
+
+  return (
+    <ArcMapView
+      style={{ height: '100vh' }}
+      map={{ basemap: 'gray-vector' }}
+      zoom={15}
+      center={[-118.4, 34.0573]}
+    >
+      <ArcLayer
+        type="stream"
+        onLayerCreated={(layer) => {
+          setLayer(layer);
+        }}
+        layerProps={{
+          // field schemas in the fields array should match the
+          // feature attributes that will stream to the layer.
+          // set the objectIdField and trackIdField in the fields
+          fields: [
+            {
+              name: 'OBJECTID',
+              alias: 'OBJECTID',
+              type: 'oid',
+            },
+            {
+              name: 'TRACKID',
+              alias: 'TrackId',
+              type: 'long',
+            },
+            {
+              name: 'STATUS',
+              alias: 'STATUS',
+              type: 'string',
+            },
+          ],
+          // trackIdField is required and the field schema must exist
+          // in the fields array
+          timeInfo: {
+            trackIdField: 'TRACKID',
+          },
+          updateInterval: 100,
+          geometryType: 'polygon', // required property
+          spatialReference: {
+            wkid: 102_100,
+          },
+          popupTemplate: {
+            title: 'Status: {STATUS}',
+            content: 'trackId: {TRACKID}, objectId: {OBJECTID}',
+          },
+          labelingInfo: [
+            {
+              symbol: {
+                type: 'text',
+                color: 'black',
+              },
+              labelPlacement: 'always-horizontal',
+              labelExpressionInfo: {
+                expression: '$feature.STATUS',
+              },
+            },
+          ],
+          // set unique value renderer based on the status field
+          renderer: {
+            type: 'unique-value',
+            field: 'STATUS',
+            uniqueValueInfos: [
+              {
+                value: 'blocked',
+                symbol: {
+                  type: 'simple-fill',
+                  color: [233, 116, 81, 0.5],
+                  outline: {
+                    width: 1,
+                    color: 'white',
+                  },
+                },
+              },
+              {
+                value: 'open',
+                symbol: {
+                  type: 'simple-fill',
+                  color: [34, 139, 34, 0.5],
+                  outline: {
+                    width: 1,
+                    color: 'white',
+                  },
+                },
+              },
+              {
+                value: 'unknown',
+                symbol: {
+                  type: 'simple-fill',
+                  color: [255, 191, 0, 0.5],
+                  outline: {
+                    width: 1,
+                    color: 'white',
+                  },
+                },
+              },
+            ],
+          },
+        }}
+      />
+    </ArcMapView>
+  );
+}

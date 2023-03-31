@@ -23,6 +23,11 @@ export default function Simple() {
       center={[-118.805, 34.027]}
       zoom={7}
       style={{ height: '100vh' }}
+      eventHandlers={{
+        click: (e) => {
+          console.log(e.mapPoint);
+        },
+      }}
     >
       <Layers />
     </ArcMapView>
