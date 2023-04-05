@@ -1,10 +1,13 @@
-import React, { useMemo, useState } from 'react';
-import { ArcMapView } from '../components/ArcView/ArcView';
-import { ArcWidget } from '../components/ArcWidget/ArcWidget';
 import Sketch from '@arcgis/core/widgets/Sketch';
-import { ArcUI } from '../components/ArcUI/ArcUI';
-import { useMapView } from '../components/ArcView/ViewContext';
-import { ArcLayer } from '../components/ArcLayer/ArcLayer';
+import React, { useMemo, useState } from 'react';
+
+import {
+  ArcLayer,
+  ArcMapView,
+  ArcUI,
+  ArcWidget,
+  useMapView,
+} from '../components';
 
 export default function SketchWidgetExample() {
   const [graphicsLayer, setGraphicsLayer] = useState<__esri.GraphicsLayer>();

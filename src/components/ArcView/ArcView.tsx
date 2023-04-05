@@ -1,13 +1,14 @@
 import MapView from '@arcgis/core/views/MapView';
-import Map from '@arcgis/core/WebMap';
 import SceneView from '@arcgis/core/views/SceneView';
+import Map from '@arcgis/core/WebMap';
 import React, { memo, useEffect, useId, useRef } from 'react';
 import isEqual from 'react-fast-compare';
-import { MapContext } from './ViewContext';
+
 import { useViewInit } from '../../hooks/useView';
+import { EventHandlers } from '../../typings/EsriTypes';
 import { Overloads } from '../../typings/utilityTypes';
 import { ArcReactiveProp } from '../util/ArcReactiveProp';
-import { EventHandlers } from '../../typings/EsriTypes';
+import { MapContext } from './ViewContext';
 
 type ArcViewProps<
   View extends __esri.MapView | __esri.SceneView,

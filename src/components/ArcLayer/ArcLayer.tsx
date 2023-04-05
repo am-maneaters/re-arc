@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { layerFactory } from './layerFactory';
-import { AsyncReturnType, Overloads } from '../../typings/utilityTypes';
-import { ArcReactiveProp } from '../util/ArcReactiveProp';
-import { useView } from '../ArcView/ViewContext';
+
 import { EventHandlers } from '../../typings/EsriTypes';
+import { AsyncReturnType, Overloads } from '../../typings/utilityTypes';
+import { useView } from '../ArcView/ViewContext';
+import { ArcReactiveProp } from '../util/ArcReactiveProp';
+import { layerFactory } from './layerFactory';
 
 type LayerTypes = typeof layerFactory;
 

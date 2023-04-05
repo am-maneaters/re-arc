@@ -1,5 +1,6 @@
+import { on, watch, when } from '@arcgis/core/core/reactiveUtils';
 import { useCallback, useEffect, useState } from 'react';
-import { watch, on, when } from '@arcgis/core/core/reactiveUtils';
+
 import { Overloads } from '../typings/utilityTypes';
 
 export function useWatchEffect<T>(
@@ -96,7 +97,7 @@ export function useArcState<
       }
 
       acc.set(property as string, newValue);
-      setState(newValue);
+      setState(newValue as T[Property]);
     },
     [acc, property]
   );

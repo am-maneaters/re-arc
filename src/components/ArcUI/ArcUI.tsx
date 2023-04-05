@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from 'react';
 import './ArcUI.css';
+
+import React, { useEffect, useRef } from 'react';
+
 import { useView } from '../ArcView/ViewContext';
 
-export type ArcUIProps = {
+type ArcUIProps = {
   position: __esri.UIAddPosition['position'];
   children: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;

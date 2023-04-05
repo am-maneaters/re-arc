@@ -1,13 +1,11 @@
-import React from 'react';
-import { ArcMapView } from '../components/ArcView/ArcView';
-import { ArcLayer } from '../components/ArcLayer/ArcLayer';
-import { ArcUI } from '../components/ArcUI/ArcUI';
 import {
   CalciteCard,
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
-import { useMapView } from '../components/ArcView/ViewContext';
+import React from 'react';
+
+import { ArcLayer, ArcMapView, ArcUI, useMapView } from '../components';
 
 const config = {
   streetsUrl:

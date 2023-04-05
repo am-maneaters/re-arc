@@ -16,7 +16,13 @@
     "project": "./tsconfig.json"
   },
   "settings": { "react": { "version": "detect" } },
-  "plugins": ["react", "@typescript-eslint", "prettier", "unicorn"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "unicorn",
+    "simple-import-sort"
+  ],
   "ignorePatterns": ["app/metadata/*.js"],
   "rules": {
     "react-hooks/exhaustive-deps": [
@@ -43,6 +49,8 @@
     "jsx-quotes": [2, "prefer-double"],
     "arrow-body-style": [2, "as-needed"],
     "object-shorthand": [2, "always"],
-    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }]
+    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

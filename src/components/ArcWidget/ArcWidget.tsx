@@ -1,4 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+
+import { useView } from '../ArcView/ViewContext';
 
 export const ArcWidget = <T extends __esri.Widget>({
   widget,
@@ -6,6 +8,7 @@ export const ArcWidget = <T extends __esri.Widget>({
   widget: T;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const view = useView();
 
   useEffect(() => {
     const widgetDiv = ref.current;
@@ -13,11 +16,12 @@ export const ArcWidget = <T extends __esri.Widget>({
 
     widget.container = document.createElement('div');
     widgetDiv.append(widget.container);
+    if ('view' in widget) widget.view = view;
 
     return () => {
       widgetDiv.replaceChildren();
     };
-  }, [widget]);
+  }, [view, widget]);
 
   return (
     <div>

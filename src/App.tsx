@@ -3,40 +3,45 @@ import {
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
+import { lazy, Suspense, useEffect } from 'react';
+
 import { useCalciteActionBar } from './hooks/calciteHooks';
-import { Suspense, useEffect } from 'react';
-import React from 'react';
 
 const Examples = [
   {
     name: 'ReactiveUtils',
-    component: React.lazy(() => import('./examples/ReactiveUtils')),
+    component: lazy(() => import('./examples/ReactiveUtils')),
     icon: 'refresh',
   },
   {
     name: 'Daylight Widget',
-    component: React.lazy(() => import('./examples/DaylightWidget')),
+    component: lazy(() => import('./examples/DaylightWidget')),
     icon: 'brightness',
   },
   {
     name: 'Intro to Layers',
-    component: React.lazy(() => import('./examples/IntroToLayers')),
+    component: lazy(() => import('./examples/IntroToLayers')),
     icon: 'layers',
   },
   {
     name: 'Sketch Widget',
-    component: React.lazy(() => import('./examples/SketchWidget')),
+    component: lazy(() => import('./examples/SketchWidget')),
     icon: 'pencil',
   },
   {
     name: 'Client-Side Stream Layer',
-    component: React.lazy(() => import('./examples/ClientSideStreamLayer')),
+    component: lazy(() => import('./examples/ClientSideStreamLayer')),
     icon: 'layer-graphics',
   },
   {
     name: 'Basemap Picker',
-    component: React.lazy(() => import('./examples/BasemapPicker')),
+    component: lazy(() => import('./examples/BasemapPicker')),
     icon: 'basemap',
+  },
+  {
+    name: 'MultiView',
+    component: lazy(() => import('./examples/MultiView')),
+    icon: 'view-multiple',
   },
 ];
 

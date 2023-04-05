@@ -1,20 +1,17 @@
-import { ArcUI } from '../components/ArcUI/ArcUI';
-
+import MapView from '@arcgis/core/views/MapView';
+import Expand from '@arcgis/core/widgets/Expand';
 import LayerList from '@arcgis/core/widgets/LayerList';
 import Legend from '@arcgis/core/widgets/Legend';
-import Expand from '@arcgis/core/widgets/Expand';
-
 import {
   CalciteBlock,
   CalciteLabel,
   CalcitePanel,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { useWatchState, useWatchEffect } from '../hooks/useWatchEffect';
 import { useMemo, useState } from 'react';
-import { ArcWidget } from '../components/ArcWidget/ArcWidget';
-import { ArcMapView } from '../components/ArcView/ArcView';
-import MapView from '@arcgis/core/views/MapView';
+
+import { ArcMapView, ArcUI, ArcWidget } from '../components';
+import { useWatchEffect, useWatchState } from '../hooks';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>

@@ -1,8 +1,9 @@
-import React, { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 import '@arcgis/core/assets/esri/themes/dark/main.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
 import { App } from './App';
 
 // Create a root element for the application

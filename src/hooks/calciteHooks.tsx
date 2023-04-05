@@ -1,8 +1,8 @@
 import {
-  CalciteActionBar,
   CalciteAction,
+  CalciteActionBar,
 } from '@esri/calcite-components-react';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 type ActionItem = {
   name: string;

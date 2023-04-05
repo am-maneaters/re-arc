@@ -1,12 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ArcSceneView } from '../components/ArcView/ArcView';
-import { ArcUI } from '../components/ArcUI/ArcUI';
-import { ArcWidget } from '../components/ArcWidget/ArcWidget';
 import Daylight from '@arcgis/core/widgets/Daylight';
 import Expand from '@arcgis/core/widgets/Expand';
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcLayer } from '../components/ArcLayer/ArcLayer';
-import { useSceneView } from '../components/ArcView/ViewContext';
+import { useEffect, useMemo, useState } from 'react';
+
+import {
+  ArcLayer,
+  ArcSceneView,
+  ArcUI,
+  ArcWidget,
+  useSceneView,
+} from '../components';
 
 const camera = {
   city: {
