@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { describe, it, vitest } from 'vitest';
+import { describe, expect, it, vitest } from 'vitest';
 
 import { ArcMapView, ArcSceneView } from '../src';
 
@@ -32,20 +32,18 @@ vitest.mock('@arcgis/core/WebMap', () => ({
   },
 }));
 
-describe('App', () => {
+describe('ArcView', () => {
   it('renders sceneview', () => {
-    render(<ArcSceneView />);
-
-    screen.debug();
-    // check if App components renders headline
+    const { container } = render(<ArcSceneView />);
+    expect(container).toMatchSnapshot();
+    cleanup();
+    expect(container).toMatchSnapshot();
   });
 
   it('renders mapview', () => {
-    render(<ArcMapView />);
-
-    screen.debug();
-    // check if App components renders headline
+    const { container } = render(<ArcMapView />);
+    expect(container).toMatchSnapshot();
     cleanup();
-    screen;
+    expect(container).toMatchSnapshot();
   });
 });
