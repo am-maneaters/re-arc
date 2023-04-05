@@ -1,21 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`App > renders mapview 1`] = `
-<div>
-  <div />
-</div>
-`;
-
-exports[`App > renders mapview 2`] = `<div />`;
-
-exports[`App > renders sceneview 1`] = `
-<div>
-  <div />
-</div>
-`;
-
-exports[`App > renders sceneview 2`] = `<div />`;
-
 exports[`ArcView > renders mapview 1`] = `
 <div>
   <div />
@@ -26,7 +10,9 @@ exports[`ArcView > renders mapview 2`] = `<div />`;
 
 exports[`ArcView > renders sceneview 1`] = `
 <div>
-  <div />
+  <div
+    style="height: 100vh;"
+  />
 </div>
 `;
 
