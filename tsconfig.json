@@ -23,7 +23,8 @@
     "scripts",
     "examples/**/*",
     "public/assets",
-    "vite.config.ts"
+    "vite.config.ts",
+    "tests/**/*"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

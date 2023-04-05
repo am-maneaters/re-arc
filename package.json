@@ -16,13 +16,16 @@
     "dev": "vite",
     "build": "vite build --mode examples",
     "build:lib": "vite build --mode library",
-    "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts"
+    "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
+    "test": "vitest --mode library"
   },
   "keywords": [
     "arcgis",
     "hooks"
   ],
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
@@ -36,13 +39,15 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unicorn": "^46.0.0",
+    "jsdom": "^21.1.1",
     "prettier": "2.8.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup-plugin-copy": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.2.1",
-    "vite-plugin-dts": "^2.2.0"
+    "vite-plugin-dts": "^2.2.0",
+    "vitest": "^0.29.8"
   },
   "peerDependencies": {
     "@arcgis/core": "^4.26.5",

@@ -1,9 +1,7 @@
-/// <reference types="vite/client" />
-
 import react from '@vitejs/plugin-react';
 import copy from 'rollup-plugin-copy';
-import { defineConfig, UserConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { configDefaults, defineConfig, UserConfig } from 'vitest/config';
 
 const libraryConfig: UserConfig = {
   plugins: [
@@ -34,6 +32,11 @@ const libraryConfig: UserConfig = {
       },
     },
   },
+
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['tests/setup.ts'],
+  },
 };
 
 const exampleAppConfig: UserConfig = {
@@ -57,7 +60,7 @@ const exampleAppConfig: UserConfig = {
 
 // https://vitejs.dev/config/
 export default defineConfig((props) => {
-  if (props.command === 'build' && props.mode === 'library') {
+  if (props.mode === 'library') {
     return libraryConfig;
   }
   return exampleAppConfig;
