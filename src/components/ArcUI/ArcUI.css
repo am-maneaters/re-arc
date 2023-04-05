@@ -1,8 +1,0 @@
-div.MapUIComponent {
-    box-shadow: none;
-    pointer-events: none;
-}
-
-div.MapUIComponent > * {
-    pointer-events: auto;
-}

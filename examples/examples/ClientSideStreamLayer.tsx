@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ArcLayer, ArcMapView } from '../components';
+import { ArcLayer, ArcMapView } from '../../src/components';
 
 export default function ClientSideStreamLayer() {
   const [layer, setLayer] = useState<__esri.StreamLayer>();

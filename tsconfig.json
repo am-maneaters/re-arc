@@ -7,8 +7,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "strictFunctionTypes": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": false,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -18,6 +18,13 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "include": ["src", "scripts"],
+  "include": [
+    "src/**/*",
+    "scripts",
+    "examples/**/*",
+    "public/assets",
+    "vite.config.ts",
+    "tests/**/*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

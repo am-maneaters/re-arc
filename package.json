@@ -1,6 +1,7 @@
 {
-  "name": "arcgis-react-utils",
-  "version": "1.0.0",
+  "name": "arcgis-react",
+  "version": "1.0.1",
+  "homepage": "https://github.com/samMatenaer/arcgis-react-utils",
   "description": "React hook wrappers around the @arcgis/core library",
   "module": "./dist/index.js",
   "type": "module",
@@ -14,15 +15,18 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts"
+    "build": "vite build --mode examples",
+    "build:lib": "vite build --mode library",
+    "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
+    "test": "vitest --mode library"
   },
   "keywords": [
     "arcgis",
     "hooks"
   ],
   "devDependencies": {
-    "@esri/calcite-components-react": "^1.1.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
@@ -36,30 +40,28 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unicorn": "^46.0.0",
+    "jsdom": "^21.1.1",
     "prettier": "2.8.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup-plugin-copy": "^3.4.0",
     "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "vite": "^4.2.1",
+    "vite-plugin-dts": "^2.2.0",
+    "vitest": "^0.29.8"
   },
   "peerDependencies": {
-    "@arcgis/core": "^4.25.5",
-    "react": "^17 || ^18"
+    "@arcgis/core": "^4.26.5",
+    "@esri/calcite-components-react": "^1.2.0",
+    "@tanstack/react-query": "^4.28.0",
+    "react": "^18"
   },
   "author": "Sam Matenaer",
   "license": "Apache-2.0",
   "prettier": {
     "singleQuote": true
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "dependencies": {
-    "@arcgis/core": "^4.25.5",
-    "@tanstack/react-query": "^4.28.0",
-    "react-fast-compare": "^3.2.1",
-    "use-deep-compare-effect": "^1.8.1",
-    "yup": "^1.0.2"
+    "react-fast-compare": "^3.2.1"
   }
 }
