@@ -5,7 +5,7 @@ import {
 } from '@esri/calcite-components-react';
 import React from 'react';
 
-import { ArcLayer, ArcMapView, ArcUI, useMapView } from '../components';
+import { ArcLayer, ArcMapView, ArcUI, useMapView } from '../../src';
 
 const config = {
   streetsUrl:

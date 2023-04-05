@@ -14,7 +14,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build --mode examples",
+    "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts"
   },
   "keywords": [
@@ -22,7 +23,6 @@
     "hooks"
   ],
   "devDependencies": {
-    "@esri/calcite-components-react": "^1.1.0",
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
@@ -41,11 +41,12 @@
     "react-dom": "^18.2.0",
     "rollup-plugin-copy": "^3.4.0",
     "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "vite": "^4.2.1",
+    "vite-plugin-dts": "^2.2.0"
   },
   "peerDependencies": {
-    "@arcgis/core": "^4.25.5",
-    "react": "^17 || ^18"
+    "@arcgis/core": "^4.26.5",
+    "react": "^18"
   },
   "author": "Sam Matenaer",
   "license": "Apache-2.0",
@@ -56,10 +57,8 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@arcgis/core": "^4.25.5",
+    "@esri/calcite-components-react": "^1.2.0",
     "@tanstack/react-query": "^4.28.0",
-    "react-fast-compare": "^3.2.1",
-    "use-deep-compare-effect": "^1.8.1",
-    "yup": "^1.0.2"
+    "react-fast-compare": "^3.2.1"
   }
 }

@@ -9,7 +9,7 @@ import {
   ArcUI,
   ArcWidget,
   useSceneView,
-} from '../components';
+} from '../../src';
 
 const camera = {
   city: {

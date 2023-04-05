@@ -10,8 +10,13 @@ import {
 } from '@esri/calcite-components-react';
 import { useMemo, useState } from 'react';
 
-import { ArcMapView, ArcUI, ArcWidget } from '../components';
-import { useWatchEffect, useWatchState } from '../hooks';
+import {
+  ArcMapView,
+  ArcUI,
+  ArcWidget,
+  useWatchEffect,
+  useWatchState,
+} from '../../src';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>

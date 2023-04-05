@@ -1,8 +1,7 @@
 import Basemap from '@arcgis/core/Basemap';
 import { CalciteOption, CalciteSelect } from '@esri/calcite-components-react';
 
-import { ArcMapView, ArcUI, useMapView } from '../components';
-import { useArcState } from '../hooks';
+import { ArcMapView, ArcUI, useArcState, useMapView } from '../../src';
 
 export default function BasemapPicker() {
   return (
