@@ -1,6 +1,6 @@
 {
   "name": "arcgis-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/samMatenaer/arcgis-react-utils",
   "description": "React hook wrappers around the @arcgis/core library",
   "module": "./dist/index.js",
