@@ -5,7 +5,8 @@ import {
 } from '@esri/calcite-components-react';
 import React from 'react';
 
-import { ArcLayer, ArcMapView, ArcUI, useMapView } from '../../src';
+import { ArcMapView, ArcUI, useMapView } from '../../src';
+import { ArcTileLayer } from '../../src/components/ArcLayer/generated/ArcTileLayer';
 
 const config = {
   streetsUrl:
@@ -33,7 +34,6 @@ export default function Simple() {
 }
 
 function Layers() {
-  console.log('Test');
   const mapView = useMapView();
 
   const [streetsVisible, setStreetsVisible] = React.useState(false);
@@ -63,15 +63,13 @@ function Layers() {
       </ArcUI>
 
       {/* Streets Layer */}
-      <ArcLayer
-        type="tile"
+      <ArcTileLayer
         layerProps={{ url: config.streetsUrl, visible: streetsVisible }}
         eventHandlers={{ 'layerview-create': onStreetsViewCreated }}
       />
 
       {/* Population Layer */}
-      <ArcLayer
-        type="tile"
+      <ArcTileLayer
         layerProps={{ url: config.popUrl, opacity: 0.9 }}
         eventHandlers={{ 'layerview-create': onPopViewCreated }}
       />

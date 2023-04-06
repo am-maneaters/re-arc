@@ -1,7 +1,8 @@
 import Sketch from '@arcgis/core/widgets/Sketch';
 import { useMemo, useState } from 'react';
 
-import { ArcLayer, ArcMapView, ArcUI, ArcWidget, useMapView } from '../../src';
+import { ArcMapView, ArcUI, ArcWidget, useMapView } from '../../src';
+import { ArcGraphicsLayer } from '../../src/components/ArcLayer/generated/ArcGraphicsLayer';
 
 export default function SketchWidgetExample() {
   const [graphicsLayer, setGraphicsLayer] = useState<__esri.GraphicsLayer>();
@@ -13,8 +14,7 @@ export default function SketchWidgetExample() {
       zoom={5}
       center={[90, 45]}
     >
-      <ArcLayer
-        type="graphics"
+      <ArcGraphicsLayer
         onLayerCreated={(layer) => setGraphicsLayer(layer)}
         layerProps={{ title: 'Sketch Layer' }}
       />

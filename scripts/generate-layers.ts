@@ -53,7 +53,7 @@ async function main() {
     .filter((file) => file.endsWith('.d.ts'))
     .map((file) => file.replace('.d.ts', ''));
 
-  const layerTypeObject = layerTypes.map((layerType) => {
+  for (const layerType of layerTypes) {
     const layerTypeKey = layerType.split('-').join('').toLowerCase();
 
     const layerFileName = layerFiles.find((file) =>
@@ -64,14 +64,17 @@ async function main() {
       throw new Error(`No layer file found for ${layerTypeKey}`);
     }
 
-    return `"${layerType}" : () => import(\`@arcgis/core/layers/${layerFileName}\`).then((m) => (props: ConstructorParameters<typeof m.default>[0]) => new m.default(props))`;
-  });
+    const generatedLayerImports = `
+       import ${layerFileName} from '@arcgis/core/layers/${layerFileName}';
+       import { createLayer } from '../createLayer'; 
+       export const Arc${layerFileName} = createLayer< typeof ${layerFileName}, __esri.${layerFileName}Properties, ${layerFileName} >(${layerFileName});
+    `;
 
-  const generatedLayerImports = `export const layerFactory = {${layerTypeObject.join(
-    ','
-  )}};`;
-
-  writeFile('./src/components/ArcLayer/layerFactory.ts', generatedLayerImports);
+    writeFile(
+      `./src/components/ArcLayer/generated/Arc${layerFileName}.tsx`,
+      generatedLayerImports
+    );
+  }
 }
 
 await main();

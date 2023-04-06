@@ -1,9 +1,6 @@
 import { Overloads } from './utilityTypes';
 
-export type EventHandlers<
-  View extends { on: (event: string, ...args: unknown[]) => unknown },
-  LayerEvents extends Parameters<Overloads<View['on']>>
-> = {
+export type EventHandlerLookup<LayerEvents extends any[]> = {
   [EventName in LayerEvents[0]]?: LayerEvents extends [
     EventName,
     infer CallbackHandler
@@ -11,3 +8,11 @@ export type EventHandlers<
     ? CallbackHandler
     : never;
 };
+
+export type EsriEvented = {
+  on: (name: string, eventHandler: unknown) => IHandle;
+};
+
+export type EventHandlers<T extends EsriEvented> = EventHandlerLookup<
+  Parameters<Overloads<T['on']>>
+>;

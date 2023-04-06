@@ -1,31 +1,22 @@
-import MapView from '@arcgis/core/views/MapView';
-import SceneView from '@arcgis/core/views/SceneView';
-import Map from '@arcgis/core/WebMap';
+import WebMap from '@arcgis/core/WebMap';
 import React, { memo, useEffect, useId, useRef } from 'react';
 import isEqual from 'react-fast-compare';
 
 import { useViewInit } from '../../hooks/useView';
 import { EventHandlers } from '../../typings/EsriTypes';
-import { Overloads } from '../../typings/utilityTypes';
 import { ArcReactiveProp } from '../util/ArcReactiveProp';
 import { MapContext } from './ViewContext';
 
-type ArcViewProps<
-  View extends __esri.MapView | __esri.SceneView,
-  LayerEvents extends Parameters<Overloads<View['on']>>
-> = {
+type ArcViewProps<View extends __esri.MapView | __esri.SceneView> = {
   children?: React.ReactNode;
   init: () => View;
   onViewCreated?: (view: View) => void;
   style?: React.CSSProperties;
   className?: string;
-  eventHandlers?: EventHandlers<View, LayerEvents>;
+  eventHandlers?: EventHandlers<View>;
 };
 
-const ArcView = <
-  View extends __esri.MapView | __esri.SceneView,
-  LayerEvents extends Parameters<Overloads<View['on']>>
->({
+const ArcView = <View extends __esri.MapView | __esri.SceneView>({
   children,
   init,
   onViewCreated,
@@ -33,9 +24,8 @@ const ArcView = <
   style,
   eventHandlers,
   mapViewProps,
-}: ArcViewProps<View, LayerEvents> & { mapViewProps: any }) => {
+}: ArcViewProps<View> & { mapViewProps: any }) => {
   const mapView = useViewInit(init);
-
   const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,6 +55,7 @@ const ArcView = <
     };
   }, [eventHandlers, mapView]);
 
+  if (!mapView) return null;
   return (
     <MapContext.Provider value={mapView}>
       <div ref={mapContainer} style={style} className={className}>
@@ -86,15 +77,14 @@ const ArcView = <
   );
 };
 
-const createViewComponent = <
+export const createViewComponent = <
   ViewConstructor extends typeof __esri.MapView | typeof __esri.SceneView,
   View extends ViewConstructor extends typeof __esri.MapView
     ? __esri.MapView
     : __esri.SceneView,
   ViewProps extends View extends __esri.MapView
     ? __esri.MapViewProperties
-    : __esri.SceneViewProperties,
-  LayerEvents extends Parameters<Overloads<View['on']>>
+    : __esri.SceneViewProperties
 >(
   ViewConstructor: ViewConstructor
 ) => {
@@ -106,19 +96,19 @@ const createViewComponent = <
     map,
     eventHandlers,
     ...mapViewProps
-  }: Omit<ArcViewProps<View, LayerEvents>, 'init'> &
+  }: Omit<ArcViewProps<View>, 'init'> &
     ViewProps & { map?: __esri.WebMapProperties }) => {
     const id = useId();
 
-    const initCallback = React.useCallback(
-      () =>
-        new ViewConstructor({
-          // @ts-expect-error - constructed is a private property
-          map: map?.constructed ? map : new Map(map),
-          ...mapViewProps,
-        }),
-      [map, mapViewProps]
-    );
+    const initCallback = React.useCallback(() => {
+      // @ts-expect-error - constructed is a private property
+      const newMap = map?.constructed ? map : new WebMap(map);
+
+      return new ViewConstructor({
+        map: newMap,
+        ...mapViewProps,
+      });
+    }, [map, mapViewProps]);
 
     return (
       <ArcView
@@ -137,6 +127,3 @@ const createViewComponent = <
 
   return memo(ArcMapView, isEqual);
 };
-
-export const ArcMapView = createViewComponent(MapView);
-export const ArcSceneView = createViewComponent(SceneView);

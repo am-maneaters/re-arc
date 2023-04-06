@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { ArcLayer, ArcMapView } from '../../src/components';
+import { ArcMapView } from '../../src';
+import { ArcStreamLayer } from '../../src/components/ArcLayer/generated/ArcStreamLayer';
 
 export default function ClientSideStreamLayer() {
   const [layer, setLayer] = useState<__esri.StreamLayer>();
@@ -85,11 +86,8 @@ export default function ClientSideStreamLayer() {
       zoom={15}
       center={[-118.4, 34.0573]}
     >
-      <ArcLayer
-        type="stream"
-        onLayerCreated={(layer) => {
-          setLayer(layer);
-        }}
+      <ArcStreamLayer
+        onLayerCreated={setLayer}
         layerProps={{
           // field schemas in the fields array should match the
           // feature attributes that will stream to the layer.

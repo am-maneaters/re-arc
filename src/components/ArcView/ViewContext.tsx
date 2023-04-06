@@ -9,7 +9,7 @@ export const MapContext = createContext<MapView | SceneView | undefined>(
 export function useView() {
   const view = useContext(MapContext);
 
-  if (!view) throw new Error(`useMapView must be used within a MapContext`);
+  if (!view) throw new Error(`useView must be used in a MapContext`);
 
   return view;
 }
