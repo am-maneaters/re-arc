@@ -14,8 +14,9 @@
     "url": "git+https://github.com/samMatenaer/arcgis-react-utils.git"
   },
   "scripts": {
+    "install": "cd examples && npm install && cd ..",
     "dev": "vite",
-    "build": "vite build --mode examples",
+    "build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build --mode examples",
     "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
     "test": "vitest --mode library"
@@ -52,8 +53,6 @@
   },
   "peerDependencies": {
     "@arcgis/core": "^4.26.5",
-    "@esri/calcite-components-react": "^1.2.0",
-    "@tanstack/react-query": "^4.28.0",
     "react": "^18"
   },
   "author": "Sam Matenaer",
