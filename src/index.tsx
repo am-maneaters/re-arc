@@ -1,6 +1,6 @@
-export { ArcLayer, useLayerView } from './components/ArcLayer/ArcLayer';
 export { ArcUI } from './components/ArcUI/ArcUI';
-export { ArcMapView, ArcSceneView } from './components/ArcView/ArcView';
+export { ArcMapView } from './components/ArcView/ArcMapView';
+export { ArcSceneView } from './components/ArcView/ArcSceneView';
 export { useMapView, useSceneView } from './components/ArcView/ViewContext';
 export { ArcWidget } from './components/ArcWidget/ArcWidget';
 export {

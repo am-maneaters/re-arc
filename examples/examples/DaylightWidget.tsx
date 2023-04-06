@@ -3,13 +3,8 @@ import Expand from '@arcgis/core/widgets/Expand';
 import { CalciteButton } from '@esri/calcite-components-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import {
-  ArcLayer,
-  ArcSceneView,
-  ArcUI,
-  ArcWidget,
-  useSceneView,
-} from '../../src';
+import { ArcSceneView, ArcUI, ArcWidget, useSceneView } from '../../src';
+import { ArcSceneLayer } from '../../src/components/ArcLayer/generated/ArcSceneLayer';
 
 const camera = {
   city: {
@@ -81,8 +76,7 @@ export default function DaylightWidgetExample() {
       }}
       style={{ height: '100vh', position: 'relative' }}
     >
-      <ArcLayer
-        type="scene"
+      <ArcSceneLayer
         layerProps={{
           popupEnabled: false,
           portalItem: {
