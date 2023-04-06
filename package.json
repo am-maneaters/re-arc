@@ -52,7 +52,6 @@
     "vitest": "^0.29.8"
   },
   "peerDependencies": {
-    "@arcgis/core": "^4.26.5",
     "react": "^18"
   },
   "author": "Sam Matenaer",
@@ -61,6 +60,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "react-fast-compare": "^3.2.1"
+    "react-fast-compare": "^3.2.1",
+    "@arcgis/core": "^4.26.5"
   }
 }

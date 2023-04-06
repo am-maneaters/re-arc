@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
 import copy from 'rollup-plugin-copy';
 import dts from 'vite-plugin-dts';
-import { configDefaults, defineConfig, UserConfig } from 'vitest/config';
+import { defineConfig, UserConfig } from 'vitest/config';
 
 const libraryConfig: UserConfig = {
   plugins: [
