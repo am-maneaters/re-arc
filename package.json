@@ -1,6 +1,6 @@
 {
   "name": "arcgis-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/samMatenaer/arcgis-react-utils",
   "description": "React hook wrappers around the @arcgis/core library",
   "module": "./dist/index.js",
@@ -14,7 +14,6 @@
     "url": "git+https://github.com/samMatenaer/arcgis-react-utils.git"
   },
   "scripts": {
-    "install": "cd examples && npm install && cd ..",
     "dev": "vite",
     "build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build --mode examples",
     "build:lib": "vite build --mode library",
@@ -52,7 +51,8 @@
     "vitest": "^0.29.8"
   },
   "peerDependencies": {
-    "react": "^18"
+    "react": "^18",
+    "@arcgis/core": "^4.26.5"
   },
   "author": "Sam Matenaer",
   "license": "Apache-2.0",

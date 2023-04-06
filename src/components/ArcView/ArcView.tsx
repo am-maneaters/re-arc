@@ -101,9 +101,8 @@ export const createViewComponent = <
     const id = useId();
 
     const initCallback = React.useCallback(() => {
-      // @ts-expect-error - constructed is a private property
-      const newMap = map?.constructed ? map : new WebMap(map);
-
+      const newMap =
+        map && 'constructed' in map && map.constructed ? map : new WebMap(map);
       return new ViewConstructor({
         map: newMap,
         ...mapViewProps,

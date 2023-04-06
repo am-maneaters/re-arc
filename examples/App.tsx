@@ -43,6 +43,11 @@ const Examples = [
     component: lazy(() => import('./examples/MultiView')),
     icon: '3d-glasses',
   },
+  {
+    name: 'Simple',
+    component: lazy(() => import('./examples/Simple')),
+    icon: 'map',
+  },
 ];
 
 export function App() {
