@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
 import { useView } from '../ArcView/ViewContext';
-import { ArcReactiveProp } from '../util/ArcReactiveProp';
+import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createLayer<
   LayerConstructorType extends new (

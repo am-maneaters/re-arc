@@ -1,5 +1,8 @@
+import RouteLayer from '@arcgis/core/layers/RouteLayer';
 
-       import RouteLayer from '@arcgis/core/layers/RouteLayer';
-       import { createLayer } from '../createLayer'; 
-       export const ArcRouteLayer = createLayer< typeof RouteLayer, __esri.RouteLayerProperties, RouteLayer >(RouteLayer);
-    
+import { createLayer } from '../../util/createLayer';
+export const ArcRouteLayer = createLayer<
+  typeof RouteLayer,
+  __esri.RouteLayerProperties,
+  RouteLayer
+>(RouteLayer);

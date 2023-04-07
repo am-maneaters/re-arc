@@ -4,8 +4,8 @@ import isEqual from 'react-fast-compare';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
-import { ArcReactiveProp } from '../util/ArcReactiveProp';
-import { MapContext } from './ViewContext';
+import { MapContext } from '../ArcView/ViewContext';
+import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createViewComponent<
   ViewConstructor extends EsriView,

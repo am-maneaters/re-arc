@@ -18,7 +18,8 @@
     "build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build --mode examples",
     "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
-    "test": "vitest --mode library"
+    "test": "vitest --mode library",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
   },
   "keywords": [
     "arcgis",

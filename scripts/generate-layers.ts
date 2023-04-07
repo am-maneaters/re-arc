@@ -66,7 +66,7 @@ async function main() {
 
     const generatedLayerImports = `
        import ${layerFileName} from '@arcgis/core/layers/${layerFileName}';
-       import { createLayer } from '../createLayer'; 
+       import { createLayer } from '../../util/createLayer'; 
        export const Arc${layerFileName} = createLayer< typeof ${layerFileName}, __esri.${layerFileName}Properties, ${layerFileName} >(${layerFileName});
     `;
 

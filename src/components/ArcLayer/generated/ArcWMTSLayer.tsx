@@ -1,5 +1,8 @@
+import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
 
-       import WMTSLayer from '@arcgis/core/layers/WMTSLayer';
-       import { createLayer } from '../createLayer'; 
-       export const ArcWMTSLayer = createLayer< typeof WMTSLayer, __esri.WMTSLayerProperties, WMTSLayer >(WMTSLayer);
-    
+import { createLayer } from '../../util/createLayer';
+export const ArcWMTSLayer = createLayer<
+  typeof WMTSLayer,
+  __esri.WMTSLayerProperties,
+  WMTSLayer
+>(WMTSLayer);
