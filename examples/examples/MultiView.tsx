@@ -1,17 +1,14 @@
 import WebMap from '@arcgis/core/WebMap';
-import Search from '@arcgis/core/widgets/Search';
 import { CalciteButton } from '@esri/calcite-components-react';
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 
-import { ArcMapView, ArcSceneView, ArcUI, ArcWidget } from '../../src';
+import { ArcMapView, ArcSceneView, ArcUI } from '../../src';
+import { ArcSearch } from '../../src/components/ArcWidget/generated/ArcSearch';
 
 export default function MultiView() {
   const [currentView, setCurrentView] = React.useState<'map' | 'scene'>('map');
 
   const mapInstance = useRef(new WebMap({ basemap: 'streets-vector' }));
-  mapInstance.current.loadAll();
-
-  const searchWidget = useMemo(() => new Search({}), []);
 
   const mapVisible = currentView === 'map';
 
@@ -23,7 +20,7 @@ export default function MultiView() {
         map={mapInstance.current}
       >
         <ArcUI position="top-right">
-          <ArcWidget widget={searchWidget} />
+          <ArcSearch />
         </ArcUI>
         <ArcUI position="bottom-left">
           <CalciteButton onClick={() => setCurrentView('scene')}>

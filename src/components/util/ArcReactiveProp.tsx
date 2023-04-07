@@ -14,9 +14,6 @@ export function ArcReactiveProp({
 }): null {
   useEffect(() => {
     accessor.set(property, value);
-    return () => {
-      accessor.set(property, undefined);
-    };
   }, [accessor, property, value]);
   return null;
 }

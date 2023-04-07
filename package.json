@@ -19,7 +19,7 @@
     "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
     "test": "vitest --mode library",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
+    "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"
   },
   "keywords": [
     "arcgis",

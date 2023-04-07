@@ -1,80 +1,121 @@
-import { readdirSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 
-const layerTypes = [
-  'base-dynamic',
-  'base-elevation',
-  'base-tile',
-  'bing-maps',
-  'building-scene',
-  'csv',
-  'dimension',
-  'elevation',
-  'feature',
-  'geojson',
-  'geo-rss',
-  'graphics',
-  'group',
-  'imagery',
-  'imagery-tile',
-  'integrated-mesh',
-  'kml',
-  'line-of-sight',
-  'map-image',
-  'map-notes',
-  'media',
-  'ogc-feature',
-  'open-street-map',
-  'point-cloud',
-  'route',
-  'scene',
-  'stream',
-  'tile',
-  'unknown',
-  'unsupported',
-  'vector-tile',
-  'wcs',
-  'web-tile',
-  'wfs',
-  'wms',
-  'wmts',
-  'voxel',
-  'subtype-group',
-  'knowledge-graph',
+const esriLayers = [
+  'BaseDynamicLayer',
+  'BaseElevationLayer',
+  'BaseTileLayer',
+  'BingMapsLayer',
+  'BuildingSceneLayer',
+  'CSVLayer',
+  'DimensionLayer',
+  'ElevationLayer',
+  'FeatureLayer',
+  'GeoJSONLayer',
+  'GeoRSSLayer',
+  'GraphicsLayer',
+  'GroupLayer',
+  'ImageryLayer',
+  'ImageryTileLayer',
+  'IntegratedMeshLayer',
+  'KMLLayer',
+  'KnowledgeGraphLayer',
+  'Layer',
+  'LineOfSightLayer',
+  'MapImageLayer',
+  'MapNotesLayer',
+  'MediaLayer',
+  'OGCFeatureLayer',
+  'OpenStreetMapLayer',
+  'PointCloudLayer',
+  'RouteLayer',
+  'SceneLayer',
+  'StreamLayer',
+  'SubtypeGroupLayer',
+  'TileLayer',
+  'UnknownLayer',
+  'UnsupportedLayer',
+  'VectorTileLayer',
+  'VoxelLayer',
+  'WCSLayer',
+  'WebTileLayer',
+  'WFSLayer',
+  'WMSLayer',
+  'WMTSLayer',
 ];
-async function main() {
-  const allLayerFiles = readdirSync('./node_modules/@arcgis/core/layers');
+const esriWidgets = [
+  'AreaMeasurement2D',
+  'AreaMeasurement3D',
+  'Attachments',
+  'Attribution',
+  'BasemapGallery',
+  'BasemapLayerList',
+  'BasemapToggle',
+  'Bookmarks',
+  'BuildingExplorer',
+  'Compass',
+  'CoordinateConversion',
+  'Daylight',
+  'Directions',
+  'DirectLineMeasurement3D',
+  'DistanceMeasurement2D',
+  'Editor',
+  'ElevationProfile',
+  'Expand',
+  'Feature',
+  'FeatureForm',
+  'FeatureTable',
+  'FeatureTemplates',
+  'FloorFilter',
+  'Fullscreen',
+  'Histogram',
+  'HistogramRangeSlider',
+  'Home',
+  'LayerList',
+  'Legend',
+  'LineOfSight',
+  'Locate',
+  'Measurement',
+  'NavigationToggle',
+  'Popup',
+  'Print',
+  'ScaleBar',
+  'ScaleRangeSlider',
+  'Search',
+  'ShadowCast',
+  'Sketch',
+  'Slice',
+  'Slider',
+  'Swipe',
+  'TableList',
+  'TimeSlider',
+  'Track',
+  'UtilityNetworkAssociations',
+  'UtilityNetworkTrace',
+  'Weather',
+  'Widget',
+  'Zoom',
+];
 
-  if (!allLayerFiles || allLayerFiles.length === 0) {
-    throw new Error('No layer files found, is @arcgis/core installed?');
-  }
-
-  const layerFiles = (allLayerFiles as string[])
-    .filter((file) => file.endsWith('.d.ts'))
-    .map((file) => file.replace('.d.ts', ''));
-
-  for (const layerType of layerTypes) {
-    const layerTypeKey = layerType.split('-').join('').toLowerCase();
-
-    const layerFileName = layerFiles.find((file) =>
-      file.toLowerCase().startsWith(layerTypeKey)
-    );
-
-    if (!layerFileName) {
-      throw new Error(`No layer file found for ${layerTypeKey}`);
-    }
-
+function generateFiles(
+  path: string,
+  createFunction: string,
+  output: string,
+  items: string[]
+) {
+  for (const layerName of items) {
     const generatedLayerImports = `
-       import ${layerFileName} from '@arcgis/core/layers/${layerFileName}';
-       import { createLayer } from '../../util/createLayer'; 
-       export const Arc${layerFileName} = createLayer< typeof ${layerFileName}, __esri.${layerFileName}Properties, ${layerFileName} >(${layerFileName});
+       import ${layerName} from '${path}/${layerName}';
+       import { ${createFunction} } from '../../util/${createFunction}'; 
+       export const Arc${layerName} = ${createFunction}< typeof ${layerName}, __esri.${layerName}Properties, ${layerName} >(${layerName});
     `;
 
     writeFile(
-      `./src/components/ArcLayer/generated/Arc${layerFileName}.tsx`,
+      `./src/components/${output}/generated/Arc${layerName}.tsx`,
       generatedLayerImports
     );
   }
 }
 
-await main();
+generateFiles('@arcgis/core/layers', 'createLayer', 'ArcLayer', esriLayers);
+
+generateFiles('@arcgis/core/widgets', 'createWidget', 'ArcWidget', esriWidgets);

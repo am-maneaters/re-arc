@@ -1,10 +1,9 @@
-import Daylight from '@arcgis/core/widgets/Daylight';
-import Expand from '@arcgis/core/widgets/Expand';
 import { CalciteButton } from '@esri/calcite-components-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { ArcSceneView, ArcUI, ArcWidget, useSceneView } from '../../src';
+import { ArcSceneView, ArcUI } from '../../src';
 import { ArcSceneLayer } from '../../src/components/ArcLayer/generated/ArcSceneLayer';
+import { ArcDaylight } from '../../src/components/ArcWidget/generated/ArcDaylight';
 
 const camera = {
   city: {
@@ -27,32 +26,6 @@ const camera = {
   } as __esri.Camera,
 };
 
-function DaylightWidget({ cityScale }: { cityScale: boolean }) {
-  const sceneView = useSceneView();
-
-  const daylight = useMemo(
-    () => new Daylight({ view: sceneView }),
-    [sceneView]
-  );
-
-  useEffect(() => {
-    daylight.viewModel.sunLightingEnabled = cityScale;
-    sceneView.camera = cityScale ? camera.city : camera.global;
-  }, [daylight, cityScale, sceneView]);
-
-  const expand = useMemo(
-    () =>
-      new Expand({
-        view: sceneView,
-        content: daylight,
-        expanded: true,
-      }),
-    [daylight, sceneView]
-  );
-
-  return <ArcWidget widget={expand} />;
-}
-
 export default function DaylightWidgetExample() {
   const [isCityScale, setIsCityScale] = useState(true);
 
@@ -62,7 +35,7 @@ export default function DaylightWidgetExample() {
         basemap: 'satellite',
         ground: 'world-elevation',
       }}
-      camera={camera.city}
+      camera={isCityScale ? camera.city : camera.global}
       qualityProfile="high"
       environment={{
         atmosphere: {
@@ -83,7 +56,7 @@ export default function DaylightWidgetExample() {
         }}
       />
       <ArcUI position="top-right">
-        <DaylightWidget cityScale={isCityScale} />
+        <ArcDaylight />
       </ArcUI>
       <div
         style={{
