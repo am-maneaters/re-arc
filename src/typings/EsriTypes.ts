@@ -17,14 +17,6 @@ export type EventHandlers<T extends EsriEvented> = EventHandlerLookup<
   Parameters<Overloads<T['on']>>
 >;
 
-type ArcViewProps<View extends __esri.MapView | __esri.SceneView> = {
-  children?: React.ReactNode;
-  onViewCreated?: (view: View) => void;
-  style?: React.CSSProperties;
-  className?: string;
-  eventHandlers?: EventHandlers<View>;
-};
-
 export type EsriView = typeof __esri.MapView | typeof __esri.SceneView;
 
 type ViewProps<Constructor extends EsriView> =
@@ -34,6 +26,14 @@ type ViewProps<Constructor extends EsriView> =
 
 export type ArcViewWrapperProps<
   Constructor extends EsriView,
-  View extends InstanceType<Constructor>
-> = ArcViewProps<View> &
-  ViewProps<Constructor> & { map?: __esri.WebMapProperties };
+  View extends InstanceType<Constructor>,
+  Properties = ViewProps<Constructor>
+> = {
+  /** `map` can either be an object of map properties, or */
+  map?: __esri.WebMapProperties;
+  children?: React.ReactNode;
+  onViewCreated?: (view: View) => void;
+  style?: React.CSSProperties;
+  className?: string;
+  eventHandlers?: EventHandlers<View>;
+} & Properties;

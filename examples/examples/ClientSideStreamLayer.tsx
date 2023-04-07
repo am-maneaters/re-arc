@@ -88,93 +88,61 @@ export default function ClientSideStreamLayer() {
     >
       <ArcStreamLayer
         onLayerCreated={setLayer}
-        layerProps={{
-          // field schemas in the fields array should match the
-          // feature attributes that will stream to the layer.
-          // set the objectIdField and trackIdField in the fields
-          fields: [
-            {
-              name: 'OBJECTID',
-              alias: 'OBJECTID',
-              type: 'oid',
-            },
-            {
-              name: 'TRACKID',
-              alias: 'TrackId',
-              type: 'long',
-            },
-            {
-              name: 'STATUS',
-              alias: 'STATUS',
-              type: 'string',
-            },
-          ],
-          // trackIdField is required and the field schema must exist
-          // in the fields array
-          timeInfo: {
-            trackIdField: 'TRACKID',
+        // field schemas in the fields array should match the
+        // feature attributes that will stream to the layer.
+        // set the objectIdField and trackIdField in the fields
+        fields={[
+          { name: 'OBJECTID', alias: 'OBJECTID', type: 'oid' },
+          { name: 'TRACKID', alias: 'TrackId', type: 'long' },
+          { name: 'STATUS', alias: 'STATUS', type: 'string' },
+        ]}
+        // trackIdField is required and the field schema must exist
+        // in the fields array
+        timeInfo={{ trackIdField: 'TRACKID' }}
+        updateInterval={100}
+        geometryType="polygon"
+        spatialReference={{ wkid: 102_100 }}
+        popupTemplate={{
+          title: 'Status: {STATUS}',
+          content: 'trackId: {TRACKID}, objectId: {OBJECTID}',
+        }}
+        labelingInfo={[
+          {
+            symbol: { type: 'text', color: 'black' },
+            labelPlacement: 'always-horizontal',
+            labelExpressionInfo: { expression: '$feature.STATUS' },
           },
-          updateInterval: 100,
-          geometryType: 'polygon', // required property
-          spatialReference: {
-            wkid: 102_100,
-          },
-          popupTemplate: {
-            title: 'Status: {STATUS}',
-            content: 'trackId: {TRACKID}, objectId: {OBJECTID}',
-          },
-          labelingInfo: [
+        ]}
+        // set unique value renderer based on the status field
+        renderer={{
+          type: 'unique-value',
+          field: 'STATUS',
+          uniqueValueInfos: [
             {
+              value: 'blocked',
               symbol: {
-                type: 'text',
-                color: 'black',
+                type: 'simple-fill',
+                color: [233, 116, 81, 0.5],
+                outline: { width: 1, color: 'white' },
               },
-              labelPlacement: 'always-horizontal',
-              labelExpressionInfo: {
-                expression: '$feature.STATUS',
+            },
+            {
+              value: 'open',
+              symbol: {
+                type: 'simple-fill',
+                color: [34, 139, 34, 0.5],
+                outline: { width: 1, color: 'white' },
+              },
+            },
+            {
+              value: 'unknown',
+              symbol: {
+                type: 'simple-fill',
+                color: [255, 191, 0, 0.5],
+                outline: { width: 1, color: 'white' },
               },
             },
           ],
-          // set unique value renderer based on the status field
-          renderer: {
-            type: 'unique-value',
-            field: 'STATUS',
-            uniqueValueInfos: [
-              {
-                value: 'blocked',
-                symbol: {
-                  type: 'simple-fill',
-                  color: [233, 116, 81, 0.5],
-                  outline: {
-                    width: 1,
-                    color: 'white',
-                  },
-                },
-              },
-              {
-                value: 'open',
-                symbol: {
-                  type: 'simple-fill',
-                  color: [34, 139, 34, 0.5],
-                  outline: {
-                    width: 1,
-                    color: 'white',
-                  },
-                },
-              },
-              {
-                value: 'unknown',
-                symbol: {
-                  type: 'simple-fill',
-                  color: [255, 191, 0, 0.5],
-                  outline: {
-                    width: 1,
-                    color: 'white',
-                  },
-                },
-              },
-            ],
-          },
         }}
       />
     </ArcMapView>

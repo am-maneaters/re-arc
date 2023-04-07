@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
-import { useView } from '../ArcView/ViewContext';
+import { useArcUI } from '../../hooks/useArcUI';
 
 type ArcUIProps = {
   position: __esri.UIAddPosition['position'];
@@ -12,19 +12,7 @@ export const ArcUI: React.FC<ArcUIProps> = ({
   children,
   ...divProps
 }) => {
-  const widgetRef = useRef<HTMLDivElement>(null);
-  const view = useView();
-
-  useEffect(() => {
-    const ref = widgetRef.current;
-    if (!ref || !view) return () => undefined;
-
-    const viewUi = view.ui;
-    viewUi.add(ref, position);
-    return () => {
-      if (!view.destroyed) viewUi.remove(ref);
-    };
-  }, [position, view]);
+  const widgetRef = useArcUI(position);
 
   return (
     // We need to wrap the ref in an empty div because when this component

@@ -16,7 +16,7 @@ export default function SketchWidgetExample() {
     >
       <ArcGraphicsLayer
         onLayerCreated={(layer) => setGraphicsLayer(layer)}
-        layerProps={{ title: 'Sketch Layer' }}
+        title="Sketch Widget Layer"
       />
       <ArcUI position="top-right">
         {graphicsLayer && <SketchWidget layer={graphicsLayer} />}

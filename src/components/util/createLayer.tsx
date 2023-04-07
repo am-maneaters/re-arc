@@ -13,23 +13,22 @@ export function createLayer<
   LayerInstance extends __esri.Layer
 >(LayerConstructor: LayerConstructorType) {
   return function ArcLayer({
-    layerProps,
     onLayerCreated,
     eventHandlers,
     children,
+    ...layerProps
   }: {
-    layerProps?: LayerProperties;
     onLayerCreated?: (layer: LayerInstance) => void;
     eventHandlers?: EventHandlers<LayerInstance>;
     children?: React.ReactNode;
-  }) {
+  } & LayerProperties) {
     const mapView = useView();
     const [layer, setLayer] = useState<LayerInstance>();
     const [layerView, setLayerView] = useState<__esri.LayerView>();
 
     useEffect(() => {
       if (!mapView) return;
-      const layer = new LayerConstructor(layerProps);
+      const layer = new LayerConstructor(layerProps as LayerProperties);
       setLayer(layer);
       mapView.map.add(layer);
 

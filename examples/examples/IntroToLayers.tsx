@@ -64,13 +64,15 @@ function Layers() {
 
       {/* Streets Layer */}
       <ArcTileLayer
-        layerProps={{ url: config.streetsUrl, visible: streetsVisible }}
+        url={config.streetsUrl}
+        visible={streetsVisible}
         eventHandlers={{ 'layerview-create': onStreetsViewCreated }}
       />
 
       {/* Population Layer */}
       <ArcTileLayer
-        layerProps={{ url: config.popUrl, opacity: 0.9 }}
+        url={config.popUrl}
+        opacity={0.9}
         eventHandlers={{ 'layerview-create': onPopViewCreated }}
       />
     </>

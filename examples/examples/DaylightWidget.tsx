@@ -77,11 +77,9 @@ export default function DaylightWidgetExample() {
       style={{ height: '100vh', position: 'relative' }}
     >
       <ArcSceneLayer
-        layerProps={{
-          popupEnabled: false,
-          portalItem: {
-            id: 'b343e14455fe45b98a2c20ebbceec0b0',
-          },
+        popupEnabled={false}
+        portalItem={{
+          id: 'b343e14455fe45b98a2c20ebbceec0b0',
         }}
       />
       <ArcUI position="top-right">
