@@ -48,6 +48,11 @@ const Examples = [
     component: lazy(() => import('./examples/Simple')),
     icon: 'map',
   },
+  {
+    name: 'FeatureQuery',
+    component: lazy(() => import('./examples/FeatureQuery')),
+    icon: 'query',
+  },
 ];
 
 export function App() {
