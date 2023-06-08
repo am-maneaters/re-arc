@@ -15,12 +15,17 @@ export function createWidget<
 >(WidgetConstructor: WidgetConstructorType) {
   function ArcWidget({
     eventHandlers,
+    style,
+    view: propsView,
     ...widgetProps
   }: {
     eventHandlers?: EventHandlers<WidgetInstance>;
-  } & WidgetProperties) {
+  } & WidgetProperties & {
+      style?: React.CSSProperties;
+      view?: __esri.SceneView | __esri.MapView;
+    }) {
     const ref = useRef<HTMLDivElement>(null);
-    const view = useView();
+    const view = useView(propsView);
     const [widget] = useState<WidgetInstance>(
       new WidgetConstructor(widgetProps as WidgetProperties)
     );
@@ -41,8 +46,8 @@ export function createWidget<
     useEventHandlers(widget, eventHandlers);
 
     return (
-      <div>
-        <div ref={ref} />
+      <>
+        <div style={style} ref={ref} />
         {widgetProps &&
           widget &&
           Object.entries(widgetProps).map(([key, val]) => (
@@ -53,7 +58,7 @@ export function createWidget<
               value={val}
             />
           ))}
-      </div>
+      </>
     );
   }
 

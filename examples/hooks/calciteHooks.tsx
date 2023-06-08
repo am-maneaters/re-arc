@@ -32,7 +32,7 @@ export function useCalciteActionBar(
 
   const actions = useMemo(
     () => (
-      <CalciteActionBar slot="action-bar" expanded expandDisabled>
+      <CalciteActionBar slot="action-bar" expanded>
         {items.map((item) => (
           <CalciteAction
             key={item.name}

@@ -49,9 +49,9 @@ const Examples = [
     icon: 'map',
   },
   {
-    name: 'FeatureQuery',
-    component: lazy(() => import('./examples/FeatureQuery')),
-    icon: 'query',
+    name: 'FeatureSelection',
+    component: lazy(() => import('./examples/FeatureSelection')),
+    icon: 'select',
   },
 ];
 
