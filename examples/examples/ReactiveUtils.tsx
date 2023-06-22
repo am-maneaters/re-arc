@@ -57,10 +57,7 @@ export default function ReactiveUtils() {
 
   // Get the titles of all visible layers
   const visibleLayers = useWatchState(
-    () =>
-      mapView?.allLayerViews
-        .filter((layer) => layer.visible)
-        .map(({ layer }) => layer.title),
+    () => mapView?.allLayerViews.filter((layer) => layer.visible),
     [mapView?.allLayerViews]
   );
 
@@ -152,8 +149,8 @@ export default function ReactiveUtils() {
               <span style={titleStyle}>
                 {allLayersVisible ? 'All' : 'Not all'} layers are visible
               </span>
-              {visibleLayers?.map((layer) => (
-                <div key={layer}>- {layer}</div>
+              {visibleLayers?.map(({ layer }) => (
+                <div key={layer.title}>- {layer.title}</div>
               ))}
             </CalciteLabel>
           </CalciteBlock>
