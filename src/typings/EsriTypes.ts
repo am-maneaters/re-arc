@@ -1,5 +1,6 @@
 import { Overloads } from './utilityTypes';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventHandlerLookup<LayerEvents extends any[]> = {
   [EventName in LayerEvents[0]]?: LayerEvents extends [
     EventName,

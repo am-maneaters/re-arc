@@ -1,7 +1,7 @@
 {
   "name": "arcgis-react",
   "version": "1.0.4",
-  "homepage": "https://github.com/samMatenaer/arcgis-react-utils",
+  "homepage": "https://github.com/am-maneaters/arcgis-react",
   "description": "React hook wrappers around the @arcgis/core library",
   "module": "./dist/index.js",
   "type": "module",
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samMatenaer/arcgis-react-utils.git"
+    "url": "git+https://github.com/am-maneaters/arcgis-react.git"
   },
   "scripts": {
     "dev": "vite",
