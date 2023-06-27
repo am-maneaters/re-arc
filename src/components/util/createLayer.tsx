@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
 import { useView } from '../ArcView/ViewContext';
-import { ArcReactiveProp } from '../util/ArcReactiveProp';
+import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createLayer<
   LayerConstructorType extends new (
@@ -12,64 +13,42 @@ export function createLayer<
   LayerInstance extends __esri.Layer
 >(LayerConstructor: LayerConstructorType) {
   return function ArcLayer({
-    layerProps,
     onLayerCreated,
     eventHandlers,
     children,
+    ...layerProps
   }: {
-    layerProps?: LayerProperties;
     onLayerCreated?: (layer: LayerInstance) => void;
     eventHandlers?: EventHandlers<LayerInstance>;
     children?: React.ReactNode;
-  }) {
+  } & LayerProperties) {
     const mapView = useView();
-
     const [layer, setLayer] = useState<LayerInstance>();
     const [layerView, setLayerView] = useState<__esri.LayerView>();
 
     useEffect(() => {
-      const layer = new LayerConstructor(layerProps);
+      if (!mapView) return;
+      const layer = new LayerConstructor(layerProps as LayerProperties);
       setLayer(layer);
+      mapView.map.add(layer);
 
       return () => {
-        if (layer) mapView.map.remove(layer);
+        mapView.map.remove(layer);
       };
-
-      // Only run this effect when the map view changes
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mapView]);
 
-    // Add event handlers to the layer
     useEffect(() => {
-      if (layer === undefined || !eventHandlers) return;
-      const handles = Object.entries(eventHandlers).map(([event, handler]) =>
-        layer.on(event as any, handler as any)
-      );
-
-      return () => {
-        for (const handle of handles) handle.remove();
-      };
-    }, [eventHandlers, layer]);
-
-    useEffect(() => {
-      let destroyed = false;
-      if (layer === undefined) return;
-
-      mapView.map.add(layer);
-
+      if (!layer) return;
       layer.when(() => {
-        if (destroyed || layer === null) return;
         onLayerCreated?.(layer);
         mapView.whenLayerView(layer).then((layerView) => {
-          if (destroyed || layer === null) return;
-          setLayerView?.(layerView);
+          setLayerView(layerView);
         });
       });
-
-      return () => {
-        destroyed = true;
-      };
     }, [layer, mapView, onLayerCreated]);
+
+    useEventHandlers(layer, eventHandlers);
 
     return (
       <>

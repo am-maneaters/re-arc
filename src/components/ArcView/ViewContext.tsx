@@ -6,15 +6,20 @@ export const MapContext = createContext<MapView | SceneView | undefined>(
   undefined
 );
 
-export function useView() {
+export function useView(
+  defaultView?: MapView | SceneView
+): MapView | SceneView {
   const view = useContext(MapContext);
 
-  if (!view) throw new Error(`useView must be used in a MapContext`);
+  if (!view) {
+    if (defaultView) return defaultView;
+    throw new Error(`useView must be used in a MapContext`);
+  }
 
   return view;
 }
 
-export function useMapView() {
+export function useMapView(): MapView {
   const view = useView();
   if (view.type === '3d')
     throw new Error(`useMapView must be used within a 2D MapContext`);
@@ -22,7 +27,7 @@ export function useMapView() {
   return view;
 }
 
-export function useSceneView() {
+export function useSceneView(): SceneView {
   const view = useView();
   if (view.type === '2d')
     throw new Error(`useSceneView must be used within a 3D MapContext`);

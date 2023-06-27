@@ -20,7 +20,13 @@ describe('ArcView', () => {
     const map = new WebMap({ basemap: 'streets-vector' });
     const { container } = render(
       <StrictMode>
-        <ArcSceneView map={map} style={{ height: '100vh' }} />
+        <ArcSceneView
+          map={map}
+          style={{ height: '100vh' }}
+          onViewCreated={(e) => {
+            console.log(e);
+          }}
+        />
       </StrictMode>
     );
     expect(container).toMatchSnapshot();

@@ -1,6 +1,6 @@
 import StreamLayer from '@arcgis/core/layers/StreamLayer';
 
-import { createLayer } from '../createLayer';
+import { createLayer } from '../../util/createLayer';
 export const ArcStreamLayer = createLayer<
   typeof StreamLayer,
   __esri.StreamLayerProperties,

@@ -1,22 +1,15 @@
 import MapView from '@arcgis/core/views/MapView';
-import Expand from '@arcgis/core/widgets/Expand';
-import LayerList from '@arcgis/core/widgets/LayerList';
-import Legend from '@arcgis/core/widgets/Legend';
 import {
   CalciteBlock,
   CalciteLabel,
   CalcitePanel,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import {
-  ArcMapView,
-  ArcUI,
-  ArcWidget,
-  useWatchEffect,
-  useWatchState,
-} from '../../src';
+import { ArcMapView, ArcUI, useWatchEffect, useWatchState } from '../../src';
+import { ArcLayerList } from '../../src/components/ArcWidget/generated/ArcLayerList';
+import { ArcLegend } from '../../src/components/ArcWidget/generated/ArcLegend';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>
@@ -64,10 +57,7 @@ export default function ReactiveUtils() {
 
   // Get the titles of all visible layers
   const visibleLayers = useWatchState(
-    () =>
-      mapView?.allLayerViews
-        .filter((layer) => layer.visible)
-        .map(({ layer }) => layer.title),
+    () => mapView?.allLayerViews.filter((layer) => layer.visible),
     [mapView?.allLayerViews]
   );
 
@@ -87,27 +77,6 @@ export default function ReactiveUtils() {
     }
   );
 
-  const layerList = useMemo(
-    () =>
-      new LayerList({
-        view: mapView,
-      }),
-    [mapView]
-  );
-
-  const legend = useMemo(
-    () =>
-      new Expand({
-        view: mapView,
-        content: new Legend({
-          view: mapView,
-        }),
-        expandTooltip: 'Legend',
-        expanded: true,
-      }),
-    [mapView]
-  );
-
   return (
     <>
       {/* Map View Container */}
@@ -120,12 +89,12 @@ export default function ReactiveUtils() {
       >
         {/* Render the LayerList widget */}
         <ArcUI position="top-right">
-          <ArcWidget widget={layerList} />
+          <ArcLayerList />
         </ArcUI>
 
         {/* Render the Legend Widget */}
         <ArcUI position="bottom-right">
-          <ArcWidget widget={legend} />
+          <ArcLegend />
         </ArcUI>
       </ArcMapView>
 
@@ -180,8 +149,8 @@ export default function ReactiveUtils() {
               <span style={titleStyle}>
                 {allLayersVisible ? 'All' : 'Not all'} layers are visible
               </span>
-              {visibleLayers?.map((layer) => (
-                <div key={layer}>- {layer}</div>
+              {visibleLayers?.map(({ layer }) => (
+                <div key={layer.title}>- {layer.title}</div>
               ))}
             </CalciteLabel>
           </CalciteBlock>
