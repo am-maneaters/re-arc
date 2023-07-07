@@ -19,7 +19,8 @@
     "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
     "test": "vitest --mode library",
-    "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"
+    "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix",
+    "postinstall": "cd ./examples/ && npm install && cd ../"
   },
   "keywords": [
     "arcgis",
