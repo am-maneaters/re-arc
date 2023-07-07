@@ -12,13 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@esri/calcite-components-react": "^1.2.0",
-    "@tanstack/react-query": "^4.28.0",
-    "react-resizable": "^3.0.5",
+    "@esri/calcite-components-react": "^1.4.3",
+    "@tanstack/react-query": "^4.29.19",
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
-    "@types/react-resizable": "^3.0.4",
     "@types/react-syntax-highlighter": "^15.5.7"
   }
 }
