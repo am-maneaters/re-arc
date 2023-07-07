@@ -5,11 +5,15 @@ import {
   CalcitePanel,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
+import {
+  ArcLayerList,
+  ArcLegend,
+  ArcMapView,
+  ArcUI,
+  useWatchEffect,
+  useWatchState,
+} from 'arcgis-react';
 import { useState } from 'react';
-
-import { ArcMapView, ArcUI, useWatchEffect, useWatchState } from '../../src';
-import { ArcLayerList } from '../../src/components/ArcWidget/generated/ArcLayerList';
-import { ArcLegend } from '../../src/components/ArcWidget/generated/ArcLegend';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>
@@ -78,14 +82,19 @@ export default function ReactiveUtils() {
   );
 
   return (
-    <>
+    <div
+      style={{
+        height: '100%',
+        display: 'flex',
+      }}
+    >
       {/* Map View Container */}
       <ArcMapView
         map={{ portalItem: { id: '2361e8f3f8114c0fa544090d2ff1cbe6' } }}
         center={[-118.805, 34.027]}
         zoom={7}
         onViewCreated={setMapView}
-        style={{ height: '100vh' }}
+        style={{ height: '100%', flex: 1 }}
       >
         {/* Render the LayerList widget */}
         <ArcUI position="top-right">
@@ -156,6 +165,6 @@ export default function ReactiveUtils() {
           </CalciteBlock>
         </CalcitePanel>
       </CalciteShellPanel>
-    </>
+    </div>
   );
 }

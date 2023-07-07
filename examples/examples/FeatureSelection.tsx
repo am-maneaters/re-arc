@@ -1,11 +1,9 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
-import SimpleRenderer from '@arcgis/core/renderers/SimpleRenderer';
-import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+import { SimpleRenderer } from '@arcgis/core/renderers';
+import { SimpleFillSymbol } from '@arcgis/core/symbols';
+import { ArcCSVLayer, ArcFeatureTable, ArcMapView, ArcUI } from 'arcgis-react';
 import React from 'react';
 
-import { ArcMapView, ArcUI } from '../../src';
-import { ArcCSVLayer } from '../../src/components/ArcLayer/generated/ArcCSVLayer';
-import { ArcFeatureTable } from '../../src/components/ArcWidget/generated/ArcFeatureTable';
 import { getCSVRenderer } from './helpers/FeatureSelectionHelpers';
 
 const CSV_URL =

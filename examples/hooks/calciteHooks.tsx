@@ -4,9 +4,10 @@ import {
 } from '@esri/calcite-components-react';
 import { useMemo, useState } from 'react';
 
-type ActionItem = {
+export type ActionItem = {
   name: string;
   icon: string;
+  code: () => Promise<typeof import('*?raw')>;
   component: React.LazyExoticComponent<() => JSX.Element>;
 };
 
@@ -33,6 +34,17 @@ export function useCalciteActionBar(
   const actions = useMemo(
     () => (
       <CalciteActionBar slot="action-bar" expanded>
+        <CalciteAction
+          text="ArcGIS React"
+          icon="globe"
+          scale="l"
+          style={{
+            '--calcite-font-size-0': '20px',
+            '--calcite-font-weight-normal': 'bold',
+            '--calcite-ui-text-3': 'white',
+          }}
+        />
+
         {items.map((item) => (
           <CalciteAction
             key={item.name}

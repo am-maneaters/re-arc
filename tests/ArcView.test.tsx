@@ -22,7 +22,7 @@ describe('ArcView', () => {
       <StrictMode>
         <ArcSceneView
           map={map}
-          style={{ height: '100vh' }}
+          style={{ height: '100%' }}
           onViewCreated={(e) => {
             console.log(e);
           }}

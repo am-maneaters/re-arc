@@ -1,9 +1,6 @@
 import { CalciteButton } from '@esri/calcite-components-react';
+import { ArcDaylight, ArcSceneLayer, ArcSceneView, ArcUI } from 'arcgis-react';
 import { useState } from 'react';
-
-import { ArcSceneView, ArcUI } from '../../src';
-import { ArcSceneLayer } from '../../src/components/ArcLayer/generated/ArcSceneLayer';
-import { ArcDaylight } from '../../src/components/ArcWidget/generated/ArcDaylight';
 
 const camera = {
   city: {
@@ -47,7 +44,7 @@ export default function DaylightWidgetExample() {
           directShadowsEnabled: true,
         },
       }}
-      style={{ height: '100vh', position: 'relative' }}
+      style={{ height: '100%', position: 'relative' }}
     >
       <ArcSceneLayer
         popupEnabled={false}

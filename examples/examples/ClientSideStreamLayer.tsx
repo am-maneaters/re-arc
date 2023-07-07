@@ -1,7 +1,7 @@
+import { UniqueValueRenderer } from '@arcgis/core/renderers';
+import { SimpleFillSymbol } from '@arcgis/core/symbols';
+import { ArcMapView, ArcStreamLayer } from 'arcgis-react';
 import { useEffect, useState } from 'react';
-
-import { ArcMapView } from '../../src';
-import { ArcStreamLayer } from '../../src/components/ArcLayer/generated/ArcStreamLayer';
 
 export default function ClientSideStreamLayer() {
   const [layer, setLayer] = useState<__esri.StreamLayer>();
@@ -81,7 +81,7 @@ export default function ClientSideStreamLayer() {
 
   return (
     <ArcMapView
-      style={{ height: '100vh' }}
+      style={{ height: '100%' }}
       map={{ basemap: 'gray-vector' }}
       zoom={15}
       center={[-118.4, 34.0573]}
@@ -114,36 +114,34 @@ export default function ClientSideStreamLayer() {
           },
         ]}
         // set unique value renderer based on the status field
-        renderer={{
-          type: 'unique-value',
-          field: 'STATUS',
-          uniqueValueInfos: [
-            {
-              value: 'blocked',
-              symbol: {
-                type: 'simple-fill',
-                color: [233, 116, 81, 0.5],
-                outline: { width: 1, color: 'white' },
+        renderer={
+          new UniqueValueRenderer({
+            field: 'STATUS',
+            uniqueValueInfos: [
+              {
+                value: 'blocked',
+                symbol: new SimpleFillSymbol({
+                  color: [233, 116, 81, 0.5],
+                  outline: { width: 1, color: 'white' },
+                }),
               },
-            },
-            {
-              value: 'open',
-              symbol: {
-                type: 'simple-fill',
-                color: [34, 139, 34, 0.5],
-                outline: { width: 1, color: 'white' },
+              {
+                value: 'open',
+                symbol: new SimpleFillSymbol({
+                  color: [34, 139, 34, 0.5],
+                  outline: { width: 1, color: 'white' },
+                }),
               },
-            },
-            {
-              value: 'unknown',
-              symbol: {
-                type: 'simple-fill',
-                color: [255, 191, 0, 0.5],
-                outline: { width: 1, color: 'white' },
+              {
+                value: 'unknown',
+                symbol: new SimpleFillSymbol({
+                  color: [255, 191, 0, 0.5],
+                  outline: { width: 1, color: 'white' },
+                }),
               },
-            },
-          ],
-        }}
+            ],
+          })
+        }
       />
     </ArcMapView>
   );

@@ -1,9 +1,7 @@
 import WebMap from '@arcgis/core/WebMap';
 import { CalciteButton } from '@esri/calcite-components-react';
+import { ArcMapView, ArcSceneView, ArcSearch, ArcUI } from 'arcgis-react';
 import React, { useRef } from 'react';
-
-import { ArcMapView, ArcSceneView, ArcUI } from '../../src';
-import { ArcSearch } from '../../src/components/ArcWidget/generated/ArcSearch';
 
 export default function MultiView() {
   const [currentView, setCurrentView] = React.useState<'map' | 'scene'>('map');
@@ -13,10 +11,10 @@ export default function MultiView() {
   const mapVisible = currentView === 'map';
 
   return (
-    <div>
+    <div style={{ height: '100%' }}>
       {/* Map View */}
       <ArcMapView
-        style={{ height: '100vh', display: mapVisible ? 'flex' : 'none' }}
+        style={{ height: '100%', display: mapVisible ? 'flex' : 'none' }}
         map={mapInstance.current}
       >
         <ArcUI position="top-right">
@@ -31,7 +29,7 @@ export default function MultiView() {
 
       {/* Scene View */}
       <ArcSceneView
-        style={{ height: '100vh', display: mapVisible ? 'none' : 'flex' }}
+        style={{ height: '100%', display: mapVisible ? 'none' : 'flex' }}
         map={mapInstance.current}
       >
         <ArcUI position="bottom-left">

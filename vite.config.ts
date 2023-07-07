@@ -1,3 +1,5 @@
+import * as path from 'node:path';
+
 import react from '@vitejs/plugin-react-swc';
 import copy from 'rollup-plugin-copy';
 import dts from 'vite-plugin-dts';
@@ -52,6 +54,11 @@ const exampleAppConfig: UserConfig = {
       ],
     }),
   ],
+  resolve: {
+    alias: {
+      'arcgis-react': path.resolve(__dirname, 'src/'),
+    },
+  },
   publicDir: 'examples/public/',
   build: {
     outDir: 'examples/dist/',

@@ -1,15 +1,12 @@
+import { ArcGraphicsLayer, ArcMapView, ArcSketch, ArcUI } from 'arcgis-react';
 import { useState } from 'react';
-
-import { ArcMapView, ArcUI } from '../../src';
-import { ArcGraphicsLayer } from '../../src/components/ArcLayer/generated/ArcGraphicsLayer';
-import { ArcSketch } from '../../src/components/ArcWidget/generated/ArcSketch';
 
 export default function SketchWidgetExample() {
   const [graphicsLayer, setGraphicsLayer] = useState<__esri.GraphicsLayer>();
 
   return (
     <ArcMapView
-      style={{ height: '100vh' }}
+      style={{ height: '100%' }}
       map={{ basemap: 'topo-vector' }}
       zoom={5}
       center={[90, 45]}

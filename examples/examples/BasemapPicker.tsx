@@ -1,12 +1,11 @@
 import Basemap from '@arcgis/core/Basemap';
 import { CalciteOption, CalciteSelect } from '@esri/calcite-components-react';
-
-import { ArcMapView, ArcUI, useArcState, useMapView } from '../../src';
+import { ArcMapView, ArcUI, useArcState, useMapView } from 'arcgis-react';
 
 export default function BasemapPicker() {
   return (
     <ArcMapView
-      style={{ height: '100vh' }}
+      style={{ height: '100%' }}
       zoom={1}
       map={{ basemap: 'streets' }}
     >

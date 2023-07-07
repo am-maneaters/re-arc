@@ -16,7 +16,10 @@
     "jsx": "react-jsx",
     "outDir": "dist",
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "arcgis-react": ["./src"]
+    }
   },
   "include": [
     "src/**/*",

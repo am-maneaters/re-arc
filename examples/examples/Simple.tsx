@@ -1,9 +1,5 @@
-import React from 'react';
-
-import { ArcMapView } from '../../src';
+import { ArcMapView } from 'arcgis-react';
 
 export default function Simple() {
-  return (
-    <ArcMapView style={{ height: '100vh' }} map={{ basemap: 'streets' }} />
-  );
+  return <ArcMapView style={{ height: '100%' }} map={{ basemap: 'streets' }} />;
 }

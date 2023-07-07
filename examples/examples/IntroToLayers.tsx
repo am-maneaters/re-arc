@@ -3,10 +3,8 @@ import {
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
+import { ArcMapView, ArcTileLayer, ArcUI, useMapView } from 'arcgis-react';
 import React from 'react';
-
-import { ArcMapView, ArcUI, useMapView } from '../../src';
-import { ArcTileLayer } from '../../src/components/ArcLayer/generated/ArcTileLayer';
 
 const config = {
   streetsUrl:
@@ -21,7 +19,7 @@ export default function Simple() {
       map={{ basemap: 'oceans' }}
       center={[-118.805, 34.027]}
       zoom={7}
-      style={{ height: '100vh' }}
+      style={{ height: '100%' }}
       eventHandlers={{
         click: (e) => {
           console.log(e.mapPoint);

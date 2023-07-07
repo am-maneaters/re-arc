@@ -11,7 +11,7 @@ exports[`ArcView > renders mapview 2`] = `<div />`;
 exports[`ArcView > renders sceneview 1`] = `
 <div>
   <div
-    style="height: 100vh;"
+    style="height: 100%;"
   />
 </div>
 `;
