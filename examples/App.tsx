@@ -3,6 +3,7 @@ import {
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
+import * as React from 'react';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import ts from 'react-syntax-highlighter/dist/esm/languages/hljs/typescript';

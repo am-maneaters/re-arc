@@ -16,6 +16,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build --mode examples",
+    "preview": "vite preview --mode examples",
     "build:lib": "vite build --mode library",
     "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
     "test": "vitest --mode library",
