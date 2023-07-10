@@ -4,13 +4,13 @@ import {
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import ts from 'react-syntax-highlighter/dist/esm/languages/hljs/typescript';
-import docco from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
+import docco from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
-SyntaxHighlighter.registerLanguage('typescript', ts);
+SyntaxHighlighter.registerLanguage('tsx', tsx);
 
 const Examples: ActionItem[] = [
   {
@@ -132,7 +132,7 @@ function CodeDisplay({
       <SyntaxHighlighter
         style={{ ...docco }}
         codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
-        language="typescript"
+        language="tsx"
       >
         {code}
       </SyntaxHighlighter>
