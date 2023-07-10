@@ -11,13 +11,13 @@
     <img src="https://img.shields.io/npm/v/arcgis-react" alt="npm">
   </a>
   <a href="https://www.npmjs.com/package/@arcgis/core">
-    <img src="https://img.shields.io/badge/dynamic/json?color=blue&label=%40arcgis%2Fcore&query=%24.dependencies%5B%22%40arcgis%2Fcore%22%5D&url=https%3A%2F%2Fraw.githubusercontent.com%2FsamMatenaer%2Farcgis-react-utils%2Fmain%2Fpackage.json" alt="arcgis version">
+    <img src="https://img.shields.io/badge/dynamic/json?color=blue&label=@arcgis/core&query=$.peerDependencies['@arcgis/core']&url=https://raw.githubusercontent.com/am-maneaters/arcgis-react/main/packages/arcgis-react/package.json" alt="arcgis version">
   </a>
   <img src="https://img.shields.io/npm/dt/arcgis-react" alt="downloads">
   <img src="https://img.shields.io/npm/l/arcgis-react" alt="license">
 </div>
 
----
+# View examples at [arcgis-react.netlify.app](https://arcgis-react.netlify.app)!
 
 # Quick Start
 
