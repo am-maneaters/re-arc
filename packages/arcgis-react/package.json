@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts\"",
-    "build": "tsup",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' && tsup",
     "dev": "npm run build -- --watch"
   },
   "peerDependencies": {
