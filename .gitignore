@@ -1,5 +1,12 @@
-node_modules
-dist
 .DS_Store
-.env.local
-examples/public/assets/**/*
+node_modules
+.turbo
+*.log
+dist
+dist-ssr
+*.local
+.env
+.cache
+server/dist
+public/dist
+apps/web/public/assets

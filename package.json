@@ -1,66 +1,20 @@
 {
-  "name": "arcgis-react",
-  "version": "1.0.5",
-  "homepage": "https://github.com/am-maneaters/arcgis-react",
-  "description": "React hook wrappers around the @arcgis/core library",
-  "module": "./dist/index.js",
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/am-maneaters/arcgis-react.git"
-  },
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build --mode examples",
-    "build:lib": "vite build --mode library",
-    "generate-layers": "npx ts-node-esm ./scripts/generate-layers.ts",
-    "test": "vitest --mode library",
-    "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "keywords": [
-    "arcgis",
-    "hooks"
-  ],
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@types/node": "^20.3.1",
-    "@types/react": "^18.2.13",
-    "@types/react-dom": "^18.2.6",
-    "@typescript-eslint/eslint-plugin": "^5.60.0",
-    "@typescript-eslint/parser": "^5.60.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
-    "eslint": "^8.43.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "eslint-plugin-unicorn": "^47.0.0",
-    "jsdom": "^22.1.0",
-    "prettier": "2.8.8",
-    "react-dom": "^18.2.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "typescript": "^5.1.3",
-    "vite": "^4.3.9",
-    "vite-plugin-dts": "^2.3.0",
-    "vitest": "^0.32.2"
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
   },
-  "peerDependencies": {
-    "@arcgis/core": "^4.26.5"
-  },
-  "author": "Sam Matenaer",
-  "license": "Apache-2.0",
-  "prettier": {
-    "singleQuote": true
-  },
-  "dependencies": {
-    "@arcgis/core": "^4.27.4",
-    "react": "^18.2.0",
-    "react-fast-compare": "^3.2.2"
-  }
+  "packageManager": "npm@9.6.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }
