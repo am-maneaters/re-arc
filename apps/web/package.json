@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "tsc && eslint \"src/**/*.ts\"",
     "postinstall": "npm run util:copy-assets",
     "util:copy-assets": "npx ncp ../../node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/"
   },
