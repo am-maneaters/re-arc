@@ -9,16 +9,11 @@ import {
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/vs';
-import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
 import logoDark from './assets/arcgis-react-logo-dark.png';
 import logoLight from './assets/arcgis-react-logo-light.png';
+import { CodeDisplay } from './components/CodeDisplay';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
-
-SyntaxHighlighter.registerLanguage('tsx', tsx);
 
 const Examples: ActionItem[] = [
   {
@@ -80,7 +75,7 @@ const Examples: ActionItem[] = [
 export function App() {
   const [appTheme, setAppTheme] = useState<'light' | 'dark'>('dark');
 
-  //
+  // Set the ArcGIS theme on the document head
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = appTheme === 'dark' ? arcgisDarkCss : arcgisLightCss;
@@ -174,35 +169,5 @@ export function App() {
         )}
       </CalciteShell>
     </div>
-  );
-}
-
-function CodeDisplay({
-  codePromise,
-  appTheme,
-}: {
-  codePromise: () => Promise<typeof import('*?raw')>;
-  appTheme: 'dark' | 'light';
-}) {
-  const [code, setCode] = useState('');
-
-  useEffect(() => {
-    codePromise().then((code) => setCode(code.default));
-  }, [codePromise]);
-
-  return (
-    <SyntaxHighlighter
-      style={appTheme === 'dark' ? vscDark : vscLight}
-      customStyle={{
-        borderRadius: '4px',
-        overflow: 'hidden',
-        boxShadow:
-          '0 4px 16px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-      }}
-      codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
-      language="tsx"
-    >
-      {code}
-    </SyntaxHighlighter>
   );
 }
