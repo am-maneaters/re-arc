@@ -1,13 +1,21 @@
+import arcgisDarkCss from '@arcgis/core/assets/esri/themes/dark/main.css?inline';
+import arcgisLightCss from '@arcgis/core/assets/esri/themes/light/main.css?inline';
 import {
+  CalciteAction,
   CalciteLoader,
+  CalciteNavigation,
+  CalciteNavigationLogo,
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import docco from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
+import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/vs';
+import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
+import logoDark from './assets/arcgis-react-logo-dark.png';
+import logoLight from './assets/arcgis-react-logo-light.png';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
 SyntaxHighlighter.registerLanguage('tsx', tsx);
@@ -70,6 +78,19 @@ const Examples: ActionItem[] = [
 ];
 
 export function App() {
+  const [appTheme, setAppTheme] = useState<'light' | 'dark'>('dark');
+
+  //
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = appTheme === 'dark' ? arcgisDarkCss : arcgisLightCss;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, [appTheme]);
+
   const { currentAction, actions } = useCalciteActionBar(
     Examples,
     window.location.hash
@@ -83,7 +104,27 @@ export function App() {
 
   return (
     <div>
-      <CalciteShell className="calcite-mode-dark">
+      <CalciteShell className={`calcite-mode-${appTheme}`}>
+        <CalciteNavigation slot="header">
+          <CalciteNavigationLogo
+            slot="logo"
+            heading="ArcGIS React"
+            thumbnail={appTheme === 'light' ? logoLight : logoDark}
+            style={{
+              '--calcite-font-size-0': '20px',
+            }}
+          />
+          <div slot="content-end">
+            <CalciteAction
+              icon={appTheme === 'dark' ? 'brightness' : 'moon'}
+              text="Toggle theme"
+              onClick={() =>
+                setAppTheme(appTheme === 'dark' ? 'light' : 'dark')
+              }
+            />
+          </div>
+        </CalciteNavigation>
+
         <CalciteShellPanel slot="panel-start" collapsed>
           {actions}
         </CalciteShellPanel>
@@ -101,12 +142,33 @@ export function App() {
               </div>
             }
           >
-            <div style={{ padding: 16 }}>
-              <h1>{currentAction?.name}</h1>
-              <div style={{ height: 800 }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                padding: 16,
+                backgroundSize: '16px 16px',
+                backgroundColor: 'var(--calcite-ui-background)',
+                backgroundImage:
+                  'radial-gradient( circle, var(--calcite-ui-border-3) 1px, transparent 1px )',
+              }}
+            >
+              <div
+                style={{
+                  height: 800,
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  boxShadow:
+                    '0 4px 16px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+                }}
+              >
                 {currentAction?.component && <currentAction.component />}
               </div>
-              <CodeDisplay codePromise={currentAction?.code} />
+              <CodeDisplay
+                codePromise={currentAction?.code}
+                appTheme={appTheme}
+              />
             </div>
           </Suspense>
         )}
@@ -117,8 +179,10 @@ export function App() {
 
 function CodeDisplay({
   codePromise,
+  appTheme,
 }: {
   codePromise: () => Promise<typeof import('*?raw')>;
+  appTheme: 'dark' | 'light';
 }) {
   const [code, setCode] = useState('');
 
@@ -127,15 +191,18 @@ function CodeDisplay({
   }, [codePromise]);
 
   return (
-    <div>
-      <h2>Code</h2>
-      <SyntaxHighlighter
-        style={{ ...docco }}
-        codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
-        language="tsx"
-      >
-        {code}
-      </SyntaxHighlighter>
-    </div>
+    <SyntaxHighlighter
+      style={appTheme === 'dark' ? vscDark : vscLight}
+      customStyle={{
+        borderRadius: '4px',
+        overflow: 'hidden',
+        boxShadow:
+          '0 4px 16px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+      }}
+      codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
+      language="tsx"
+    >
+      {code}
+    </SyntaxHighlighter>
   );
 }

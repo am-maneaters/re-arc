@@ -1,4 +1,3 @@
-import '@arcgis/core/assets/esri/themes/dark/main.css';
 import './index.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

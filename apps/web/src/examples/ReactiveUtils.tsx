@@ -7,7 +7,6 @@ import {
 } from '@esri/calcite-components-react';
 import {
   ArcLayerList,
-  ArcLegend,
   ArcMapView,
   ArcUI,
   useWatchEffect,
@@ -17,7 +16,7 @@ import { useState } from 'react';
 
 const Coord = ({ num = 0, label = '' }) => (
   <div>
-    {label}: {(Math.round(num * 100) / 100).toFixed(4)}
+    {label}: {(Math.round(num * 100) / 100).toFixed(0)}
   </div>
 );
 
@@ -31,7 +30,7 @@ const Extent = ({
   extent ? (
     <CalciteLabel id="current-extent-label">
       <span style={titleStyle}>
-        {isNew ? 'Current Extent' : 'Previous Extent'}
+        {isNew ? 'Current extent' : 'Previous extent'}
       </span>
       <Coord label="xmax" num={extent.xmax} />
       <Coord label="xmin" num={extent.xmin} />
@@ -70,7 +69,7 @@ export default function ReactiveUtils() {
     () => [mapView?.stationary, mapView?.extent, mapView?.scale] as const,
     ([stationary, extent, scale], [prevStationary]) => {
       if (stationary) {
-        if (scale) setScale((Math.round(scale * 100) / 100).toFixed(4));
+        if (scale) setScale((Math.round(scale * 100) / 100).toFixed(0));
         if (extent !== currentExtent) {
           setCurrentExtent(extent);
           setPreviousExtent(currentExtent);
@@ -100,16 +99,11 @@ export default function ReactiveUtils() {
         <ArcUI position="top-right">
           <ArcLayerList />
         </ArcUI>
-
-        {/* Render the Legend Widget */}
-        <ArcUI position="bottom-right">
-          <ArcLegend />
-        </ArcUI>
       </ArcMapView>
 
       {/* Side Panel UI */}
       <CalciteShellPanel slot="panel-end" position="end" style={titleStyle}>
-        <CalcitePanel heading="ReactiveUtils Watch Events">
+        <CalcitePanel>
           <CalciteBlock
             heading="Extent Property"
             description="Displays the current and previous extent value when the extent has changed."
@@ -131,7 +125,7 @@ export default function ReactiveUtils() {
               id="current-scale-label"
               layout="inline-space-between"
             >
-              <span style={titleStyle}>current extent: </span>
+              <span style={titleStyle}>Current scale: </span>
               {scale}
             </CalciteLabel>
           </CalciteBlock>

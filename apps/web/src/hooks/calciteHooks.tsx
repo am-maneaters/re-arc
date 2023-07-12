@@ -1,7 +1,4 @@
-import {
-  CalciteAction,
-  CalciteActionBar,
-} from '@esri/calcite-components-react';
+import { CalciteAction, CalciteActionBar } from '@esri/calcite-components-react';
 import { useMemo, useState } from 'react';
 
 export type ActionItem = {
@@ -34,17 +31,6 @@ export function useCalciteActionBar(
   const actions = useMemo(
     () => (
       <CalciteActionBar slot="action-bar" expanded>
-        <CalciteAction
-          text="ArcGIS React"
-          icon="globe"
-          scale="l"
-          style={{
-            '--calcite-font-size-0': '20px',
-            '--calcite-font-weight-normal': 'bold',
-            '--calcite-ui-text-3': 'white',
-          }}
-        />
-
         {items.map((item) => (
           <CalciteAction
             key={item.name}
