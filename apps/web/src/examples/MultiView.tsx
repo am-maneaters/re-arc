@@ -29,6 +29,7 @@ export default function Example() {
         style={{ height: '50%' }}
         map={{ basemap: 'streets-vector' }}
         zoom={3}
+        center={[-100.4593, 36.9014]}
         onViewCreated={onMapViewCreated}
         constraints={{ snapToZoom: false }}
       />
@@ -37,7 +38,7 @@ export default function Example() {
       <ArcSceneView
         style={{ height: '50%' }}
         map={{ basemap: 'streets-vector' }}
-        zoom={3}
+        zoom={4}
         center={[-100.4593, 36.9014]}
         onViewCreated={onSceneViewCreated}
       />

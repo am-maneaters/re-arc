@@ -13,11 +13,7 @@ export default function Example() {
       center={[-118.805, 34.027]}
       zoom={7}
       style={{ height: '100%' }}
-      eventHandlers={{
-        click: (e) => {
-          console.log(e.mapPoint);
-        },
-      }}
+      eventHandlers={{ click: (e) => console.log(e.mapPoint) }}
     >
       <Layers />
     </ArcMapView>
@@ -32,11 +28,6 @@ function Layers() {
   const onPopViewCreated = (e: __esri.TileLayerLayerviewCreateEvent) => {
     const layer = e.layerView.layer;
     mapView.goTo(layer.fullExtent);
-    console.log('LayerView for male population created!', layer.title);
-  };
-
-  const onStreetsViewCreated = (e: __esri.TileLayerLayerviewCreateEvent) => {
-    console.log('LayerView for streets created!', e.layerView.layer.title);
   };
 
   return (
@@ -54,11 +45,7 @@ function Layers() {
       </ArcUI>
 
       {/* Streets Layer */}
-      <ArcTileLayer
-        url={config.streetsUrl}
-        visible={streetsVisible}
-        eventHandlers={{ 'layerview-create': onStreetsViewCreated }}
-      />
+      <ArcTileLayer url={config.streetsUrl} visible={streetsVisible} />
 
       {/* Population Layer */}
       <ArcTileLayer
