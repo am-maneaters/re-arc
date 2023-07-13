@@ -17,6 +17,18 @@ import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
 const Examples: ActionItem[] = [
   {
+    name: 'Map View',
+    component: lazy(() => import('./examples/MapView')),
+    code: () => import('./examples/MapView?raw'),
+    icon: 'map',
+  },
+  {
+    name: 'Scene View',
+    component: lazy(() => import('./examples/SceneView')),
+    code: () => import('./examples/SceneView?raw'),
+    icon: 'globe',
+  },
+  {
     name: 'ReactiveUtils',
     component: lazy(() => import('./examples/ReactiveUtils')),
     code: () => import('./examples/ReactiveUtils?raw'),
@@ -58,18 +70,12 @@ const Examples: ActionItem[] = [
     code: () => import('./examples/MultiView?raw'),
     icon: '3d-glasses',
   },
-  {
-    name: 'Simple',
-    component: lazy(() => import('./examples/Simple')),
-    code: () => import('./examples/Simple?raw'),
-    icon: 'map',
-  },
-  {
-    name: 'FeatureSelection',
-    component: lazy(() => import('./examples/FeatureSelection')),
-    code: () => import('./examples/FeatureSelection?raw'),
-    icon: 'select',
-  },
+  // {
+  //   name: 'FeatureSelection',
+  //   component: lazy(() => import('./examples/FeatureSelection')),
+  //   code: () => import('./examples/FeatureSelection?raw'),
+  //   icon: 'select',
+  // },
 ];
 
 export function App() {

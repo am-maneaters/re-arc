@@ -16,6 +16,8 @@ export default function MultiView() {
       <ArcMapView
         style={{ height: '100%', display: mapVisible ? 'flex' : 'none' }}
         map={mapInstance.current}
+        zoom={3}
+        center={[-100.4593, 36.9014]}
       >
         <ArcUI position="top-right">
           <ArcSearch />

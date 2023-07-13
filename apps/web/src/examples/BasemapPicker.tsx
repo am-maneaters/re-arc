@@ -6,7 +6,8 @@ export default function BasemapPicker() {
   return (
     <ArcMapView
       style={{ height: '100%' }}
-      zoom={1}
+      zoom={3}
+      center={[-100.4593, 36.9014]}
       map={{ basemap: 'streets' }}
     >
       <ArcUI position="bottom-left">
