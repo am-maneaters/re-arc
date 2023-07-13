@@ -1,6 +1,6 @@
 import { ArcMapView } from 'arcgis-react';
 
-export default function MapView() {
+export default function Example() {
   return (
     <ArcMapView
       style={{ height: '100%' }}

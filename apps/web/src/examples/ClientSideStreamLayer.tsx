@@ -3,7 +3,7 @@ import { SimpleFillSymbol } from '@arcgis/core/symbols';
 import { ArcMapView, ArcStreamLayer } from 'arcgis-react';
 import { useEffect, useState } from 'react';
 
-export default function ClientSideStreamLayer() {
+export default function Example() {
   const [layer, setLayer] = useState<__esri.StreamLayer>();
 
   useEffect(() => {

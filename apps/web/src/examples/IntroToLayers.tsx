@@ -6,14 +6,7 @@ import {
 import { ArcMapView, ArcTileLayer, ArcUI, useMapView } from 'arcgis-react';
 import React from 'react';
 
-const config = {
-  streetsUrl:
-    'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer',
-  popUrl:
-    'https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/New_York_Housing_Density/MapServer',
-};
-
-export default function Simple() {
+export default function Example() {
   return (
     <ArcMapView
       map={{ basemap: 'oceans' }}
@@ -76,3 +69,10 @@ function Layers() {
     </>
   );
 }
+
+const config = {
+  streetsUrl:
+    'https://server.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer',
+  popUrl:
+    'https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/New_York_Housing_Density/MapServer',
+};

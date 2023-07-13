@@ -2,7 +2,7 @@ import Basemap from '@arcgis/core/Basemap';
 import { CalciteOption, CalciteSelect } from '@esri/calcite-components-react';
 import { ArcMapView, ArcUI, useArcState, useMapView } from 'arcgis-react';
 
-export default function BasemapPicker() {
+export default function Example() {
   return (
     <ArcMapView
       style={{ height: '100%' }}
@@ -11,13 +11,18 @@ export default function BasemapPicker() {
       map={{ basemap: 'streets' }}
     >
       <ArcUI position="bottom-left">
-        <ArcMap />
+        <BasemapPicker />
       </ArcUI>
     </ArcMapView>
   );
 }
 
-function ArcMap() {
+/**
+ * Using a child component will allow us to use `useMapView` without
+ * needing to check if the view is defined since `ArcMapView` will
+ * only render its children when the view is defined.
+ */
+function BasemapPicker() {
   const mapView = useMapView();
   const [basemap, setBasemap] = useArcState(mapView.map, 'basemap');
 

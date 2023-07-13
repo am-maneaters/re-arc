@@ -2,7 +2,7 @@ import { CalciteButton } from '@esri/calcite-components-react';
 import { ArcDaylight, ArcSceneLayer, ArcSceneView, ArcUI } from 'arcgis-react';
 import { useState } from 'react';
 
-export default function DaylightWidgetExample() {
+export default function Example() {
   const [isCityScale, setIsCityScale] = useState(true);
 
   return (

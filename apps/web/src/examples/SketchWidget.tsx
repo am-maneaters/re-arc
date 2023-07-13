@@ -1,7 +1,7 @@
 import { ArcGraphicsLayer, ArcMapView, ArcSketch, ArcUI } from 'arcgis-react';
 import { useState } from 'react';
 
-export default function SketchWidgetExample() {
+export default function Example() {
   const [graphicsLayer, setGraphicsLayer] = useState<__esri.GraphicsLayer>();
 
   return (

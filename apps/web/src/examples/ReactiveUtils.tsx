@@ -14,7 +14,7 @@ import {
 } from 'arcgis-react';
 import { useState } from 'react';
 
-export default function ReactiveUtils() {
+export default function Example() {
   const [mapView, setMapView] = useState<MapView>();
   const [scale, setScale] = useState<string>();
   const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
@@ -139,10 +139,10 @@ const Extent = ({
     <span style={titleStyle}>
       {isNew ? 'Current extent' : 'Previous extent'}
     </span>
-    <Coord label="xmax" num={extent.xmax} />{' '}
-    <Coord label="xmin" num={extent.xmin} />{' '}
-    <Coord label="ymax" num={extent.ymax} />{' '}
-    <Coord label="ymin" num={extent.ymin} />{' '}
+    <Coord label="xmax" num={extent.xmax} />
+    <Coord label="xmin" num={extent.xmin} />
+    <Coord label="ymax" num={extent.ymax} />
+    <Coord label="ymin" num={extent.ymin} />
   </CalciteLabel>
 );
 

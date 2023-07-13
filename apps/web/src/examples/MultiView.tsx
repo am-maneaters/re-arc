@@ -5,7 +5,7 @@ import {
   useWatchEffect,
 } from 'arcgis-react';
 
-export default function MultiView() {
+export default function Example() {
   const [map, onMapViewCreated] = useViewState<__esri.MapView>();
   const [scene, onSceneViewCreated] = useViewState<__esri.SceneView>();
 

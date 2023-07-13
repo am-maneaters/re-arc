@@ -1,6 +1,6 @@
 import { ArcSceneView } from 'arcgis-react';
 
-export default function SceneView() {
+export default function Example() {
   return (
     <ArcSceneView
       style={{ height: '100%' }}
