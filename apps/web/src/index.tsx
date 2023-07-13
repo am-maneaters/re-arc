@@ -15,14 +15,18 @@ const queryClient = new QueryClient({
 
 import { defineCustomElements } from '@esri/calcite-components/dist/loader';
 
+import { ThemeProvider } from './contexts/ThemeProvider';
+
 // CDN hosted assets
 defineCustomElements(window);
 
 // Render the application
 root.render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>
 );

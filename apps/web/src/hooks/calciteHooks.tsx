@@ -1,10 +1,10 @@
-import { CalciteAction, CalciteActionBar } from '@esri/calcite-components-react';
+import { CalciteAction } from '@esri/calcite-components-react';
 import { useMemo, useState } from 'react';
 
 export type ActionItem = {
   name: string;
   icon: string;
-  code: () => Promise<typeof import('*?raw')>;
+  code?: () => Promise<typeof import('*?raw')>;
   component: React.LazyExoticComponent<() => JSX.Element>;
 };
 
@@ -13,7 +13,7 @@ export function useCalciteActionBar(
   defaultValue: ActionItem['name']
 ): {
   currentAction: ActionItem | undefined;
-  actions: JSX.Element;
+  actions: JSX.Element[];
 } {
   const [currentActionName, setCurrentActionName] = useState(defaultValue);
 
@@ -29,19 +29,16 @@ export function useCalciteActionBar(
   };
 
   const actions = useMemo(
-    () => (
-      <CalciteActionBar slot="action-bar" expanded>
-        {items.map((item) => (
-          <CalciteAction
-            key={item.name}
-            text={item.name}
-            icon={item.icon}
-            onClick={action}
-            active={currentActionName === item.name ? true : undefined}
-          />
-        ))}
-      </CalciteActionBar>
-    ),
+    () =>
+      items.map((item) => (
+        <CalciteAction
+          key={item.name}
+          text={item.name}
+          icon={item.icon}
+          onClick={action}
+          active={currentActionName === item.name ? true : undefined}
+        />
+      )),
     [currentActionName, items]
   );
 

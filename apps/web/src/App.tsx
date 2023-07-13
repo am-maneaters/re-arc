@@ -2,6 +2,7 @@ import arcgisDarkCss from '@arcgis/core/assets/esri/themes/dark/main.css?inline'
 import arcgisLightCss from '@arcgis/core/assets/esri/themes/light/main.css?inline';
 import {
   CalciteAction,
+  CalciteActionBar,
   CalciteLoader,
   CalciteNavigation,
   CalciteNavigationLogo,
@@ -12,10 +13,17 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 
 import logoDark from './assets/arcgis-react-logo-dark.png';
 import logoLight from './assets/arcgis-react-logo-light.png';
-import { CodeDisplay } from './components/CodeDisplay';
+import GithubIcon from './assets/GithubIcon';
+import { CodeDisplay, CodeDisplayAsync } from './components/CodeDisplay';
+import { useTheme } from './contexts/ThemeProvider';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
 const Examples: ActionItem[] = [
+  {
+    name: 'Home',
+    component: lazy(() => import('./examples/Home')),
+    icon: 'home',
+  },
   {
     name: 'Map View',
     component: lazy(() => import('./examples/MapView')),
@@ -85,18 +93,18 @@ const Examples: ActionItem[] = [
 ];
 
 export function App() {
-  const [appTheme, setAppTheme] = useState<'light' | 'dark'>('dark');
+  const { theme, setTheme } = useTheme();
 
   // Set the ArcGIS theme on the document head
   useEffect(() => {
     const style = document.createElement('style');
-    style.innerHTML = appTheme === 'dark' ? arcgisDarkCss : arcgisLightCss;
+    style.innerHTML = theme === 'dark' ? arcgisDarkCss : arcgisLightCss;
     document.head.appendChild(style);
 
     return () => {
       document.head.removeChild(style);
     };
-  }, [appTheme]);
+  }, [theme]);
 
   const { currentAction, actions } = useCalciteActionBar(
     Examples,
@@ -110,72 +118,62 @@ export function App() {
   }, [currentAction]);
 
   return (
-    <div>
-      <CalciteShell className={`calcite-mode-${appTheme}`}>
+    <div style={{ colorScheme: theme }}>
+      <CalciteShell className={`calcite-mode-${theme}`}>
         <CalciteNavigation slot="header">
           <CalciteNavigationLogo
             slot="logo"
             heading="ArcGIS React"
-            thumbnail={appTheme === 'light' ? logoLight : logoDark}
+            thumbnail={theme === 'light' ? logoLight : logoDark}
             style={{
               '--calcite-font-size-0': '20px',
             }}
           />
           <div slot="content-end">
             <CalciteAction
-              icon={appTheme === 'dark' ? 'brightness' : 'moon'}
-              text="Toggle theme"
+              text="View on Github"
               onClick={() =>
-                setAppTheme(appTheme === 'dark' ? 'light' : 'dark')
+                window.open(
+                  'https://github.com/am-maneaters/arcgis-react',
+                  '_blank'
+                )
               }
+              scale="l"
+            >
+              <GithubIcon />
+            </CalciteAction>
+            <CalciteAction
+              icon={theme === 'dark' ? 'brightness' : 'moon'}
+              text="Toggle theme"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              scale="l"
             />
           </div>
         </CalciteNavigation>
 
         <CalciteShellPanel slot="panel-start" collapsed>
-          {actions}
+          <CalciteActionBar slot="action-bar" expanded>
+            {actions}
+          </CalciteActionBar>
         </CalciteShellPanel>
 
         {currentAction && (
           <Suspense
             fallback={
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
+              <div className="w-full h-full">
                 <CalciteLoader label="Sample Loading" />
               </div>
             }
           >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                padding: 16,
-                backgroundSize: '16px 16px',
-                backgroundColor: 'var(--calcite-ui-background)',
-                backgroundImage:
-                  'radial-gradient( circle, var(--calcite-ui-border-3) 1px, transparent 1px )',
-              }}
-            >
-              <div
-                style={{
-                  height: 800,
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  boxShadow:
-                    '0 4px 16px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-                }}
-              >
+            <div className="flex flex-col gap-4 p-4 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
+              <div className="flex-1 min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
                 {currentAction?.component && <currentAction.component />}
               </div>
-              <CodeDisplay
-                codePromise={currentAction?.code}
-                appTheme={appTheme}
-              />
+              <div className="shadow-3xl overflow-auto rounded-lg">
+                {currentAction.code && (
+                  <CodeDisplayAsync codePromise={currentAction?.code} />
+                )}
+              </div>
             </div>
           </Suspense>
         )}

@@ -4,6 +4,8 @@ import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/vs';
 import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
 
+import { useTheme } from '../contexts/ThemeProvider';
+
 SyntaxHighlighter.registerLanguage('tsx', tsx);
 
 function formatImports(code: string): string {
@@ -33,12 +35,10 @@ function formatImports(code: string): string {
   return newLines.join('\n');
 }
 
-export function CodeDisplay({
+export function CodeDisplayAsync({
   codePromise,
-  appTheme,
 }: {
   codePromise: () => Promise<typeof import('*?raw')>;
-  appTheme: 'dark' | 'light';
 }) {
   const [code, setCode] = useState('');
 
@@ -49,15 +49,15 @@ export function CodeDisplay({
     });
   }, [codePromise]);
 
+  return <CodeDisplay code={code} />;
+}
+
+export function CodeDisplay({ code }: { code: string }) {
+  const { theme } = useTheme();
   return (
     <SyntaxHighlighter
-      style={appTheme === 'dark' ? vscDark : vscLight}
-      customStyle={{
-        borderRadius: '4px',
-        overflow: 'hidden',
-        boxShadow:
-          '0 4px 16px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-      }}
+      style={theme === 'dark' ? vscDark : vscLight}
+      customStyle={{ margin: 0 }}
       codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
       language="tsx"
     >

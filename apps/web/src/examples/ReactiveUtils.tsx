@@ -1,24 +1,19 @@
-import MapView from '@arcgis/core/views/MapView';
-import {
-  CalciteBlock,
-  CalciteLabel,
-  CalcitePanel,
-  CalciteShellPanel,
-} from '@esri/calcite-components-react';
+import { CalciteBlock, CalciteLabel } from '@esri/calcite-components-react';
 import {
   ArcLayerList,
   ArcMapView,
   ArcUI,
+  useViewState,
   useWatchEffect,
   useWatchState,
 } from 'arcgis-react';
 import { useState } from 'react';
 
 export default function Example() {
-  const [mapView, setMapView] = useState<MapView>();
+  const [mapView, setMapView] = useViewState<__esri.MapView>();
   const [scale, setScale] = useState<string>();
-  const [previousExtent, setPreviousExtent] = useState<__esri.Extent>();
-  const [currentExtent, setCurrentExtent] = useState<__esri.Extent>();
+  const [prevCenter, setPrevCenter] = useState<__esri.Point>();
+  const [center, setCenter] = useState<__esri.Point>();
 
   // Match the state of Popup visbility
   const popupVisible = useWatchState(() => mapView?.popup.visible, [mapView]);
@@ -35,18 +30,18 @@ export default function Example() {
     [mapView?.allLayerViews]
   );
 
-  // When the map is stationary, update the scale and extent
+  // When the map is stationary, update the scale and center
   useWatchEffect(
-    () => [mapView?.stationary, mapView?.extent, mapView?.scale] as const,
-    ([stationary, extent, scale], [prevStationary]) => {
+    () => [mapView?.stationary, mapView?.center, mapView?.scale] as const,
+    ([stationary, newCenter, scale], [prevStationary]) => {
       if (stationary) {
         if (scale) setScale((Math.round(scale * 100) / 100).toFixed(0));
-        if (extent !== currentExtent) {
-          setCurrentExtent(extent);
-          setPreviousExtent(currentExtent);
+        if (newCenter !== center) {
+          setCenter(newCenter);
+          setPrevCenter(center);
         }
       } else if (prevStationary) {
-        setCurrentExtent(extent);
+        setCenter(newCenter);
       }
     }
   );
@@ -65,48 +60,18 @@ export default function Example() {
         <ArcUI position="top-right">
           <ArcLayerList />
         </ArcUI>
-      </ArcMapView>
-
-      {/* Side Panel UI */}
-      <CalciteShellPanel slot="panel-end" position="end" style={titleStyle}>
-        <CalcitePanel>
-          <CalciteBlock
-            heading="Extent Property"
-            description="Displays the current and previous extent value when the extent has changed."
-            collapsible
-            open
-          >
-            {currentExtent && <Extent isNew extent={currentExtent} />}
-            {previousExtent && <Extent extent={previousExtent} />}
-          </CalciteBlock>
-          <CalciteBlock
-            heading="Scale Property"
-            description="Displays the current scale value when the scale has changed."
-            collapsible
-            open
-          >
+        <ArcUI position="bottom-left" style={{ width: 300 }}>
+          <CalciteBlock heading="Properties" open>
+            <Point isNew point={center} />
+            <Point point={prevCenter} />
             <CalciteLabel layout="inline-space-between">
               <span style={titleStyle}>Current scale: </span>
               {scale}
             </CalciteLabel>
-          </CalciteBlock>
-          <CalciteBlock
-            heading="Popup Visible Property"
-            description="Displays the value of the popup's visible property on the view."
-            collapsible
-            open
-          >
             <CalciteLabel layout="inline-space-between">
               <span style={titleStyle}>Popup visible: </span>
               <b>{popupVisible ? 'true' : 'false'}</b>
             </CalciteLabel>
-          </CalciteBlock>
-          <CalciteBlock
-            heading="Visible Layers Properties"
-            description="Checks if all the layers are visible or not and shows the current visible layers in the map."
-            collapsible
-            open
-          >
             <CalciteLabel>
               <span style={titleStyle}>
                 {allLayersVisible ? 'All' : 'Not all'} layers are visible
@@ -116,33 +81,20 @@ export default function Example() {
               ))}
             </CalciteLabel>
           </CalciteBlock>
-        </CalcitePanel>
-      </CalciteShellPanel>
+        </ArcUI>
+      </ArcMapView>
     </div>
   );
 }
 
-const Coord = ({ num = 0, label = '' }) => (
-  <div>
-    {label}: {(Math.round(num * 100) / 100).toFixed(0)}
-  </div>
-);
+const Coord = ({ num = 0 }) => (Math.round(num * 100) / 100).toFixed(1);
 
-const Extent = ({
-  isNew = false,
-  extent,
-}: {
-  isNew?: boolean;
-  extent: __esri.Extent;
-}) => (
-  <CalciteLabel>
-    <span style={titleStyle}>
-      {isNew ? 'Current extent' : 'Previous extent'}
-    </span>
-    <Coord label="xmax" num={extent.xmax} />
-    <Coord label="xmin" num={extent.xmin} />
-    <Coord label="ymax" num={extent.ymax} />
-    <Coord label="ymin" num={extent.ymin} />
+const Point = ({ isNew = false, point = { longitude: 0, latitude: 0 } }) => (
+  <CalciteLabel layout="inline-space-between">
+    <span style={titleStyle}>{isNew ? 'Current' : 'Previous'} center</span>
+    <div className="flex">
+      <Coord num={point.longitude} />, <Coord num={point.latitude} />
+    </div>
   </CalciteLabel>
 );
 

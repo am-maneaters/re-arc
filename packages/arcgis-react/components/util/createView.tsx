@@ -72,10 +72,5 @@ export function createViewComponent<
     );
   };
 
-  return memo(ArcView, (t, b) => {
-    const eq = isEqual(t, b);
-    console.log('eq', eq);
-    console.log(t, b);
-    return eq;
-  });
+  return memo(ArcView, isEqual);
 }

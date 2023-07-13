@@ -23,10 +23,10 @@ export default function Example() {
   );
 
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100%', display: 'flex' }}>
       {/* Map View */}
       <ArcMapView
-        style={{ height: '50%' }}
+        style={{ flex: 1 }}
         map={{ basemap: 'streets-vector' }}
         zoom={3}
         center={[-100.4593, 36.9014]}
@@ -36,7 +36,7 @@ export default function Example() {
 
       {/* Scene View */}
       <ArcSceneView
-        style={{ height: '50%' }}
+        style={{ flex: 1 }}
         map={{ basemap: 'streets-vector' }}
         zoom={4}
         center={[-100.4593, 36.9014]}

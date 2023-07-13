@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
+import isEqual from 'react-fast-compare';
 
-/**
- * This component is used to make a property on a ArcGIS Accessor reactive.
- */
-export function ArcReactiveProp({
+function ArcReactivePropBase({
   accessor,
   property,
   value,
@@ -13,7 +11,15 @@ export function ArcReactiveProp({
   value: any;
 }): null {
   useEffect(() => {
+    console.log('setting', property, value);
     accessor.set(property, value);
   }, [accessor, property, value]);
   return null;
 }
+
+/**
+ * This component is used to make a property on a ArcGIS Accessor reactive.
+ */
+const ArcReactivePropMemo = memo(ArcReactivePropBase, isEqual);
+
+export const ArcReactiveProp = ArcReactivePropMemo;

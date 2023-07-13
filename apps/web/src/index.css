@@ -1,7 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .bg-dotted {
+    background-size: 16px 16px;
+    background-color: var(--calcite-ui-background);
+    background-image: radial-gradient( circle, var(--calcite-ui-border-3) 1px, transparent 1px );
+  }
+}
 
 body {
-  font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+  font-family: 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
