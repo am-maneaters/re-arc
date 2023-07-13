@@ -38,14 +38,14 @@ function CustomZoomComponent() {
       <CalciteAction
         icon="plus"
         text="Zoom In"
-        scale="s"
+        scale="l"
         disabled={canZoomIn ? undefined : true}
         onClick={() => widget.zoomIn()}
       />
       <CalciteAction
         icon="minus"
         text="Zoom Out"
-        scale="s"
+        scale="l"
         disabled={canZoomOut ? undefined : true}
         onClick={() => widget.zoomOut()}
       />

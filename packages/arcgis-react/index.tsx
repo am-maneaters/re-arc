@@ -41,7 +41,11 @@ export { ArcWMTSLayer } from './components/ArcLayer/generated/ArcWMTSLayer';
 export { ArcUI } from './components/ArcUI/ArcUI';
 export { ArcMapView } from './components/ArcView/ArcMapView';
 export { ArcSceneView } from './components/ArcView/ArcSceneView';
-export { useMapView, useSceneView } from './components/ArcView/ViewContext';
+export {
+  useMapView,
+  useSceneView,
+  useView,
+} from './components/ArcView/ViewContext';
 export { ArcAreaMeasurement2D } from './components/ArcWidget/generated/ArcAreaMeasurement2D';
 export { ArcAreaMeasurement3D } from './components/ArcWidget/generated/ArcAreaMeasurement3D';
 export { ArcAttachments } from './components/ArcWidget/generated/ArcAttachments';
@@ -93,6 +97,7 @@ export { ArcUtilityNetworkTrace } from './components/ArcWidget/generated/ArcUtil
 export { ArcWeather } from './components/ArcWidget/generated/ArcWeather';
 export { ArcWidget } from './components/ArcWidget/generated/ArcWidget';
 export { ArcZoom } from './components/ArcWidget/generated/ArcZoom';
+export { useViewState } from './hooks/useViewState';
 export {
   useArcState,
   useOnEvent,

@@ -14,7 +14,6 @@ function formatImports(code: string): string {
 
   for (const line of lines) {
     if (line.startsWith('import ') && !line.endsWith(';')) {
-      console.log('start import block', line);
       inImportBlock = true;
       newLines.push(line);
     } else if (inImportBlock) {

@@ -1,45 +1,46 @@
-import WebMap from '@arcgis/core/WebMap';
-import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcMapView, ArcSceneView, ArcSearch, ArcUI } from 'arcgis-react';
-import React, { useRef } from 'react';
+import {
+  ArcMapView,
+  ArcSceneView,
+  useViewState,
+  useWatchEffect,
+} from 'arcgis-react';
 
 export default function MultiView() {
-  const [currentView, setCurrentView] = React.useState<'map' | 'scene'>('map');
+  const [map, onMapViewCreated] = useViewState<__esri.MapView>();
+  const [scene, onSceneViewCreated] = useViewState<__esri.SceneView>();
 
-  const mapInstance = useRef(new WebMap({ basemap: 'streets-vector' }));
-
-  const mapVisible = currentView === 'map';
+  useWatchEffect(
+    () => map?.viewpoint,
+    () =>
+      (map?.interacting || map?.animation) &&
+      scene?.set('viewpoint', map.viewpoint)
+  );
+  useWatchEffect(
+    () => scene?.viewpoint,
+    () =>
+      (scene?.interacting || scene?.animation) &&
+      map?.set('viewpoint', scene.viewpoint)
+  );
 
   return (
     <div style={{ height: '100%' }}>
       {/* Map View */}
       <ArcMapView
-        style={{ height: '100%', display: mapVisible ? 'flex' : 'none' }}
-        map={mapInstance.current}
+        style={{ height: '50%' }}
+        map={{ basemap: 'streets-vector' }}
         zoom={3}
-        center={[-100.4593, 36.9014]}
-      >
-        <ArcUI position="top-right">
-          <ArcSearch />
-        </ArcUI>
-        <ArcUI position="bottom-left">
-          <CalciteButton onClick={() => setCurrentView('scene')}>
-            Show Scene
-          </CalciteButton>
-        </ArcUI>
-      </ArcMapView>
+        onViewCreated={onMapViewCreated}
+        constraints={{ snapToZoom: false }}
+      />
 
       {/* Scene View */}
       <ArcSceneView
-        style={{ height: '100%', display: mapVisible ? 'none' : 'flex' }}
-        map={mapInstance.current}
-      >
-        <ArcUI position="bottom-left">
-          <CalciteButton onClick={() => setCurrentView('map')}>
-            Show Map
-          </CalciteButton>
-        </ArcUI>
-      </ArcSceneView>
+        style={{ height: '50%' }}
+        map={{ basemap: 'streets-vector' }}
+        zoom={3}
+        center={[-100.4593, 36.9014]}
+        onViewCreated={onSceneViewCreated}
+      />
     </div>
   );
 }

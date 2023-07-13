@@ -71,7 +71,7 @@ const Examples: ActionItem[] = [
     icon: '3d-glasses',
   },
   {
-    name: 'Custom Zoom',
+    name: 'Custom Zoom Component',
     component: lazy(() => import('./examples/CustomZoom')),
     code: () => import('./examples/CustomZoom?raw'),
     icon: 'magnifying-glass',
