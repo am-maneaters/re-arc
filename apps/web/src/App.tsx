@@ -70,6 +70,12 @@ const Examples: ActionItem[] = [
     code: () => import('./examples/MultiView?raw'),
     icon: '3d-glasses',
   },
+  {
+    name: 'Custom Zoom',
+    component: lazy(() => import('./examples/CustomZoom')),
+    code: () => import('./examples/CustomZoom?raw'),
+    icon: 'magnifying-glass',
+  },
   // {
   //   name: 'FeatureSelection',
   //   component: lazy(() => import('./examples/FeatureSelection')),
