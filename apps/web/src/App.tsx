@@ -144,7 +144,7 @@ export function App() {
               />
             </CalciteAction>
 
-            <CalciteActionGroup>{actions}</CalciteActionGroup>
+            {actions}
 
             <CalciteActionGroup slot="bottom-actions">
               <CalciteAction
@@ -175,7 +175,7 @@ export function App() {
               </div>
             }
           >
-            <div className="flex flex-col xl:justify-center xl:flex-row-reverse gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
+            <div className="flex flex-col xl:justify-center xl:flex-row-reverse gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-4xl [&>*]:w-full">
               <div className="flex-1 xl:h-full min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
                 {currentAction?.component && <currentAction.component />}
               </div>

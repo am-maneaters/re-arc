@@ -11,7 +11,6 @@ function ArcReactivePropBase({
   value: any;
 }): null {
   useEffect(() => {
-    console.log('setting', property, value);
     accessor.set(property, value);
   }, [accessor, property, value]);
   return null;
