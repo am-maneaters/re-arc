@@ -2,6 +2,8 @@ import calcitePreset from './calcite-preset';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  // Use manual theming rather than Tailwind's automatic dark mode
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   presets: [calcitePreset],
   theme: {

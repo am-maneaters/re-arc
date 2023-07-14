@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/vs';
-import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
+import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/material-light';
+import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/material-oceanic';
 
 import { useTheme } from '../contexts/ThemeProvider';
 
@@ -59,9 +59,10 @@ export function CodeDisplay({ code }: { code: string }) {
       style={theme === 'dark' ? vscDark : vscLight}
       customStyle={{ margin: 0 }}
       codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
+      lineProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
       language="tsx"
     >
-      {code}
+      {code.trim()}
     </SyntaxHighlighter>
   );
 }

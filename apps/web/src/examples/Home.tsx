@@ -2,27 +2,25 @@ import { CodeDisplay } from '../components/CodeDisplay';
 
 export default function Home() {
   return (
-    <div className="prose dark:prose-invert prose-neutral max-w-none h-full p-4 overflow-auto box-border">
+    <div className="prose dark:prose-invert max-w-none h-full p-4 overflow-auto box-border">
       <h1>Quickstart</h1>
       <p>
-        arcgis-react is a powerful library that provides React wrappers for the
-        @arcgis/core library, enabling you to build interactive and feature-rich
-        mapping applications using React and the ArcGIS JS SDK. This library
-        combines the capabilities of ArcGIS with the flexibility and simplicity
-        of React, making it easy for developers to create engaging maps and
-        spatial applications.
+        arcgis-react is a Typescript library that provides React wrappers for
+        the <code>@arcgis/core</code> library, enabling you to build interactive
+        and feature-rich mapping applications using React and the ArcGIS JS SDK.
+        This library combines the capabilities of ArcGIS with the flexibility
+        and simplicity of React, making it easy for developers to create
+        engaging maps and spatial applications.
       </p>
       <h2>Installation</h2>
       <p>Install `arcgis-react` using your favorite package manager</p>
-      <pre>
-        <code>
-          npm install arcgis-react @arcgis/core
-          <br />
-          yarn add arcgis-react @arcgis/core
-          <br />
-          pnpm add arcgis-react @arcgis/core
-        </code>
-      </pre>
+      <CodeDisplay
+        code={`
+npm install arcgis-react
+yarn add arcgis-react
+pnpm add arcgis-react`}
+      />
+
       <h2>Configuration</h2>
       <p>
         arcgis-react requires that you have both React & the ArcGIS JS API
@@ -39,10 +37,10 @@ export default function Home() {
         arcgis-react:
       </p>
       <CodeDisplay
-        code={`import { ArcMapView } from 'arcgis-react';
-
+        code={`
+import { ArcMapView } from 'arcgis-react';
 const MyMap = () => <ArcMapView zoom={10} center={[-122.4194, 37.7749]} />;
-`}
+        `}
       />
 
       <h2>Advanced Usage</h2>
@@ -89,10 +87,12 @@ const MyMap = () => <ArcMapView zoom={10} center={[-122.4194, 37.7749]} />;
             target="_blank"
             rel="noreferrer"
           >
-            Calcite Componets
+            Calcite Design System
           </a>
-          : If you are new to React, the official React documentation is a great
-          place to start learning about React concepts and best practices.
+          : Calcite Design System is a collection of design and development
+          resources designed and maintained by Esri. It provides a set of
+          reusable components for building mapping applications (this website is
+          built using Calcite components!)
         </li>
       </ul>
     </div>

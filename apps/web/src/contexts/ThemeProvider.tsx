@@ -19,18 +19,23 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
-
-  useEffect(() => {
-    const theme = window.localStorage.getItem('arcgis-react-theme') as Theme;
-    if (theme) {
-      setTheme(theme);
-    }
-  }, []);
+  const [theme, setTheme] = useState<Theme>(
+    (window.localStorage.getItem('arcgis-react-theme') as Theme) ?? 'dark'
+  );
 
   useEffect(() => {
     window.localStorage.setItem('arcgis-react-theme', theme);
   }, [theme]);
+
+  // update prefers-color-scheme media query
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const listener = () => {
+      setTheme(mediaQuery.matches ? 'dark' : 'light');
+    };
+    mediaQuery.addEventListener('change', listener);
+    return () => mediaQuery.removeEventListener('change', listener);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>

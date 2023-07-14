@@ -3,9 +3,8 @@ import arcgisLightCss from '@arcgis/core/assets/esri/themes/light/main.css?inlin
 import {
   CalciteAction,
   CalciteActionBar,
+  CalciteActionGroup,
   CalciteLoader,
-  CalciteNavigation,
-  CalciteNavigationLogo,
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
@@ -14,7 +13,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import logoDark from './assets/arcgis-react-logo-dark.png';
 import logoLight from './assets/arcgis-react-logo-light.png';
 import GithubIcon from './assets/GithubIcon';
-import { CodeDisplay, CodeDisplayAsync } from './components/CodeDisplay';
+import { CodeDisplayAsync } from './components/CodeDisplay';
 import { useTheme } from './contexts/ThemeProvider';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
@@ -118,42 +117,53 @@ export function App() {
   }, [currentAction]);
 
   return (
-    <div style={{ colorScheme: theme }}>
-      <CalciteShell className={`calcite-mode-${theme}`}>
-        <CalciteNavigation slot="header">
-          <CalciteNavigationLogo
-            slot="logo"
-            heading="ArcGIS React"
-            thumbnail={theme === 'light' ? logoLight : logoDark}
-            style={{
-              '--calcite-font-size-0': '20px',
-            }}
-          />
-          <div slot="content-end">
+    <div style={{ colorScheme: theme }} className={`${theme}`}>
+      <CalciteShell className={`calcite-mode-${theme} bg-dotted`}>
+        <CalciteShellPanel
+          slot="panel-start"
+          displayMode="float"
+          collapsed
+          className="!p-8 !pr-2"
+        >
+          <CalciteActionBar
+            slot="action-bar"
+            overflowActionsDisabled
+            expanded
+            className="shadow-3xl rounded-lg"
+          >
             <CalciteAction
-              text="View on Github"
-              onClick={() =>
-                window.open(
-                  'https://github.com/am-maneaters/arcgis-react',
-                  '_blank'
-                )
-              }
-              scale="l"
+              text="ArcGIS React"
+              style={{
+                '--calcite-font-size--1': '20px',
+                '--calcite-font-weight-normal': 'bold',
+              }}
             >
-              <GithubIcon />
+              <img
+                src={theme === 'light' ? logoLight : logoDark}
+                width="16px"
+              />
             </CalciteAction>
-            <CalciteAction
-              icon={theme === 'dark' ? 'brightness' : 'moon'}
-              text="Toggle theme"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              scale="l"
-            />
-          </div>
-        </CalciteNavigation>
 
-        <CalciteShellPanel slot="panel-start" collapsed>
-          <CalciteActionBar slot="action-bar" expanded>
-            {actions}
+            <CalciteActionGroup>{actions}</CalciteActionGroup>
+
+            <CalciteActionGroup slot="bottom-actions">
+              <CalciteAction
+                icon={theme === 'dark' ? 'brightness' : 'moon'}
+                text="Toggle theme"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              />
+              <CalciteAction
+                text="View on Github"
+                onClick={() =>
+                  window.open(
+                    'https://github.com/am-maneaters/arcgis-react',
+                    '_blank'
+                  )
+                }
+              >
+                <GithubIcon />
+              </CalciteAction>
+            </CalciteActionGroup>
           </CalciteActionBar>
         </CalciteShellPanel>
 
@@ -165,15 +175,15 @@ export function App() {
               </div>
             }
           >
-            <div className="flex flex-col gap-4 p-4 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
+            <div className="flex flex-col gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
               <div className="flex-1 min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
                 {currentAction?.component && <currentAction.component />}
               </div>
-              <div className="shadow-3xl overflow-auto rounded-lg">
-                {currentAction.code && (
+              {currentAction.code && (
+                <div className="shadow-3xl overflow-auto rounded-lg">
                   <CodeDisplayAsync codePromise={currentAction?.code} />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </Suspense>
         )}

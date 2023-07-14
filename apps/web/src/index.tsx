@@ -1,4 +1,5 @@
 import './index.css';
+import '@esri/calcite-components/dist/calcite/calcite.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';

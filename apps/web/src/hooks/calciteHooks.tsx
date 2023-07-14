@@ -22,12 +22,6 @@ export function useCalciteActionBar(
     [currentActionName, items]
   );
 
-  const action: React.MouseEventHandler<HTMLCalciteActionElement> = (e) => {
-    const action = e.currentTarget.text;
-
-    setCurrentActionName(action);
-  };
-
   const actions = useMemo(
     () =>
       items.map((item) => (
@@ -35,7 +29,7 @@ export function useCalciteActionBar(
           key={item.name}
           text={item.name}
           icon={item.icon}
-          onClick={action}
+          onClick={() => setCurrentActionName(item.name)}
           active={currentActionName === item.name ? true : undefined}
         />
       )),
