@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/material-light';
-import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/material-oceanic';
+import vscDark from 'react-syntax-highlighter/dist/esm/styles/prism/one-dark';
+import vscLight from 'react-syntax-highlighter/dist/esm/styles/prism/one-light';
 
 import { useTheme } from '../contexts/ThemeProvider';
 

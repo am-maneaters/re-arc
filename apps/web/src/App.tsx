@@ -8,7 +8,7 @@ import {
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
 import logoDark from './assets/arcgis-react-logo-dark.png';
 import logoLight from './assets/arcgis-react-logo-light.png';
@@ -175,12 +175,12 @@ export function App() {
               </div>
             }
           >
-            <div className="flex flex-col gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
-              <div className="flex-1 min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
+            <div className="flex flex-col xl:justify-center xl:flex-row-reverse gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-3xl [&>*]:w-full">
+              <div className="flex-1 xl:h-full min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
                 {currentAction?.component && <currentAction.component />}
               </div>
               {currentAction.code && (
-                <div className="shadow-3xl overflow-auto rounded-lg">
+                <div className="shadow-3xl overflow-auto rounded-lg xl:min-h-min xl:max-h-full xl:flex-1">
                   <CodeDisplayAsync codePromise={currentAction?.code} />
                 </div>
               )}
