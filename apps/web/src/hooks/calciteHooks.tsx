@@ -1,13 +1,10 @@
-import {
-  CalciteAction,
-  CalciteActionBar,
-} from '@esri/calcite-components-react';
+import { CalciteAction } from '@esri/calcite-components-react';
 import { useMemo, useState } from 'react';
 
 export type ActionItem = {
   name: string;
   icon: string;
-  code: () => Promise<typeof import('*?raw')>;
+  code?: () => Promise<typeof import('*?raw')>;
   component: React.LazyExoticComponent<() => JSX.Element>;
 };
 
@@ -16,7 +13,7 @@ export function useCalciteActionBar(
   defaultValue: ActionItem['name']
 ): {
   currentAction: ActionItem | undefined;
-  actions: JSX.Element;
+  actions: JSX.Element[];
 } {
   const [currentActionName, setCurrentActionName] = useState(defaultValue);
 
@@ -25,37 +22,17 @@ export function useCalciteActionBar(
     [currentActionName, items]
   );
 
-  const action: React.MouseEventHandler<HTMLCalciteActionElement> = (e) => {
-    const action = e.currentTarget.text;
-
-    setCurrentActionName(action);
-  };
-
   const actions = useMemo(
-    () => (
-      <CalciteActionBar slot="action-bar" expanded>
+    () =>
+      items.map((item) => (
         <CalciteAction
-          text="ArcGIS React"
-          icon="globe"
-          scale="l"
-          style={{
-            '--calcite-font-size-0': '20px',
-            '--calcite-font-weight-normal': 'bold',
-            '--calcite-ui-text-3': 'white',
-          }}
+          key={item.name}
+          text={item.name}
+          icon={item.icon}
+          onClick={() => setCurrentActionName(item.name)}
+          active={currentActionName === item.name ? true : undefined}
         />
-
-        {items.map((item) => (
-          <CalciteAction
-            key={item.name}
-            text={item.name}
-            icon={item.icon}
-            onClick={action}
-            active={currentActionName === item.name ? true : undefined}
-          />
-        ))}
-      </CalciteActionBar>
-    ),
+      )),
     [currentActionName, items]
   );
 

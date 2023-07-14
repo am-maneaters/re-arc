@@ -1,18 +1,40 @@
+import arcgisDarkCss from '@arcgis/core/assets/esri/themes/dark/main.css?inline';
+import arcgisLightCss from '@arcgis/core/assets/esri/themes/light/main.css?inline';
 import {
+  CalciteAction,
+  CalciteActionBar,
+  CalciteActionGroup,
   CalciteLoader,
   CalciteShell,
   CalciteShellPanel,
 } from '@esri/calcite-components-react';
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import docco from 'react-syntax-highlighter/dist/esm/styles/prism/vsc-dark-plus';
+import { lazy, Suspense, useEffect } from 'react';
 
+import logoDark from './assets/arcgis-react-logo-dark.png';
+import logoLight from './assets/arcgis-react-logo-light.png';
+import GithubIcon from './assets/GithubIcon';
+import { CodeDisplayAsync } from './components/CodeDisplay';
+import { useTheme } from './contexts/ThemeProvider';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';
 
-SyntaxHighlighter.registerLanguage('tsx', tsx);
-
 const Examples: ActionItem[] = [
+  {
+    name: 'Home',
+    component: lazy(() => import('./examples/Home')),
+    icon: 'home',
+  },
+  {
+    name: 'Map View',
+    component: lazy(() => import('./examples/MapView')),
+    code: () => import('./examples/MapView?raw'),
+    icon: 'map',
+  },
+  {
+    name: 'Scene View',
+    component: lazy(() => import('./examples/SceneView')),
+    code: () => import('./examples/SceneView?raw'),
+    icon: 'globe',
+  },
   {
     name: 'ReactiveUtils',
     component: lazy(() => import('./examples/ReactiveUtils')),
@@ -56,20 +78,33 @@ const Examples: ActionItem[] = [
     icon: '3d-glasses',
   },
   {
-    name: 'Simple',
-    component: lazy(() => import('./examples/Simple')),
-    code: () => import('./examples/Simple?raw'),
-    icon: 'map',
+    name: 'Custom Zoom Component',
+    component: lazy(() => import('./examples/CustomZoom')),
+    code: () => import('./examples/CustomZoom?raw'),
+    icon: 'magnifying-glass',
   },
-  {
-    name: 'FeatureSelection',
-    component: lazy(() => import('./examples/FeatureSelection')),
-    code: () => import('./examples/FeatureSelection?raw'),
-    icon: 'select',
-  },
+  // {
+  //   name: 'FeatureSelection',
+  //   component: lazy(() => import('./examples/FeatureSelection')),
+  //   code: () => import('./examples/FeatureSelection?raw'),
+  //   icon: 'select',
+  // },
 ];
 
 export function App() {
+  const { theme, setTheme } = useTheme();
+
+  // Set the ArcGIS theme on the document head
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = theme === 'dark' ? arcgisDarkCss : arcgisLightCss;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, [theme]);
+
   const { currentAction, actions } = useCalciteActionBar(
     Examples,
     window.location.hash
@@ -82,60 +117,77 @@ export function App() {
   }, [currentAction]);
 
   return (
-    <div>
-      <CalciteShell className="calcite-mode-dark">
-        <CalciteShellPanel slot="panel-start" collapsed>
-          {actions}
+    <div style={{ colorScheme: theme }} className={`${theme}`}>
+      <CalciteShell className={`calcite-mode-${theme} bg-dotted`}>
+        <CalciteShellPanel
+          slot="panel-start"
+          displayMode="float"
+          collapsed
+          className="!p-8 !pr-2"
+        >
+          <CalciteActionBar
+            slot="action-bar"
+            overflowActionsDisabled
+            expanded
+            className="shadow-3xl rounded-lg"
+          >
+            <CalciteAction
+              text="ArcGIS React"
+              style={{
+                '--calcite-font-size--1': '20px',
+                '--calcite-font-weight-normal': 'bold',
+              }}
+            >
+              <img
+                src={theme === 'light' ? logoLight : logoDark}
+                width="16px"
+              />
+            </CalciteAction>
+
+            {actions}
+
+            <CalciteActionGroup slot="bottom-actions">
+              <CalciteAction
+                icon={theme === 'dark' ? 'brightness' : 'moon'}
+                text="Toggle theme"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              />
+              <CalciteAction
+                text="View on Github"
+                onClick={() =>
+                  window.open(
+                    'https://github.com/am-maneaters/arcgis-react',
+                    '_blank'
+                  )
+                }
+              >
+                <GithubIcon />
+              </CalciteAction>
+            </CalciteActionGroup>
+          </CalciteActionBar>
         </CalciteShellPanel>
 
         {currentAction && (
           <Suspense
             fallback={
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
+              <div className="w-full h-full">
                 <CalciteLoader label="Sample Loading" />
               </div>
             }
           >
-            <div style={{ padding: 16 }}>
-              <h1>{currentAction?.name}</h1>
-              <div style={{ height: 800 }}>
+            <div className="flex flex-col xl:justify-center xl:flex-row-reverse gap-8 p-8 bg-dotted min-h-full items-center box-border [&>*]:max-w-4xl [&>*]:w-full">
+              <div className="flex-1 xl:h-full min-h-[50vh] rounded-lg overflow-hidden shadow-3xl bg-foreground-1">
                 {currentAction?.component && <currentAction.component />}
               </div>
-              <CodeDisplay codePromise={currentAction?.code} />
+              {currentAction.code && (
+                <div className="shadow-3xl overflow-auto rounded-lg xl:min-h-min xl:max-h-full xl:flex-1">
+                  <CodeDisplayAsync codePromise={currentAction?.code} />
+                </div>
+              )}
             </div>
           </Suspense>
         )}
       </CalciteShell>
-    </div>
-  );
-}
-
-function CodeDisplay({
-  codePromise,
-}: {
-  codePromise: () => Promise<typeof import('*?raw')>;
-}) {
-  const [code, setCode] = useState('');
-
-  useEffect(() => {
-    codePromise().then((code) => setCode(code.default));
-  }, [codePromise]);
-
-  return (
-    <div>
-      <h2>Code</h2>
-      <SyntaxHighlighter
-        style={{ ...docco }}
-        codeTagProps={{ style: { fontFamily: 'Fira Code, monospace' } }}
-        language="tsx"
-      >
-        {code}
-      </SyntaxHighlighter>
     </div>
   );
 }

@@ -6,29 +6,7 @@ import React from 'react';
 
 import { getCSVRenderer } from './helpers/FeatureSelectionHelpers';
 
-const CSV_URL =
-  'https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/csvLayer-nps/data/nps_establishments.csv';
-
-const baseLayers = [
-  new FeatureLayer({
-    url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2',
-    renderer: new SimpleRenderer({
-      symbol: new SimpleFillSymbol({
-        color: '#f0ebe4',
-        outline: {
-          color: '#DCDCDC',
-          width: '0.5px',
-        },
-      }),
-    }),
-    spatialReference: {
-      wkid: 102_003,
-    },
-    effect: 'drop-shadow(-10px, 10px, 6px gray)',
-  }),
-];
-
-export default function FeatureSelection() {
+export default function Example() {
   const [mapView, setMapView] = React.useState<__esri.MapView>();
   const [csvLayerView, setCSVLayerView] = React.useState<__esri.CSVLayerView>();
   return (
@@ -106,3 +84,25 @@ export default function FeatureSelection() {
     </div>
   );
 }
+
+const CSV_URL =
+  'https://ubatsukh.github.io/arcgis-js-api-demos/devsummit2021/csvLayer-nps/data/nps_establishments.csv';
+
+const baseLayers = [
+  new FeatureLayer({
+    url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2',
+    renderer: new SimpleRenderer({
+      symbol: new SimpleFillSymbol({
+        color: '#f0ebe4',
+        outline: {
+          color: '#DCDCDC',
+          width: '0.5px',
+        },
+      }),
+    }),
+    spatialReference: {
+      wkid: 102_003,
+    },
+    effect: 'drop-shadow(-10px, 10px, 6px gray)',
+  }),
+];

@@ -1,5 +1,5 @@
-import '@arcgis/core/assets/esri/themes/dark/main.css';
 import './index.css';
+import '@esri/calcite-components/dist/calcite/calcite.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
@@ -16,14 +16,18 @@ const queryClient = new QueryClient({
 
 import { defineCustomElements } from '@esri/calcite-components/dist/loader';
 
+import { ThemeProvider } from './contexts/ThemeProvider';
+
 // CDN hosted assets
 defineCustomElements(window);
 
 // Render the application
 root.render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>
 );
