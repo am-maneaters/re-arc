@@ -16,4 +16,6 @@ export default defineConfig({
   external: ['react', '@arcgis/core'],
   ignoreWatch: ['**/node_modules/**', '**/dist/**', '**/.turbo/**'],
   bundle: false,
+  skipNodeModulesBundle: true,
+  target: 'es2020',
 });
