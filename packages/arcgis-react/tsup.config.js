@@ -1,7 +1,13 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['components/**/*.ts[x ]', 'hooks/**/*.tsx[x ]', 'index.tsx'],
+  entry: [
+    'components/**/*.tsx',
+    'components/**/*.ts',
+    'hooks/**/*.tsx',
+    'hooks/**/*.ts',
+    'index.tsx',
+  ],
   clean: true,
   treeshake: true,
   dts: true,
