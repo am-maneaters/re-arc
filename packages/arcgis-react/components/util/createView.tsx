@@ -27,9 +27,11 @@ export function createViewComponent<
         new ViewConstructor({
           map:
             map && 'constructed' in map && map.constructed
-              ? map
+              ? (map as __esri.MapProperties)
               : new WebMap(map),
-          ...mapViewProps,
+          ...(mapViewProps as
+            | __esri.MapViewProperties
+            | __esri.SceneViewProperties),
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       []

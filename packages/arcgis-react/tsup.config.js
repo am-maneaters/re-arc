@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['index.tsx'],
+  entry: ['components/**/*.ts[x ]', 'hooks/**/*.tsx[x ]', 'index.tsx'],
   clean: true,
   treeshake: true,
   dts: true,
@@ -9,4 +9,5 @@ export default defineConfig({
   splitting: true,
   external: ['react', '@arcgis/core'],
   ignoreWatch: ['**/node_modules/**', '**/dist/**', '**/.turbo/**'],
+  bundle: false,
 });
