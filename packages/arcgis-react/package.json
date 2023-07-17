@@ -1,6 +1,6 @@
 {
   "name": "arcgis-react",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": false,
   "homepage": "https://github.com/am-maneaters/arcgis-react",
   "description": "React hook wrappers around the @arcgis/core library",
@@ -9,6 +9,9 @@
   "sideEffects": false,
   "types": "./dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts\"",
@@ -31,5 +34,10 @@
   },
   "dependencies": {
     "react-fast-compare": "^3.2.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
   }
 }
