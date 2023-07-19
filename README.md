@@ -19,32 +19,12 @@
 
 # View examples at [arcgis-react.netlify.app](https://arcgis-react.netlify.app)!
 
-# Quick Start
+## Additional Resources
+- **[React Documentation](https://react.dev)**: If you are new to React, the official React documentation is a great place to start learning about React concepts and best practices.
+- **[ArcGIS Maps SDK for Javascript](https://developers.arcgis.com/javascript/latest/)**: `arcgis-react` is built on top of the ArcGIS Maps SDK for Javascript. Visit the official documentation to learn more about the ArcGIS SDK and its capabilities.
+- **[ArcGIS for Developers](https://developers.arcgis.com/)**: Visit the official ArcGIS for Developers website to access the ArcGIS API documentation, tutorials, and additional resources.
+- **[Calcite Design System](https://developers.arcgis.com/calcite-design-system/)**: Calcite Design System is a collection of design and development resources designed and maintained by Esri. It provides a set of reusable components for building mapping applications (this website is built using Calcite components!)
 
-### Install dependencies
+*This project is not affiliated with or supported by Esri, the company behind ArcGIS. `arcgis-react` is an independent open-source effort to provide ArcGIS integration for React applications. Any reference to "ArcGIS" or related terms is for compatibility purposes only and does not imply official association with Esri. For Esri product support, please refer to their [official resources](https://support.esri.com/en-us/products).*
 
-```
-npm i @arcgis/core arcgis-react
-```
-
-
-### Simple Components
-
-```tsx
-import React from 'react';
-import { ArcMapView } from 'arcgis-react';
-
-const SimpleMap = () => <ArcMapView map={{ basemap: 'streets-vector' }} />;
-
-const SimpleScene = () => <ArcSceneView map={{ basemap: 'streets-vector' }} />;
-
-const SimpleMapWithUI = () => (
-  <ArcMapView map={{ basemap: 'streets-vector' }}>
-    <ArcUI position="bottom-left">
-      <div>hello world</div>
-    </ArcUI>
-  </ArcMapView>
-);
-
-```
 
