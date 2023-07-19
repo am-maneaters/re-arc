@@ -5,7 +5,6 @@ import isEqual from 'react-fast-compare';
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
 import { MapContext } from '../ArcView/ViewContext';
-import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createViewComponent<
   ViewConstructor extends EsriView,
@@ -28,7 +27,7 @@ export function createViewComponent<
           map:
             map && 'constructed' in map && map.constructed
               ? (map as __esri.MapProperties)
-              : new WebMap(map),
+              : new WebMap(map ?? { basemap: 'arcgis-dark-gray' }),
           ...(mapViewProps as
             | __esri.MapViewProperties
             | __esri.SceneViewProperties),
@@ -59,17 +58,6 @@ export function createViewComponent<
         <div ref={mapContainer} style={style} className={className}>
           {mapView && children}
         </div>
-        {Object.entries(mapViewProps).map(([key, value]) => {
-          if (key === 'map') return null;
-          return (
-            <ArcReactiveProp
-              key={key}
-              accessor={mapView}
-              property={key}
-              value={value}
-            />
-          );
-        })}
       </MapContext.Provider>
     );
   };
