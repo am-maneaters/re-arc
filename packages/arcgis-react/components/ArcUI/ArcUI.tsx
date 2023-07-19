@@ -15,12 +15,10 @@ export const ArcUI: React.FC<ArcUIProps> = ({
   const widgetRef = useArcUI(position);
 
   return (
-    // We need to wrap the ref in an empty div because when this component
-    // is rendered, the div with the ref on it is placed in a different spot
-    // in the DOM by the View UI. This is basically the same as trying to
-    // render a fragment.
+    // Need to wrap the UI ref in a div because the View UI will
+    // use the parent element to add and remove the UI element
     <div>
-      <div ref={widgetRef} className="MapUIComponent" {...divProps}>
+      <div ref={widgetRef} {...divProps}>
         {children}
       </div>
     </div>

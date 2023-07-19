@@ -30,6 +30,18 @@ const Examples: ActionItem[] = [
     icon: 'map',
   },
   {
+    name: 'Custom Map UI',
+    component: lazy(() => import('./examples/SimpleUI')),
+    code: () => import('./examples/SimpleUI?raw'),
+    icon: 'button',
+  },
+  {
+    name: 'Event Handlers',
+    component: lazy(() => import('./examples/EventHandlers')),
+    code: () => import('./examples/EventHandlers?raw'),
+    icon: 'cursor-click',
+  },
+  {
     name: 'Scene View',
     component: lazy(() => import('./examples/SceneView')),
     code: () => import('./examples/SceneView?raw'),
