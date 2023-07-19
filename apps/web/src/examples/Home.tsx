@@ -20,7 +20,6 @@ npm install arcgis-react
 yarn add arcgis-react
 pnpm add arcgis-react`}
       />
-
       <h2>Configuration</h2>
       <p>
         arcgis-react requires that you have both React & the ArcGIS JS API
@@ -42,7 +41,6 @@ import { ArcMapView } from 'arcgis-react';
 const MyMap = () => <ArcMapView zoom={10} center={[-122.4194, 37.7749]} />;
         `}
       />
-
       <h2>Advanced Usage</h2>
       <p>
         arcgis-react provides a wide range of components and utilities that
@@ -51,6 +49,7 @@ const MyMap = () => <ArcMapView zoom={10} center={[-122.4194, 37.7749]} />;
         usage.
       </p>
       <h2>Additional Resources</h2>
+
       <ul>
         <li>
           <a
@@ -95,6 +94,22 @@ const MyMap = () => <ArcMapView zoom={10} center={[-122.4194, 37.7749]} />;
           built using Calcite components!)
         </li>
       </ul>
+      <p className="italic text-0h">
+        This project is not affiliated with or supported by Esri, the company
+        behind ArcGIS. `arcgis-react` is an independent open-source effort to
+        provide ArcGIS integration for React applications. Any reference to
+        &quot;ArcGIS&quot; or related terms is for compatibility purposes only
+        and does not imply official association with Esri. For Esri product
+        support, please refer to their{' '}
+        <a
+          href="https://support.esri.com/en-us/products"
+          target="_blank"
+          rel="noreferrer"
+        >
+          official resources
+        </a>
+        .
+      </p>
     </div>
   );
 }
