@@ -11,7 +11,7 @@ export default function Example() {
       zoom={3}
       center={[-100.4593, 36.9014]}
       eventHandlers={{
-        'pointer-enter': () => setPointerHover(!pointerHover),
+        'pointer-enter': () => setPointerHover(true),
         'pointer-leave': () => setPointerHover(false),
       }}
     >
