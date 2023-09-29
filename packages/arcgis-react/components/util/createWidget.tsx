@@ -1,10 +1,10 @@
 import { memo, useEffect, useRef, useState } from 'react';
-import isEqual from 'react-fast-compare';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
 import { useView } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
+import { isEqual } from './isEqual';
 
 export function createWidget<
   WidgetConstructorType extends new (

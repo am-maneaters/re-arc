@@ -4,47 +4,31 @@ import {
   ArcMapView,
   ArcUI,
   useViewState,
-  useWatchEffect,
   useWatchState,
 } from 'arcgis-react';
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Example() {
   const [mapView, setMapView] = useViewState<__esri.MapView>();
-  const [scale, setScale] = useState<string>();
-  const [prevCenter, setPrevCenter] = useState<__esri.Point>();
-  const [center, setCenter] = useState<__esri.Point>();
 
   // Match the state of Popup visbility
   const popupVisible = useWatchState(() => mapView?.popup.visible, [mapView]);
 
   // Check if all layers are visible
   const allLayersVisible = useWatchState(
-    () => mapView?.layerViews.every((layer) => layer.visible) ?? false,
-    [mapView?.layerViews]
+    () => mapView?.layerViews.every((layer) => layer.visible),
+    [mapView]
   );
 
   // Get the titles of all visible layers
   const visibleLayers = useWatchState(
     () => mapView?.allLayerViews.filter((layer) => layer.visible),
-    [mapView?.allLayerViews]
+    [mapView]
   );
 
-  // When the map is stationary, update the scale and center
-  useWatchEffect(
-    () => [mapView?.stationary, mapView?.center, mapView?.scale] as const,
-    ([stationary, newCenter, scale], [prevStationary]) => {
-      if (stationary) {
-        if (scale) setScale((Math.round(scale * 100) / 100).toFixed(0));
-        if (newCenter !== center) {
-          setCenter(newCenter);
-          setPrevCenter(center);
-        }
-      } else if (prevStationary) {
-        setCenter(newCenter);
-      }
-    }
-  );
+  const scale = useWatchState(() => mapView?.scale, [mapView]);
+
+  const center = useWatchState(() => mapView?.center, [mapView]);
 
   return (
     <div style={{ height: '100%', display: 'flex' }}>
@@ -62,8 +46,7 @@ export default function Example() {
         </ArcUI>
         <ArcUI position="bottom-left" style={{ width: 300 }}>
           <CalciteBlock heading="Properties" open>
-            <Point isNew point={center} />
-            <Point point={prevCenter} />
+            <Point point={center} />
             <CalciteLabel layout="inline-space-between">
               <span style={titleStyle}>Current scale: </span>
               {scale}
@@ -89,9 +72,9 @@ export default function Example() {
 
 const Coord = ({ num = 0 }) => (Math.round(num * 100) / 100).toFixed(1);
 
-const Point = ({ isNew = false, point = { longitude: 0, latitude: 0 } }) => (
+const Point = ({ point = { longitude: 0, latitude: 0 } }) => (
   <CalciteLabel layout="inline-space-between">
-    <span style={titleStyle}>{isNew ? 'Current' : 'Previous'} center</span>
+    <span style={titleStyle}>Map center</span>
     <div className="flex">
       <Coord num={point.longitude} />, <Coord num={point.latitude} />
     </div>

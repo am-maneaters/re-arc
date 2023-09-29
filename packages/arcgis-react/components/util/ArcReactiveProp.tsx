@@ -1,5 +1,6 @@
 import { memo, useEffect } from 'react';
-import isEqual from 'react-fast-compare';
+
+import { isEqual } from './isEqual';
 
 function ArcReactivePropBase({
   accessor,

@@ -1,10 +1,11 @@
 import WebMap from '@arcgis/core/WebMap';
 import React, { memo, useEffect, useMemo, useRef } from 'react';
-import isEqual from 'react-fast-compare';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
 import { MapContext } from '../ArcView/ViewContext';
+import { ArcReactiveProp } from './ArcReactiveProp';
+import { isEqual } from './isEqual';
 
 export function createViewComponent<
   ViewConstructor extends EsriView,
@@ -58,9 +59,19 @@ export function createViewComponent<
         <div ref={mapContainer} style={style} className={className}>
           {mapView && children}
         </div>
+        {Object.entries(mapViewProps).map(([key, value]) => {
+          if (key === 'map') return null;
+          return (
+            <ArcReactiveProp
+              key={key}
+              accessor={mapView}
+              property={key}
+              value={value}
+            />
+          );
+        })}
       </MapContext.Provider>
     );
   };
-
   return memo(ArcView, isEqual);
 }

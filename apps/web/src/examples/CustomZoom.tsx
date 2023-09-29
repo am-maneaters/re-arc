@@ -3,7 +3,13 @@ import {
   CalciteAction,
   CalciteActionPad,
 } from '@esri/calcite-components-react';
-import { ArcMapView, ArcUI, useMapView, useWatchState } from 'arcgis-react';
+import {
+  ArcMapView,
+  ArcUI,
+  useArcState,
+  useMapView,
+  useWatchState,
+} from 'arcgis-react';
 import { useMemo } from 'react';
 
 export default function Example() {
@@ -28,10 +34,9 @@ export default function Example() {
 function CustomZoom() {
   const mapView = useMapView();
   const widget = useMemo(() => new ZoomVM({ view: mapView }), [mapView]);
-  const [canZoomIn, canZoomOut] = useWatchState(
-    () => [widget.canZoomIn, widget.canZoomOut],
-    [widget]
-  ) ?? [false, false];
+
+  const canZoomIn = useWatchState(() => widget.canZoomIn) ?? false;
+  const canZoomOut = useWatchState(() => widget.canZoomOut) ?? false;
 
   return (
     <CalciteActionPad expandDisabled>

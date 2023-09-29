@@ -33,13 +33,13 @@ export function useWhenEffect<T>(
 
 export function useWatchState<T>(
   getValue: () => T,
-  deps: unknown[],
+  deps?: unknown[],
   options?: __esri.ReactiveWatchOptions
 ): T | undefined {
   const [state, setState] = useState<T>();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const cb = useCallback(getValue, deps);
+  const cb = useCallback(getValue, deps ?? []);
 
   useWatchEffect(cb, setState, options);
 
@@ -77,7 +77,6 @@ export function useOnEvent<
     return () => handle.remove();
   }, [callback, event, options, target]);
 }
-
 export function useArcState<
   T extends __esri.Accessor,
   Property extends keyof T
