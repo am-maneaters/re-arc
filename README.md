@@ -3,7 +3,7 @@
    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/50883428/230233939-5498486a-fb92-45aa-82b1-673d4d01ec51.png">
    <img alt="ArcGIS React" width="500px" src="https://user-images.githubusercontent.com/50883428/230234038-36fea231-5e84-43f3-8a69-6b0b685e53f5.png" />
 </picture>
-<h3>Components & Hooks for the ArcGIS JS SDK</h3>
+<h3>ArcGIS React - Components & Hooks for the ArcGIS JS SDK</h3>
 </div>
 
 <div align="center">
