@@ -21,7 +21,7 @@ export default function Example() {
         <ArcMapView
           id="my-map-view"
           style={{ flex: 1 }}
-          map={{ basemap: 'dark-gray-vector' }}
+          map={{ basemap: 'streets' }}
           zoom={3}
           center={[-100.4593, 36.9014]}
         />
@@ -30,7 +30,7 @@ export default function Example() {
         <ArcSceneView
           id="my-scene-view"
           style={{ flex: 1 }}
-          map={{ basemap: 'streets-vector' }}
+          map={{ basemap: 'streets' }}
           camera={{
             tilt: 45,
             heading: 0,
@@ -73,6 +73,7 @@ function BasemapPicker({
   label: string;
 }) {
   const [basemap, setBasemap] = useArcState(view.map, 'basemap');
+  console.log(basemap.id);
 
   return (
     <CalciteLabel>
