@@ -1,8 +1,16 @@
 import WebMap from '@arcgis/core/WebMap';
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, {
+  memo,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+} from 'react';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
+import { MountedViewsContext } from '../ArcView/MountedViewsContext';
 import { MapContext } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
@@ -18,6 +26,7 @@ export function createViewComponent<
     onViewCreated,
     style,
     className,
+    id,
     map,
     eventHandlers,
     ...mapViewProps
@@ -39,6 +48,10 @@ export function createViewComponent<
 
     const mapContainer = useRef<HTMLDivElement>(null);
 
+    const internalId = useId();
+    const mountedViewsContext = useContext(MountedViewsContext);
+    const { onViewMount, onViewUnmount } = mountedViewsContext ?? {};
+
     useEffect(() => {
       if (!mapContainer.current) return;
       mapView.container = mapContainer.current;
@@ -46,17 +59,25 @@ export function createViewComponent<
         onViewCreated?.(mapView as View);
       });
 
+      onViewMount?.(mapView, id ?? internalId);
+
       return () => {
         // @ts-expect-error - container types are wrong
         mapView.container = undefined;
+        onViewUnmount?.(id ?? internalId);
       };
-    }, [mapView, onViewCreated]);
+    }, [mapView, onViewCreated, id, internalId, onViewMount, onViewUnmount]);
 
     useEventHandlers(mapView, eventHandlers);
 
     return (
       <MapContext.Provider value={mapView}>
-        <div ref={mapContainer} style={style} className={className}>
+        <div
+          ref={mapContainer}
+          id={id ?? internalId}
+          style={style}
+          className={className}
+        >
           {mapView && children}
         </div>
         {Object.entries(mapViewProps).map(([key, value]) => {
