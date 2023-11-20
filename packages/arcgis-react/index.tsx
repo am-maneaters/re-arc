@@ -42,6 +42,10 @@ export { ArcUI } from './components/ArcUI/ArcUI';
 export { ArcMapView } from './components/ArcView/ArcMapView';
 export { ArcSceneView } from './components/ArcView/ArcSceneView';
 export {
+  MountedViewsProvider,
+  useMountedViews,
+} from './components/ArcView/MountedViewsContext';
+export {
   useMapView,
   useSceneView,
   useView,

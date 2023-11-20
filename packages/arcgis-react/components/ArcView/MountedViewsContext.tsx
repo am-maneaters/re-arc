@@ -59,7 +59,7 @@ export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
   );
 };
 
-export type ViewCollection = {
+type ViewCollection = {
   [id: string]: MapView | SceneView | undefined;
   current?: MapView | SceneView;
 };
@@ -69,7 +69,7 @@ export function useMountedViews(): ViewCollection {
   const currentView = useContext(MapContext);
 
   if (!views && !currentView) {
-    throw new Error('useMap must be used within a MapProvider');
+    throw new Error('useMountedViews must be used within a valid Provider');
   }
 
   const mapsWithCurrent: ViewCollection = useMemo(
