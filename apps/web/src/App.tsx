@@ -90,6 +90,12 @@ const Examples: ActionItem[] = [
     icon: '3d-glasses',
   },
   {
+    name: 'Mounted Views Provider',
+    component: lazy(() => import('./examples/MountedViews')),
+    code: () => import('./examples/MountedViews?raw'),
+    icon: 'collection',
+  },
+  {
     name: 'Custom Zoom Component',
     component: lazy(() => import('./examples/CustomZoom')),
     code: () => import('./examples/CustomZoom?raw'),
