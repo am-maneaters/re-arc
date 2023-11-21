@@ -21,9 +21,9 @@ export const MountedViewsContext = createContext<
 >(undefined);
 
 export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
-  const [view, setViews] = useState<{ [id: string]: MapView | SceneView }>({});
+  const [views, setViews] = useState<{ [id: string]: MapView | SceneView }>({});
 
-  const onMapMount = useCallback((view: MapView | SceneView, id: string) => {
+  const onViewMount = useCallback((view: MapView | SceneView, id: string) => {
     setViews((currViews) => {
       if (id === 'current') {
         throw new Error("'current' cannot be used as map id");
@@ -35,7 +35,7 @@ export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
     });
   }, []);
 
-  const onMapUnmount = useCallback((id: string) => {
+  const onViewUnmount = useCallback((id: string) => {
     setViews((currViews) => {
       if (currViews[id]) {
         const nextViews = { ...currViews };
@@ -49,9 +49,9 @@ export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <MountedViewsContext.Provider
       value={{
-        views: view,
-        onViewMount: onMapMount,
-        onViewUnmount: onMapUnmount,
+        views,
+        onViewMount,
+        onViewUnmount,
       }}
     >
       {children}

@@ -26,7 +26,6 @@ export function createViewComponent<
     onViewCreated,
     style,
     className,
-    id,
     map,
     eventHandlers,
     ...mapViewProps
@@ -49,6 +48,8 @@ export function createViewComponent<
     const mapContainer = useRef<HTMLDivElement>(null);
 
     const internalId = useId();
+    const id = mapViewProps.id ?? internalId;
+
     const mountedViewsContext = useContext(MountedViewsContext);
     const { onViewMount, onViewUnmount } = mountedViewsContext ?? {};
 
@@ -59,25 +60,20 @@ export function createViewComponent<
         onViewCreated?.(mapView as View);
       });
 
-      onViewMount?.(mapView, id ?? internalId);
+      onViewMount?.(mapView, id);
 
       return () => {
         // @ts-expect-error - container types are wrong
         mapView.container = undefined;
-        onViewUnmount?.(id ?? internalId);
+        onViewUnmount?.(id);
       };
-    }, [mapView, onViewCreated, id, internalId, onViewMount, onViewUnmount]);
+    }, [mapView, onViewCreated, id, onViewMount, onViewUnmount]);
 
     useEventHandlers(mapView, eventHandlers);
 
     return (
       <MapContext.Provider value={mapView}>
-        <div
-          ref={mapContainer}
-          id={id ?? internalId}
-          style={style}
-          className={className}
-        >
+        <div ref={mapContainer} id={id} style={style} className={className}>
           {mapView && children}
         </div>
         {Object.entries(mapViewProps).map(([key, value]) => {
