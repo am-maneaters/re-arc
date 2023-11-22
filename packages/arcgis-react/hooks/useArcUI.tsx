@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-import { useView } from '../components/ArcView/ViewContext';
+import { useCurrentView } from '../components/ArcView/ViewContext';
 
 export const useArcUI = (position: __esri.UIAddPosition['position']) => {
   const widgetRef = useRef<HTMLDivElement>(null);
-  const view = useView();
+  const view = useCurrentView();
 
   useEffect(() => {
     const ref = widgetRef.current;

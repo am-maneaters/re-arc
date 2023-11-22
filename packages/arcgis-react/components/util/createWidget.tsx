@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from 'react';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
-import { useView } from '../ArcView/ViewContext';
+import { useCurrentView } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
 
@@ -25,7 +25,7 @@ export function createWidget<
       view?: __esri.SceneView | __esri.MapView;
     }) {
     const ref = useRef<HTMLDivElement>(null);
-    const view = useView(propsView);
+    const view = useCurrentView(propsView);
     const [widget] = useState<WidgetInstance>(
       new WidgetConstructor(widgetProps as WidgetProperties)
     );

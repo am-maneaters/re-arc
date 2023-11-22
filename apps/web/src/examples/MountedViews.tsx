@@ -1,25 +1,19 @@
-import Basemap from '@arcgis/core/Basemap';
+import { CalciteBlock } from '@esri/calcite-components-react';
 import {
-  CalciteBlock,
-  CalciteLabel,
-  CalciteOption,
-  CalciteSelect,
-} from '@esri/calcite-components-react';
-import {
+  ArcBasemapGallery,
   ArcMapView,
   ArcSceneView,
   MountedViewsProvider,
-  useArcState,
-  useMountedViews,
+  useView,
 } from 'arcgis-react';
 
 export default function Example() {
   return (
     <MountedViewsProvider>
-      <div style={{ height: '60%', display: 'flex' }}>
+      <div style={{ height: '50%', display: 'flex' }}>
         {/* Map View */}
         <ArcMapView
-          id="my-map-view"
+          id="myMapView"
           style={{ flex: 1 }}
           map={{ basemap: 'streets' }}
           zoom={3}
@@ -28,7 +22,7 @@ export default function Example() {
 
         {/* Scene View */}
         <ArcSceneView
-          id="my-scene-view"
+          id="mySceneView"
           style={{ flex: 1 }}
           map={{ basemap: 'streets' }}
           camera={{
@@ -38,57 +32,29 @@ export default function Example() {
           }}
         />
       </div>
-
-      {/**
-       * Basemap Picker - outside of components directly rendering
-       * a Map or Scene
-       */}
       <BaseMapPickList />
     </MountedViewsProvider>
   );
 }
 
+/**
+ * Basemap Picker - used outside of components directly rendering
+ * a Map or Scene
+ */
 function BaseMapPickList() {
-  const views = useMountedViews();
-  if (!views) return null;
-
+  const { mySceneView, myMapView } = useView();
   return (
-    <CalciteBlock heading="Basemap options" open>
-      {Object.entries(views).map(([id, view]) => {
-        if (!view) return null;
-
-        return (
-          <BasemapPicker key={id} label={`Set Basemap for ${id}`} view={view} />
-        );
-      })}
-    </CalciteBlock>
-  );
-}
-
-function BasemapPicker({
-  view,
-  label,
-}: {
-  view: __esri.MapView | __esri.SceneView;
-  label: string;
-}) {
-  const [basemap, setBasemap] = useArcState(view.map, 'basemap');
-  console.log(basemap.id);
-
-  return (
-    <CalciteLabel>
-      {label}
-      <CalciteSelect
-        label="Basemap"
-        value={basemap.id}
-        onCalciteSelectChange={(e) =>
-          setBasemap(Basemap.fromId(e.target.value))
-        }
-      >
-        <CalciteOption value="streets">Streets</CalciteOption>
-        <CalciteOption value="terrain">Terrain</CalciteOption>
-        <CalciteOption value="dark-gray-vector">Dark Gray Vector</CalciteOption>
-      </CalciteSelect>
-    </CalciteLabel>
+    <div style={{ height: '50%', overflow: 'auto' }}>
+      {myMapView && (
+        <CalciteBlock heading="Map Basemaps" collapsible>
+          <ArcBasemapGallery view={myMapView} />
+        </CalciteBlock>
+      )}
+      {mySceneView && (
+        <CalciteBlock heading="Scene Basemaps" collapsible>
+          <ArcBasemapGallery view={mySceneView} />
+        </CalciteBlock>
+      )}
+    </div>
   );
 }

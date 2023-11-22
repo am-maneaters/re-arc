@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
-import { useView } from '../ArcView/ViewContext';
+import { useCurrentView } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createLayer<
@@ -22,7 +22,7 @@ export function createLayer<
     eventHandlers?: EventHandlers<LayerInstance>;
     children?: React.ReactNode;
   } & LayerProperties) {
-    const mapView = useView();
+    const mapView = useCurrentView();
     const [layer, setLayer] = useState<LayerInstance>();
     const [layerView, setLayerView] = useState<__esri.LayerView>();
 

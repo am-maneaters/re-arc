@@ -43,12 +43,12 @@ export { ArcMapView } from './components/ArcView/ArcMapView';
 export { ArcSceneView } from './components/ArcView/ArcSceneView';
 export {
   MountedViewsProvider,
-  useMountedViews,
+  useView,
 } from './components/ArcView/MountedViewsContext';
 export {
-  useMapView,
-  useSceneView,
-  useView,
+  useCurrentMapView,
+  useCurrentSceneView,
+  useCurrentView,
 } from './components/ArcView/ViewContext';
 export { ArcAreaMeasurement2D } from './components/ArcWidget/generated/ArcAreaMeasurement2D';
 export { ArcAreaMeasurement3D } from './components/ArcWidget/generated/ArcAreaMeasurement3D';

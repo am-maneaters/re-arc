@@ -3,7 +3,12 @@ import {
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
-import { ArcMapView, ArcTileLayer, ArcUI, useMapView } from 'arcgis-react';
+import {
+  ArcMapView,
+  ArcTileLayer,
+  ArcUI,
+  useCurrentMapView,
+} from 'arcgis-react';
 import React from 'react';
 
 export default function Example() {
@@ -21,7 +26,7 @@ export default function Example() {
 }
 
 function Layers() {
-  const mapView = useMapView();
+  const mapView = useCurrentMapView();
 
   const [streetsVisible, setStreetsVisible] = React.useState(false);
 

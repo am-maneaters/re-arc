@@ -1,5 +1,8 @@
+import MapView from '@arcgis/core/views/MapView';
+import SceneView from '@arcgis/core/views/SceneView';
 import WebMap from '@arcgis/core/WebMap';
 import React, {
+  createContext,
   memo,
   useContext,
   useEffect,
@@ -11,9 +14,12 @@ import React, {
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
 import { MountedViewsContext } from '../ArcView/MountedViewsContext';
-import { MapContext } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
+
+export const MapContext = createContext<MapView | SceneView | undefined>(
+  undefined
+);
 
 export function createViewComponent<
   ViewConstructor extends EsriView,

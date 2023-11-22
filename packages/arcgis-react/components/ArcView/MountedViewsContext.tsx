@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 
-import { MapContext } from './ViewContext';
+import { MapContext } from '../util/createView';
 
 type MountedViewsContextValue = {
   views: { [id: string]: MapView | SceneView };
@@ -64,7 +64,7 @@ type ViewCollection = {
   current?: MapView | SceneView;
 };
 
-export function useMountedViews(): ViewCollection {
+export function useView(): ViewCollection {
   const views = useContext(MountedViewsContext)?.views;
   const currentView = useContext(MapContext);
 
