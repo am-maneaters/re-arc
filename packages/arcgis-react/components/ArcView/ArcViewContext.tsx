@@ -16,11 +16,11 @@ type MountedViewsContextValue = {
   onViewUnmount: (id: string) => void;
 };
 
-export const MountedViewsContext = createContext<
+export const ArcViewContext = createContext<
   MountedViewsContextValue | undefined
 >(undefined);
 
-export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
+export const ArcViewProvider = ({ children }: React.PropsWithChildren) => {
   const [views, setViews] = useState<{ [id: string]: MapView | SceneView }>({});
 
   const onViewMount = useCallback((view: MapView | SceneView, id: string) => {
@@ -47,7 +47,7 @@ export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   return (
-    <MountedViewsContext.Provider
+    <ArcViewContext.Provider
       value={{
         views,
         onViewMount,
@@ -55,7 +55,7 @@ export const MountedViewsProvider = ({ children }: React.PropsWithChildren) => {
       }}
     >
       {children}
-    </MountedViewsContext.Provider>
+    </ArcViewContext.Provider>
   );
 };
 
@@ -65,11 +65,11 @@ type ViewCollection = {
 };
 
 export function useView(): ViewCollection {
-  const views = useContext(MountedViewsContext)?.views;
+  const views = useContext(ArcViewContext)?.views;
   const currentView = useContext(MapContext);
 
   if (!views && !currentView) {
-    throw new Error('useMountedViews must be used within a valid Provider');
+    throw new Error('useView must be used within a valid Provider');
   }
 
   const mapsWithCurrent: ViewCollection = useMemo(

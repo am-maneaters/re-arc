@@ -3,13 +3,13 @@ import {
   ArcBasemapGallery,
   ArcMapView,
   ArcSceneView,
-  MountedViewsProvider,
+  ArcViewProvider,
   useView,
 } from 'arcgis-react';
 
 export default function Example() {
   return (
-    <MountedViewsProvider>
+    <ArcViewProvider>
       <div style={{ height: '50%', display: 'flex' }}>
         {/* Map View */}
         <ArcMapView
@@ -33,7 +33,7 @@ export default function Example() {
         />
       </div>
       <BaseMapPickList />
-    </MountedViewsProvider>
+    </ArcViewProvider>
   );
 }
 

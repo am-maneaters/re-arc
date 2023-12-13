@@ -1,7 +1,7 @@
 import type MapView from '@arcgis/core/views/MapView';
 import type SceneView from '@arcgis/core/views/SceneView';
 
-import { useView } from './MountedViewsContext';
+import { useView } from './ArcViewContext';
 
 export function useCurrentView(
   defaultView?: MapView | SceneView

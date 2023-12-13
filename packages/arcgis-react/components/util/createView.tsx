@@ -13,7 +13,7 @@ import React, {
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
-import { MountedViewsContext } from '../ArcView/MountedViewsContext';
+import { ArcViewContext } from '../ArcView/ArcViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
 
@@ -56,7 +56,7 @@ export function createViewComponent<
     const internalId = useId();
     const id = mapViewProps.id ?? internalId;
 
-    const mountedViewsContext = useContext(MountedViewsContext);
+    const mountedViewsContext = useContext(ArcViewContext);
     const { onViewMount, onViewUnmount } = mountedViewsContext ?? {};
 
     useEffect(() => {

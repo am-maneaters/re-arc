@@ -41,10 +41,7 @@ export { ArcWMTSLayer } from './components/ArcLayer/generated/ArcWMTSLayer';
 export { ArcUI } from './components/ArcUI/ArcUI';
 export { ArcMapView } from './components/ArcView/ArcMapView';
 export { ArcSceneView } from './components/ArcView/ArcSceneView';
-export {
-  MountedViewsProvider,
-  useView,
-} from './components/ArcView/MountedViewsContext';
+export { ArcViewProvider, useView } from './components/ArcView/ArcViewContext';
 export {
   useCurrentMapView,
   useCurrentSceneView,
