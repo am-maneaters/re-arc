@@ -6,8 +6,7 @@ import {
 import {
   ArcMapView,
   ArcUI,
-  useArcState,
-  useMapView,
+  useCurrentMapView,
   useWatchState,
 } from 'arcgis-react';
 import { useMemo } from 'react';
@@ -32,7 +31,7 @@ export default function Example() {
 }
 
 function CustomZoom() {
-  const mapView = useMapView();
+  const mapView = useCurrentMapView();
   const widget = useMemo(() => new ZoomVM({ view: mapView }), [mapView]);
 
   const canZoomIn = useWatchState(() => widget.canZoomIn) ?? false;

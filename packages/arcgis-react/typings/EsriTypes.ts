@@ -36,5 +36,6 @@ export type ArcViewWrapperProps<
   onViewCreated?: (view: View) => void;
   style?: React.CSSProperties;
   className?: string;
+  id?: string;
   eventHandlers?: EventHandlers<View>;
 } & Properties;

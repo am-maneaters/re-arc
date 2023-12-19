@@ -41,10 +41,11 @@ export { ArcWMTSLayer } from './components/ArcLayer/generated/ArcWMTSLayer';
 export { ArcUI } from './components/ArcUI/ArcUI';
 export { ArcMapView } from './components/ArcView/ArcMapView';
 export { ArcSceneView } from './components/ArcView/ArcSceneView';
+export { ArcViewProvider, useView } from './components/ArcView/ArcViewContext';
 export {
-  useMapView,
-  useSceneView,
-  useView,
+  useCurrentMapView,
+  useCurrentSceneView,
+  useCurrentView,
 } from './components/ArcView/ViewContext';
 export { ArcAreaMeasurement2D } from './components/ArcWidget/generated/ArcAreaMeasurement2D';
 export { ArcAreaMeasurement3D } from './components/ArcWidget/generated/ArcAreaMeasurement3D';

@@ -1,11 +1,25 @@
+import MapView from '@arcgis/core/views/MapView';
+import SceneView from '@arcgis/core/views/SceneView';
 import WebMap from '@arcgis/core/WebMap';
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, {
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+} from 'react';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { ArcViewWrapperProps, EsriView } from '../../typings/EsriTypes';
-import { MapContext } from '../ArcView/ViewContext';
+import { ArcViewContext } from '../ArcView/ArcViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
+
+export const MapContext = createContext<MapView | SceneView | undefined>(
+  undefined
+);
 
 export function createViewComponent<
   ViewConstructor extends EsriView,
@@ -39,6 +53,12 @@ export function createViewComponent<
 
     const mapContainer = useRef<HTMLDivElement>(null);
 
+    const internalId = useId();
+    const id = mapViewProps.id ?? internalId;
+
+    const mountedViewsContext = useContext(ArcViewContext);
+    const { onViewMount, onViewUnmount } = mountedViewsContext ?? {};
+
     useEffect(() => {
       if (!mapContainer.current) return;
       mapView.container = mapContainer.current;
@@ -46,17 +66,20 @@ export function createViewComponent<
         onViewCreated?.(mapView as View);
       });
 
+      onViewMount?.(mapView, id);
+
       return () => {
         // @ts-expect-error - container types are wrong
         mapView.container = undefined;
+        onViewUnmount?.(id);
       };
-    }, [mapView, onViewCreated]);
+    }, [mapView, onViewCreated, id, onViewMount, onViewUnmount]);
 
     useEventHandlers(mapView, eventHandlers);
 
     return (
       <MapContext.Provider value={mapView}>
-        <div ref={mapContainer} style={style} className={className}>
+        <div ref={mapContainer} id={id} style={style} className={className}>
           {mapView && children}
         </div>
         {Object.entries(mapViewProps).map(([key, value]) => {

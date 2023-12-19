@@ -1,6 +1,11 @@
 import Basemap from '@arcgis/core/Basemap';
 import { CalciteOption, CalciteSelect } from '@esri/calcite-components-react';
-import { ArcMapView, ArcUI, useArcState, useMapView } from 'arcgis-react';
+import {
+  ArcMapView,
+  ArcUI,
+  useArcState,
+  useCurrentMapView,
+} from 'arcgis-react';
 
 export default function Example() {
   return (
@@ -23,7 +28,7 @@ export default function Example() {
  * only render its children when the view is defined.
  */
 function BasemapPicker() {
-  const mapView = useMapView();
+  const mapView = useCurrentMapView();
   const [basemap, setBasemap] = useArcState(mapView.map, 'basemap');
 
   return (
