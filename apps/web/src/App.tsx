@@ -10,8 +10,8 @@ import {
 } from '@esri/calcite-components-react';
 import { lazy, Suspense, useEffect } from 'react';
 
-import logoDark from './assets/arcgis-react-logo-dark.png';
-import logoLight from './assets/arcgis-react-logo-light.png';
+import logoDark from './assets/re-arc-logo-dark.png';
+import logoLight from './assets/re-arc-logo-light.png';
 import GithubIcon from './assets/GithubIcon';
 import { CodeDisplayAsync } from './components/CodeDisplay';
 import { useTheme } from './contexts/ThemeProvider';
@@ -150,7 +150,7 @@ export function App() {
             className="shadow-3xl rounded-lg"
           >
             <CalciteAction
-              text="ArcGIS React"
+              text="Re-Arc"
               style={{
                 '--calcite-font-size--1': '20px',
                 '--calcite-font-weight-normal': 'bold',
@@ -174,7 +174,7 @@ export function App() {
                 text="View on Github"
                 onClick={() =>
                   window.open(
-                    'https://github.com/am-maneaters/arcgis-react',
+                    'https://github.com/am-maneaters/re-arc',
                     '_blank'
                   )
                 }

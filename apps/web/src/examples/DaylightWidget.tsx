@@ -1,5 +1,5 @@
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcDaylight, ArcSceneLayer, ArcSceneView, ArcUI } from 'arcgis-react';
+import { ArcDaylight, ArcSceneLayer, ArcSceneView, ArcUI } from 're-arc';
 import { useState } from 'react';
 
 export default function Example() {

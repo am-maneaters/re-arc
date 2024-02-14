@@ -95,9 +95,9 @@ function equal(a, b) {
       return a.toString() === b.toString();
     // END: Modifications
 
-    // START: arcgis-react compare arcgis accessors
+    // START: re-arc compare arcgis accessors
     if (a['__accessor__'] && a['equals']) return a.equals(b);
-    // END: arcgis-react
+    // END: re-arc
 
     // eslint-disable-next-line prefer-const
     keys = Object.keys(a);

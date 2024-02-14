@@ -1,4 +1,4 @@
-import { ArcMapView } from 'arcgis-react';
+import { ArcMapView } from 're-arc';
 
 export default function Example() {
   return (

@@ -8,7 +8,7 @@ import {
   ArcUI,
   useCurrentMapView,
   useWatchState,
-} from 'arcgis-react';
+} from 're-arc';
 import { useMemo } from 'react';
 
 export default function Example() {

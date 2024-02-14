@@ -5,7 +5,7 @@ import {
   ArcUI,
   useArcState,
   useCurrentMapView,
-} from 'arcgis-react';
+} from 're-arc';
 
 export default function Example() {
   return (

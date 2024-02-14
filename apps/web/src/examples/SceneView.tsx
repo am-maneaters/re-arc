@@ -1,4 +1,4 @@
-import { ArcSceneView } from 'arcgis-react';
+import { ArcSceneView } from 're-arc';
 
 export default function Example() {
   return (
