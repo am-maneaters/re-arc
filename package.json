@@ -1,4 +1,5 @@
 {
+  "name": "re-arc-monorepo",
   "private": true,
   "scripts": {
     "build": "turbo run build",
