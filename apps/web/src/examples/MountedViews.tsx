@@ -5,7 +5,7 @@ import {
   ArcSceneView,
   ArcViewProvider,
   useView,
-} from 'arcgis-react';
+} from 're-arc';
 
 export default function Example() {
   return (

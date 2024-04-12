@@ -3,12 +3,7 @@ import {
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
-import {
-  ArcMapView,
-  ArcTileLayer,
-  ArcUI,
-  useCurrentMapView,
-} from 'arcgis-react';
+import { ArcMapView, ArcTileLayer, ArcUI, useCurrentMapView } from 're-arc';
 import React from 'react';
 
 export default function Example() {

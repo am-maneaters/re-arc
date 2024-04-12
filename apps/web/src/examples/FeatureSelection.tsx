@@ -1,7 +1,7 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { SimpleRenderer } from '@arcgis/core/renderers';
 import { SimpleFillSymbol } from '@arcgis/core/symbols';
-import { ArcCSVLayer, ArcFeatureTable, ArcMapView, ArcUI } from 'arcgis-react';
+import { ArcCSVLayer, ArcFeatureTable, ArcMapView, ArcUI } from 're-arc';
 import React from 'react';
 
 import { getCSVRenderer } from './helpers/FeatureSelectionHelpers';

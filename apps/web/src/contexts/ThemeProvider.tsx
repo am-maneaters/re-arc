@@ -20,11 +20,11 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(
-    (window.localStorage.getItem('arcgis-react-theme') as Theme) ?? 'dark'
+    (window.localStorage.getItem('re-arc-theme') as Theme) ?? 'dark'
   );
 
   useEffect(() => {
-    window.localStorage.setItem('arcgis-react-theme', theme);
+    window.localStorage.setItem('re-arc-theme', theme);
   }, [theme]);
 
   // update prefers-color-scheme media query

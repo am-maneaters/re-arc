@@ -1,6 +1,6 @@
 import { UniqueValueRenderer } from '@arcgis/core/renderers';
 import { SimpleFillSymbol } from '@arcgis/core/symbols';
-import { ArcMapView, ArcStreamLayer } from 'arcgis-react';
+import { ArcMapView, ArcStreamLayer } from 're-arc';
 import { useEffect, useState } from 'react';
 
 export default function Example() {

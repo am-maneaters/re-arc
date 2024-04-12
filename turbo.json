@@ -6,7 +6,7 @@
       "outputs": ["dist/**"]
     },
     "web#build": {
-      "dependsOn": ["arcgis-react#build"]
+      "dependsOn": ["re-arc#build"]
     },
     "lint": {
       "outputs": []

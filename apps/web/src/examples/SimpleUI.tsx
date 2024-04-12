@@ -1,5 +1,5 @@
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcMapView, ArcUI } from 'arcgis-react';
+import { ArcMapView, ArcUI } from 're-arc';
 
 export default function Example() {
   return (

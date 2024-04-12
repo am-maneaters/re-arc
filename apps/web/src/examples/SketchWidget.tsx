@@ -1,4 +1,4 @@
-import { ArcGraphicsLayer, ArcMapView, ArcSketch, ArcUI } from 'arcgis-react';
+import { ArcGraphicsLayer, ArcMapView, ArcSketch, ArcUI } from 're-arc';
 import { useState } from 'react';
 
 export default function Example() {

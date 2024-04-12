@@ -5,8 +5,7 @@ import {
   ArcUI,
   useViewState,
   useWatchState,
-} from 'arcgis-react';
-import { useEffect } from 'react';
+} from 're-arc';
 
 export default function Example() {
   const [mapView, setMapView] = useViewState<__esri.MapView>();

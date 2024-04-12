@@ -3,7 +3,7 @@ import {
   ArcSceneView,
   useViewState,
   useWatchEffect,
-} from 'arcgis-react';
+} from 're-arc';
 
 export default function Example() {
   const [map, onMapViewCreated] = useViewState<__esri.MapView>();
