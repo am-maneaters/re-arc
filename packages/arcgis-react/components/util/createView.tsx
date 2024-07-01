@@ -17,8 +17,6 @@ import { ArcViewContext } from '../ArcView/ArcViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
 
-
-
 // Properties set during initialization and not designed to be reactive. For example
 // "alphaCompositingEnabled" cannot be changed after a SceneView is created.
 const INIT_ONLY_PROPERTIES = new Set(['map', 'alphaCompositingEnabled']);
