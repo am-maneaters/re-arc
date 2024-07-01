@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import { useEventHandlers } from '../../hooks/useEventHandlers';
 import { EventHandlers } from '../../typings/EsriTypes';
 import { useCurrentView } from '../ArcView/ViewContext';
 import { ArcReactiveProp } from './ArcReactiveProp';
+
+export const LayerViewContext = createContext<__esri.LayerView | undefined>(
+  undefined
+);
 
 export function createLayer<
   LayerConstructorType extends new (
@@ -52,7 +56,11 @@ export function createLayer<
 
     return (
       <>
-        {layerView && children}
+        {layerView && (
+          <LayerViewContext.Provider value={layerView}>
+            {children}
+          </LayerViewContext.Provider>
+        )}
         {layerProps &&
           layer &&
           Object.entries(layerProps).map(([key, val]) => (

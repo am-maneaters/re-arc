@@ -106,3 +106,4 @@ export {
   useWatchState,
   useWhenEffect,
 } from './hooks/useWatchEffect';
+export { useLayerView } from './hooks/useLayerView';
