@@ -1,5 +1,25 @@
-import SceneView from '@arcgis/core/views/SceneView';
+import { ArcgisScene } from '@arcgis/map-components-react';
 
-import { createViewComponent } from '../util/createView';
+import { MapContext, useCreateView } from '../../hooks/useCreateView';
+import '@arcgis/map-components/dist/components/arcgis-scene';
+export function ArcSceneView({
+  children,
+  onArcgisViewReadyChange,
+  ...props
+}: React.ComponentProps<typeof ArcgisScene>) {
+  const { view, onViewReady } = useCreateView(props.id);
 
-export const ArcSceneView = createViewComponent(SceneView);
+  return (
+    <MapContext.Provider value={view}>
+      <ArcgisScene
+        {...props}
+        onArcgisViewReadyChange={(ev) => {
+          onViewReady(ev.target.view);
+          onArcgisViewReadyChange?.(ev);
+        }}
+      >
+        {view && children}
+      </ArcgisScene>
+    </MapContext.Provider>
+  );
+}

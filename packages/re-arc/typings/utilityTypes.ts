@@ -1,6 +1,6 @@
 type ValidFunction<
   Arguments extends unknown[],
-  ReturnType
+  ReturnType,
 > = unknown[] extends Arguments
   ? unknown extends ReturnType
     ? never
@@ -11,8 +11,8 @@ export type AsyncReturnType<T extends (...args: unknown[]) => unknown> =
   T extends (...args: unknown[]) => Promise<infer U>
     ? U
     : T extends (...args: unknown[]) => infer U
-    ? U
-    : T;
+      ? U
+      : T;
 
 // This type allows us to get all the possible parameters of a function that has many overloads
 export type Overloads<T extends (...args: unknown[]) => unknown> = T extends {

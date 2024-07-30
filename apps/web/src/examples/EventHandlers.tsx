@@ -1,4 +1,5 @@
-import { ArcMapView, ArcUI } from 're-arc';
+import { ArcgisPlacement } from '@arcgis/map-components-react';
+import { ArcMapView } from 're-arc';
 import { useState } from 'react';
 
 export default function Example() {
@@ -7,20 +8,17 @@ export default function Example() {
   return (
     <ArcMapView
       style={{ height: '100%' }}
-      map={{ basemap: 'streets' }}
+      basemap={'streets'}
       zoom={3}
       center={[-100.4593, 36.9014]}
-      eventHandlers={{
-        'pointer-enter': () => setPointerHover(true),
-        'pointer-leave': () => setPointerHover(false),
-      }}
+      onMouseEnter={() => setPointerHover(true)}
+      onMouseLeave={() => setPointerHover(false)}
     >
-      <ArcUI
-        position="top-right"
-        style={{ backgroundColor: 'white', padding: 8 }}
-      >
-        User is {!pointerHover && 'not'} hovering over the map!
-      </ArcUI>
+      <ArcgisPlacement position="top-right">
+        <div style={{ backgroundColor: 'white', padding: 8, color: 'black' }}>
+          User is {!pointerHover && 'not'} hovering over the map!
+        </div>
+      </ArcgisPlacement>
     </ArcMapView>
   );
 }

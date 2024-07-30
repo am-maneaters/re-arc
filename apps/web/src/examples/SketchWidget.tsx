@@ -1,4 +1,5 @@
-import { ArcGraphicsLayer, ArcMapView, ArcSketch, ArcUI } from 're-arc';
+import { ArcgisSketch } from '@arcgis/map-components-react';
+import { ArcGraphicsLayer, ArcMapView } from 're-arc';
 import { useState } from 'react';
 
 export default function Example() {
@@ -12,12 +13,21 @@ export default function Example() {
       center={[90, 45]}
     >
       <ArcGraphicsLayer
-        onLayerCreated={(layer) => setGraphicsLayer(layer)}
+        eventHandlers={{
+          'layerview-create': (e) => {
+            setGraphicsLayer(e.layerView.layer as __esri.GraphicsLayer);
+          },
+        }}
         title="Sketch Widget Layer"
       />
-      <ArcUI position="top-right">
-        <ArcSketch layer={graphicsLayer} creationMode="update" />
-      </ArcUI>
+
+      {graphicsLayer && (
+        <ArcgisSketch
+          position="top-right"
+          layer={graphicsLayer}
+          creationMode="update"
+        />
+      )}
     </ArcMapView>
   );
 }

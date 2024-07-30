@@ -4,7 +4,7 @@ import type SceneView from '@arcgis/core/views/SceneView';
 import { useView } from './ArcViewContext';
 
 export function useCurrentView(
-  defaultView?: MapView | SceneView
+  defaultView?: MapView | SceneView,
 ): MapView | SceneView {
   const { current: view } = useView();
 

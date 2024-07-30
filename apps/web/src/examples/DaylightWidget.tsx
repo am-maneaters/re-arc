@@ -1,14 +1,20 @@
+import { ArcgisDaylight } from '@arcgis/map-components-react';
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcDaylight, ArcSceneLayer, ArcSceneView, ArcUI } from 're-arc';
+import {
+  ArcSceneLayer,
+  ArcSceneView,
+  useArcState,
+  useCurrentSceneView,
+} from 're-arc';
 import { useState } from 'react';
+import Camera from '@arcgis/core/Camera';
 
 export default function Example() {
-  const [isCityScale, setIsCityScale] = useState(true);
-
   return (
     <ArcSceneView
-      map={{ basemap: 'satellite', ground: 'world-elevation' }}
-      camera={isCityScale ? cityCamera : globalCamera}
+      basemap="satellite"
+      ground={'world-elevation'}
+      camera={cityCamera}
       environment={{ lighting: { type: 'sun', directShadowsEnabled: true } }}
       style={{ height: '100%', position: 'relative' }}
     >
@@ -16,27 +22,42 @@ export default function Example() {
         popupEnabled={false}
         portalItem={{ id: 'b343e14455fe45b98a2c20ebbceec0b0' }}
       />
-      <ArcUI position="top-right">
-        <ArcDaylight />
-      </ArcUI>
-      <div style={buttonContainerStyle}>
-        <CalciteButton
-          title="city"
-          appearance={isCityScale ? 'solid' : 'outline'}
-          onClick={() => setIsCityScale(true)}
-          style={{ width: '40%' }}
-        >
-          City Scale
-        </CalciteButton>
-        <CalciteButton
-          appearance={isCityScale ? 'outline' : 'solid'}
-          onClick={() => setIsCityScale(false)}
-          style={{ width: '40%' }}
-        >
-          Global Scale
-        </CalciteButton>
-      </div>
+      <ArcgisDaylight position="top-right" />
+
+      <CameraScaleToggle />
     </ArcSceneView>
+  );
+}
+
+function CameraScaleToggle() {
+  const mapView = useCurrentSceneView();
+  const [isCityScale, setIsCityScale] = useState(true);
+  const [, setCamera] = useArcState(mapView, 'camera');
+
+  return (
+    <div style={buttonContainerStyle}>
+      <CalciteButton
+        title="city"
+        appearance={isCityScale ? 'solid' : 'outline'}
+        onClick={() => {
+          setCamera(cityCamera);
+          setIsCityScale(true);
+        }}
+        style={{ width: '40%' }}
+      >
+        City Scale
+      </CalciteButton>
+      <CalciteButton
+        appearance={isCityScale ? 'outline' : 'solid'}
+        onClick={() => {
+          setCamera(globalCamera);
+          setIsCityScale(false);
+        }}
+        style={{ width: '40%' }}
+      >
+        Global Scale
+      </CalciteButton>
+    </div>
   );
 }
 
@@ -50,14 +71,14 @@ const buttonContainerStyle = {
   gap: 8,
 } as const;
 
-const cityCamera = {
+const cityCamera = new Camera({
   position: { longitude: -4.493, latitude: 48.3811, z: 40 },
   heading: 250.18,
   tilt: 70,
-};
+});
 
-const globalCamera = {
+const globalCamera = new Camera({
   position: { longitude: 27, latitude: 54, z: 10_825_172 },
   heading: 357,
   tilt: 0.19,
-};
+});

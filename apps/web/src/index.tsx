@@ -16,9 +16,15 @@ const queryClient = new QueryClient({
 
 import { defineCustomElements } from '@esri/calcite-components/dist/loader';
 
+import { defineCustomElements as defineMapElements } from '@arcgis/map-components/dist/loader';
+
 import { ThemeProvider } from './contexts/ThemeProvider';
 
 // CDN hosted assets
+defineMapElements(window, {
+  resourcesUrl: 'https://js.arcgis.com/map-components/4.30/assets/',
+});
+// Local assets
 defineCustomElements(window);
 
 // Render the application
@@ -29,5 +35,5 @@ root.render(
         <App />
       </QueryClientProvider>
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );

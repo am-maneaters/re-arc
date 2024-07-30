@@ -1,11 +1,6 @@
 import Basemap from '@arcgis/core/Basemap';
 import { CalciteOption, CalciteSelect } from '@esri/calcite-components-react';
-import {
-  ArcMapView,
-  ArcUI,
-  useArcState,
-  useCurrentMapView,
-} from 're-arc';
+import { ArcMapView, ArcUI, useArcState, useCurrentMapView } from 're-arc';
 
 export default function Example() {
   return (
@@ -13,7 +8,7 @@ export default function Example() {
       style={{ height: '100%' }}
       zoom={3}
       center={[-100.4593, 36.9014]}
-      map={{ basemap: 'streets' }}
+      basemap={'streets'}
     >
       <ArcUI position="bottom-left">
         <BasemapPicker />

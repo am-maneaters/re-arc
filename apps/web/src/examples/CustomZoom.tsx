@@ -3,26 +3,19 @@ import {
   CalciteAction,
   CalciteActionPad,
 } from '@esri/calcite-components-react';
-import {
-  ArcMapView,
-  ArcUI,
-  useCurrentMapView,
-  useWatchState,
-} from 're-arc';
+import { ArcMapView, ArcUI, useCurrentMapView, useWatchState } from 're-arc';
 import { useMemo } from 'react';
 
 export default function Example() {
+  const map = useMemo(() => {
+    return {
+      basemap: 'streets',
+      view: { ui: { components: ['attribution'] } },
+    };
+  }, []);
+
   return (
-    <ArcMapView
-      style={{ height: '100%' }}
-      map={{ basemap: 'streets' }}
-      zoom={3}
-      center={[-100.4593, 36.9014]}
-      onViewCreated={(view) => {
-        // Disable the default zoom widget
-        view.ui.components = ['attribution'];
-      }}
-    >
+    <ArcMapView zoom={3} center={[-100.4593, 36.9014]} map={map}>
       <ArcUI position="top-left">
         <CustomZoom />
       </ArcUI>

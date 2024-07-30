@@ -7,8 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-
-import { MapContext } from '../util/createView';
+import { MapContext } from '../../hooks/useCreateView';
 
 type MountedViewsContextValue = {
   views: { [id: string]: MapView | SceneView };
@@ -74,7 +73,7 @@ export function useView(): ViewCollection {
 
   const mapsWithCurrent: ViewCollection = useMemo(
     () => ({ ...views, current: currentView }),
-    [views, currentView]
+    [views, currentView],
   );
 
   return mapsWithCurrent;

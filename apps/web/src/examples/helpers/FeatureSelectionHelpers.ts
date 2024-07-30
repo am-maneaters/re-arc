@@ -163,5 +163,5 @@ export function getCSVRenderer() {
         },
       },
     },
-  } as unknown as  __esri.SimpleRenderer;
+  } as unknown as __esri.SimpleRenderer;
 }

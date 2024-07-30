@@ -6,10 +6,10 @@
 @layer components {
   .bg-dotted {
     background-size: 16px 16px;
-    background-color: var(--calcite-ui-background);
+    background-color: var(--calcite-color-background);
     background-image: radial-gradient(
       circle,
-      var(--calcite-ui-border-3) 1px,
+      var(--calcite-color-border-3) 1px,
       transparent 1px
     );
   }
@@ -27,5 +27,5 @@ body {
 calcite-action-group {
   border-style: unset;
   border-width: unset;
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid var(--calcite-color-border-3);
 }

@@ -1,5 +1,25 @@
-import MapView from '@arcgis/core/views/MapView';
+import { ArcgisMap } from '@arcgis/map-components-react';
 
-import { createViewComponent } from '../util/createView';
+import { MapContext, useCreateView } from '../../hooks/useCreateView';
+import '@arcgis/map-components/dist/components/arcgis-map';
+export function ArcMapView({
+  children,
+  onArcgisViewReadyChange,
+  ...props
+}: React.ComponentProps<typeof ArcgisMap>) {
+  const { view, onViewReady } = useCreateView(props.id);
 
-export const ArcMapView = createViewComponent(MapView);
+  return (
+    <MapContext.Provider value={view}>
+      <ArcgisMap
+        {...props}
+        onArcgisViewReadyChange={(ev) => {
+          onViewReady(ev.target.view);
+          onArcgisViewReadyChange?.(ev);
+        }}
+      >
+        {view && children}
+      </ArcgisMap>
+    </MapContext.Provider>
+  );
+}

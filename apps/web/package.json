@@ -12,6 +12,8 @@
     "util:copy-assets": "npx ncp ../../node_modules/@esri/calcite-components/dist/calcite/assets/ ./public/assets/"
   },
   "dependencies": {
+    "@arcgis/map-components-react":"^4.30",
+    "@arcgis/map-components": "^4.30",
     "@esri/calcite-components-react": "^1.4.3",
     "@tanstack/react-query": "^4.29.19",
     "re-arc": "*",
@@ -36,3 +38,4 @@
     "vitest": "^0.33.0"
   }
 }
+

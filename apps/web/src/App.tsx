@@ -127,7 +127,7 @@ export function App() {
     Examples,
     window.location.hash
       ? decodeURI(window.location.hash.slice(1))
-      : Examples[0].name
+      : Examples[0].name,
   );
 
   useEffect(() => {
@@ -175,7 +175,7 @@ export function App() {
                 onClick={() =>
                   window.open(
                     'https://github.com/am-maneaters/re-arc',
-                    '_blank'
+                    '_blank',
                   )
                 }
               >

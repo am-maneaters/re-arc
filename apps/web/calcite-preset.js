@@ -27,10 +27,10 @@ export default {
   theme: {
     borderColor: ({ theme }) => ({
       color: {
-        1: 'var(--calcite-ui-border-1)',
-        2: 'var(--calcite-ui-border-2)',
-        3: 'var(--calcite-ui-border-3)',
-        input: 'var(--calcite-ui-border-input)',
+        1: 'var(--calcite-color-border-1)',
+        2: 'var(--calcite-color-border-2)',
+        3: 'var(--calcite-color-border-3)',
+        input: 'var(--calcite-color-border-input)',
         transparent: theme('colors.transparent'),
       },
       'color-brand': theme('colors.brand'),
@@ -45,30 +45,30 @@ export default {
     }),
     colors: {
       current: 'currentColor',
-      brand: 'var(--calcite-ui-brand)',
-      'brand-hover': 'var(--calcite-ui-brand-hover)',
-      'brand-press': 'var(--calcite-ui-brand-press)',
-      info: 'var(--calcite-ui-info)',
-      success: 'var(--calcite-ui-success)',
-      warning: 'var(--calcite-ui-warning)',
-      danger: 'var(--calcite-ui-danger)',
-      'danger-hover': 'var(--calcite-ui-danger-hover)',
-      'danger-press': 'var(--calcite-ui-danger-press)',
+      brand: 'var(--calcite-color-brand)',
+      'brand-hover': 'var(--calcite-color-brand-hover)',
+      'brand-press': 'var(--calcite-color-brand-press)',
+      info: 'var(--calcite-color-info)',
+      success: 'var(--calcite-color-success)',
+      warning: 'var(--calcite-color-warning)',
+      danger: 'var(--calcite-color-danger)',
+      'danger-hover': 'var(--calcite-color-danger-hover)',
+      'danger-press': 'var(--calcite-color-danger-press)',
       background: {
-        background: 'var(--calcite-ui-background)',
+        background: 'var(--calcite-color-background)',
         foreground: {
-          1: 'var(--calcite-ui-foreground-1)',
-          2: 'var(--calcite-ui-foreground-2)',
-          3: 'var(--calcite-ui-foreground-3)',
+          1: 'var(--calcite-color-foreground-1)',
+          2: 'var(--calcite-color-foreground-2)',
+          3: 'var(--calcite-color-foreground-3)',
         },
       },
       color: {
-        1: 'var(--calcite-ui-text-1)',
-        2: 'var(--calcite-ui-text-2)',
-        3: 'var(--calcite-ui-text-3)',
-        inverse: 'var(--calcite-ui-text-inverse)',
-        link: 'var(--calcite-ui-text-link)',
-        icon: 'var(--calcite-ui-icon-color)',
+        1: 'var(--calcite-color-text-1)',
+        2: 'var(--calcite-color-text-2)',
+        3: 'var(--calcite-color-text-3)',
+        inverse: 'var(--calcite-color-text-inverse)',
+        link: 'var(--calcite-color-text-link)',
+        icon: 'var(--calcite-color-icon-color)',
       },
       transparent: 'transparent',
     },
@@ -171,8 +171,8 @@ export default {
           '0 12px 32px -2px rgba(0, 0, 0, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.08)',
         '2-sm':
           '0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16)',
-        'border-bottom': '0 1px 0 var(--calcite-ui-border-3)',
-        'outline-active': '0 0 0 1px var(--calcite-ui-brand)',
+        'border-bottom': '0 1px 0 var(--calcite-color-border-3)',
+        'outline-active': '0 0 0 1px var(--calcite-color-brand)',
         none: 'none',
         xs: '0 0 0 1px rgba(0, 0, 0, 0.05)',
         outline: '0 0 0 3px rgba(66, 153, 225, 0.5)',
@@ -218,7 +218,7 @@ export default {
         },
       },
       opacity: {
-        disabled: 'var(--calcite-ui-opacity-disabled)',
+        disabled: 'var(--calcite-color-opacity-disabled)',
       },
       spacing: {
         0.5: '0.125rem',
@@ -263,25 +263,25 @@ export default {
         },
         '.focus-normal': {
           outline:
-            '2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))',
+            '2px solid var(--calcite-color-focus-color, var(--calcite-color-brand))',
         },
         '.focus-outset': {
           outline:
-            '2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))',
-          'outline-offset': invert('2px', '--calcite-ui-focus-offset-invert'),
+            '2px solid var(--calcite-color-focus-color, var(--calcite-color-brand))',
+          'outline-offset': invert('2px', '--calcite-color-focus-offset-invert'),
         },
         '.focus-inset': {
           outline:
-            '2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))',
-          'outline-offset': invert('-2px', '--calcite-ui-focus-offset-invert'),
+            '2px solid var(--calcite-color-focus-color, var(--calcite-color-brand))',
+          'outline-offset': invert('-2px', '--calcite-color-focus-offset-invert'),
         },
         '.focus-outset-danger': {
-          outline: '2px solid var(--calcite-ui-danger)',
-          'outline-offset': invert('2px', '--calcite-ui-focus-offset-invert'),
+          outline: '2px solid var(--calcite-color-danger)',
+          'outline-offset': invert('2px', '--calcite-color-focus-offset-invert'),
         },
         '.focus-inset-danger': {
-          outline: '2px solid var(--calcite-ui-danger)',
-          'outline-offset': invert('-2px', '--calcite-ui-focus-offset-invert'),
+          outline: '2px solid var(--calcite-color-danger)',
+          'outline-offset': invert('-2px', '--calcite-color-focus-offset-invert'),
         },
         '.transition-default': {
           transition:

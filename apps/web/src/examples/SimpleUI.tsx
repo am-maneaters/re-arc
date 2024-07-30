@@ -1,5 +1,7 @@
 import { CalciteButton } from '@esri/calcite-components-react';
-import { ArcMapView, ArcUI } from 're-arc';
+import { ArcMapView } from 're-arc';
+
+import { ArcgisPlacement } from '@arcgis/map-components-react';
 
 export default function Example() {
   return (
@@ -9,16 +11,15 @@ export default function Example() {
       zoom={3}
       center={[-100.4593, 36.9014]}
     >
-      <ArcUI
-        position="top-right"
-        style={{ backgroundColor: 'white', padding: 8, marginLeft: 36 }}
-      >
-        Hi, I am a UI element! I resize with the map container!
-      </ArcUI>
+      <ArcgisPlacement position="top-right">
+        <div style={{ backgroundColor: 'white', padding: 8, color: 'black' }}>
+          Hi, I am a UI element! I resize with the map container!
+        </div>
+      </ArcgisPlacement>
 
-      <ArcUI position="bottom-left">
+      <ArcgisPlacement position="bottom-left">
         <CalciteButton>Anything can be in a ArcUI element!</CalciteButton>
-      </ArcUI>
+      </ArcgisPlacement>
     </ArcMapView>
   );
 }

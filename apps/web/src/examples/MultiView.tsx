@@ -1,9 +1,4 @@
-import {
-  ArcMapView,
-  ArcSceneView,
-  useViewState,
-  useWatchEffect,
-} from 're-arc';
+import { ArcMapView, ArcSceneView, useViewState, useWatchEffect } from 're-arc';
 
 export default function Example() {
   const [map, onMapViewCreated] = useViewState<__esri.MapView>();
@@ -13,13 +8,13 @@ export default function Example() {
     () => map?.viewpoint,
     () =>
       (map?.interacting || map?.animation) &&
-      scene?.set('viewpoint', map.viewpoint)
+      scene?.set('viewpoint', map.viewpoint),
   );
   useWatchEffect(
     () => scene?.viewpoint,
     () =>
       (scene?.interacting || scene?.animation) &&
-      map?.set('viewpoint', scene.viewpoint)
+      map?.set('viewpoint', scene.viewpoint),
   );
 
   return (
@@ -30,7 +25,7 @@ export default function Example() {
         map={{ basemap: 'streets-vector' }}
         zoom={3}
         center={[-100.4593, 36.9014]}
-        onViewCreated={onMapViewCreated}
+        onArcgisViewReadyChange={(event) => onMapViewCreated(event.target.view)}
         constraints={{ snapToZoom: false }}
       />
 
@@ -40,7 +35,9 @@ export default function Example() {
         map={{ basemap: 'streets-vector' }}
         zoom={4}
         center={[-100.4593, 36.9014]}
-        onViewCreated={onSceneViewCreated}
+        onArcgisViewReadyChange={(event) =>
+          onSceneViewCreated(event.target.view)
+        }
       />
     </div>
   );

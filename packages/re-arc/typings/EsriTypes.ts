@@ -4,7 +4,7 @@ import { Overloads } from './utilityTypes';
 export type EventHandlerLookup<LayerEvents extends any[]> = {
   [EventName in LayerEvents[0]]?: LayerEvents extends [
     EventName,
-    infer CallbackHandler
+    infer CallbackHandler,
   ]
     ? CallbackHandler
     : never;
@@ -28,7 +28,7 @@ type ViewProps<Constructor extends EsriView> =
 export type ArcViewWrapperProps<
   Constructor extends EsriView,
   View extends InstanceType<Constructor>,
-  Properties = ViewProps<Constructor>
+  Properties = ViewProps<Constructor>,
 > = {
   /** `map` can either be an object of map properties, or */
   map?: __esri.WebMapProperties;

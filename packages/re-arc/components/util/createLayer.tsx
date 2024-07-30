@@ -7,10 +7,10 @@ import { ArcReactiveProp } from './ArcReactiveProp';
 
 export function createLayer<
   LayerConstructorType extends new (
-    props: LayerProperties | undefined
+    props: LayerProperties | undefined,
   ) => LayerInstance,
   LayerProperties,
-  LayerInstance extends __esri.Layer
+  LayerInstance extends __esri.Layer,
 >(LayerConstructor: LayerConstructorType) {
   return function ArcLayer({
     onLayerCreated,

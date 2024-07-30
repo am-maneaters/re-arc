@@ -10,7 +10,7 @@ export type ActionItem = {
 
 export function useCalciteActionBar(
   items: ActionItem[],
-  defaultValue: ActionItem['name']
+  defaultValue: ActionItem['name'],
 ): {
   currentAction: ActionItem | undefined;
   actions: JSX.Element[];
@@ -19,7 +19,7 @@ export function useCalciteActionBar(
 
   const currentAction = useMemo(
     () => items.find((example) => example.name === currentActionName),
-    [currentActionName, items]
+    [currentActionName, items],
   );
 
   const actions = useMemo(
@@ -33,7 +33,7 @@ export function useCalciteActionBar(
           active={currentActionName === item.name ? true : undefined}
         />
       )),
-    [currentActionName, items]
+    [currentActionName, items],
   );
 
   return {

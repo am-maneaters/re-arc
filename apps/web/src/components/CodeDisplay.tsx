@@ -24,7 +24,7 @@ function formatImports(code: string): string {
         // remove the final comma
         newLines[newLines.length - 1] = newLines[newLines.length - 1].slice(
           0,
-          -1
+          -1,
         );
       }
       newLines[newLines.length - 1] += ' ' + line.trim();

@@ -18,14 +18,14 @@ import { ArcReactiveProp } from './ArcReactiveProp';
 import { isEqual } from './isEqual';
 
 export const MapContext = createContext<MapView | SceneView | undefined>(
-  undefined
+  undefined,
 );
 
 export function createViewComponent<
   ViewConstructor extends EsriView,
-  View extends InstanceType<ViewConstructor>
+  View extends InstanceType<ViewConstructor>,
 >(
-  ViewConstructor: ViewConstructor
+  ViewConstructor: ViewConstructor,
 ): React.FC<ArcViewWrapperProps<ViewConstructor, View>> {
   const ArcView: React.FC<ArcViewWrapperProps<ViewConstructor, View>> = ({
     children,
@@ -48,7 +48,7 @@ export function createViewComponent<
             | __esri.SceneViewProperties),
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      []
+      [],
     );
 
     const mapContainer = useRef<HTMLDivElement>(null);

@@ -20,7 +20,7 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(
-    (window.localStorage.getItem('re-arc-theme') as Theme) ?? 'dark'
+    (window.localStorage.getItem('re-arc-theme') as Theme) ?? 'dark',
   );
 
   useEffect(() => {

@@ -19,18 +19,23 @@
     "dev": "npm run build -- --watch"
   },
   "peerDependencies": {
-    "@arcgis/core": "^4.27.6",
+    "@arcgis/core": "^4.30",
+    "@arcgis/map-components-react":"^4.30",
+    "@arcgis/map-components": "^4.30",
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@arcgis/core": "^4.28.10",
+    "@arcgis/core": "^4.30",
+    "@arcgis/map-components-react":"^4.30",
+    "@arcgis/map-components": "^4.30",
     "@types/react": "^18.2.45",
     "eslint": "^8.56.0",
     "eslint-config-custom": "*",
     "react": "^18.2.0",
     "tsconfig": "*",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+        "vite-plugin-static-copy": "^1.0.6"
   },
   "dependencies": {
     "react-fast-compare": "^3.2.2"
@@ -41,3 +46,4 @@
     }
   }
 }
+

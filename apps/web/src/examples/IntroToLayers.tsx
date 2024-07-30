@@ -1,19 +1,19 @@
+import { ArcgisPlacement } from '@arcgis/map-components-react';
 import {
   CalciteCard,
   CalciteLabel,
   CalciteSwitch,
 } from '@esri/calcite-components-react';
-import { ArcMapView, ArcTileLayer, ArcUI, useCurrentMapView } from 're-arc';
+import { ArcMapView, ArcTileLayer, useCurrentMapView } from 're-arc';
 import React from 'react';
 
 export default function Example() {
   return (
     <ArcMapView
-      map={{ basemap: 'oceans' }}
+      basemap="oceans"
       center={[-118.805, 34.027]}
       zoom={7}
       style={{ height: '100%' }}
-      eventHandlers={{ click: (e) => console.log(e.mapPoint) }}
     >
       <Layers />
     </ArcMapView>
@@ -32,7 +32,7 @@ function Layers() {
 
   return (
     <>
-      <ArcUI position="top-right">
+      <ArcgisPlacement position="top-right">
         <CalciteCard>
           <CalciteLabel layout="inline" style={{ height: 0, padding: 5 }}>
             <CalciteSwitch
@@ -42,7 +42,7 @@ function Layers() {
             Transportation
           </CalciteLabel>
         </CalciteCard>
-      </ArcUI>
+      </ArcgisPlacement>
 
       {/* Streets Layer */}
       <ArcTileLayer url={config.streetsUrl} visible={streetsVisible} />

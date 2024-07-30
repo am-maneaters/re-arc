@@ -6,7 +6,7 @@ import { Overloads } from '../typings/utilityTypes';
 export function useWatchEffect<T>(
   getValue: () => T,
   callback: (newValue: T, oldValue: T) => void,
-  options?: __esri.ReactiveWatchOptions
+  options?: __esri.ReactiveWatchOptions,
 ) {
   useEffect(() => {
     // Watch for changes to value
@@ -20,7 +20,7 @@ export function useWatchEffect<T>(
 export function useWhenEffect<T>(
   getValue: () => T,
   callback: (newValue: T, oldValue: T) => void,
-  options?: __esri.ReactiveWatchOptions
+  options?: __esri.ReactiveWatchOptions,
 ) {
   useEffect(() => {
     // Watch for changes to value
@@ -34,7 +34,7 @@ export function useWhenEffect<T>(
 export function useWatchState<T>(
   getValue: () => T,
   deps?: unknown[],
-  options?: __esri.ReactiveWatchOptions
+  options?: __esri.ReactiveWatchOptions,
 ): T | undefined {
   const [state, setState] = useState<T>();
 
@@ -58,31 +58,31 @@ export function useWatchState<T>(
 export function useOnEvent<
   Target extends __esri.Evented,
   Event extends Parameters<Overloads<Target['on']>>,
-  EventName extends Event[0]
+  EventName extends Event[0],
 >(
   target: Target | (() => Target) | undefined,
   event: EventName,
   callback: Event extends [EventName, infer CallbackHandler]
     ? CallbackHandler
     : never,
-  options?: __esri.ReactiveListenerOptions<Target>
+  options?: __esri.ReactiveListenerOptions<Target>,
 ): void {
   useEffect(() => {
     const handle = on(
       typeof target === 'function' ? target : () => target,
       event as string,
       callback,
-      options
+      options,
     );
     return () => handle.remove();
   }, [callback, event, options, target]);
 }
 export function useArcState<
   T extends __esri.Accessor,
-  Property extends keyof T
+  Property extends keyof T,
 >(
   acc: T,
-  property: Property
+  property: Property,
 ): [T[Property], React.Dispatch<React.SetStateAction<T[Property]>>] {
   const [state, setState] = useState<T[Property]>(acc[property]);
 
@@ -92,14 +92,14 @@ export function useArcState<
     (newValue: React.SetStateAction<T[keyof T]>) => {
       if (typeof newValue === 'function') {
         newValue = (newValue as (oldValue: T[Property]) => T[Property])(
-          acc[property]
+          acc[property],
         );
       }
 
       acc.set(property as string, newValue);
       setState(newValue as T[Property]);
     },
-    [acc, property]
+    [acc, property],
   );
 
   return [state, setArcState];
