@@ -7,12 +7,13 @@ import { ArcMapView, ArcUI, useCurrentMapView, useWatchState } from 're-arc';
 import { useMemo } from 'react';
 
 export default function Example() {
-  const map = useMemo(() => {
-    return {
+  const map = useMemo(
+    () => ({
       basemap: 'streets',
       view: { ui: { components: ['attribution'] } },
-    };
-  }, []);
+    }),
+    [],
+  );
 
   return (
     <ArcMapView zoom={3} center={[-100.4593, 36.9014]} map={map}>

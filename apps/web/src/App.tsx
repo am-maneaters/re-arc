@@ -10,9 +10,9 @@ import {
 } from '@esri/calcite-components-react';
 import { lazy, Suspense, useEffect } from 'react';
 
+import GithubIcon from './assets/GithubIcon';
 import logoDark from './assets/re-arc-logo-dark.png';
 import logoLight from './assets/re-arc-logo-light.png';
-import GithubIcon from './assets/GithubIcon';
 import { CodeDisplayAsync } from './components/CodeDisplay';
 import { useTheme } from './contexts/ThemeProvider';
 import { ActionItem, useCalciteActionBar } from './hooks/calciteHooks';

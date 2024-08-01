@@ -1,3 +1,4 @@
+import Camera from '@arcgis/core/Camera';
 import { ArcgisDaylight } from '@arcgis/map-components-react';
 import { CalciteButton } from '@esri/calcite-components-react';
 import {
@@ -7,13 +8,12 @@ import {
   useCurrentSceneView,
 } from 're-arc';
 import { useState } from 'react';
-import Camera from '@arcgis/core/Camera';
 
 export default function Example() {
   return (
     <ArcSceneView
       basemap="satellite"
-      ground={'world-elevation'}
+      ground="world-elevation"
       camera={cityCamera}
       environment={{ lighting: { type: 'sun', directShadowsEnabled: true } }}
       style={{ height: '100%', position: 'relative' }}

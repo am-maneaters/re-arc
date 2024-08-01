@@ -1,3 +1,11 @@
 {
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      },
+      "eslint.validate": [
+        "javascript",
+        "typescript",
+        "typescriptreact"
+      ],
     "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,7 +1,8 @@
+import '@arcgis/map-components/dist/components/arcgis-map';
+
 import { ArcgisMap } from '@arcgis/map-components-react';
 
 import { MapContext, useCreateView } from '../../hooks/useCreateView';
-import '@arcgis/map-components/dist/components/arcgis-map';
 export function ArcMapView({
   children,
   onArcgisViewReadyChange,

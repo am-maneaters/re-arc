@@ -9,6 +9,7 @@ function ArcReactivePropBase({
 }: {
   accessor: __esri.Accessor;
   property: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
 }): null {
   useEffect(() => {

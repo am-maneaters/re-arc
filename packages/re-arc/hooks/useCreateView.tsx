@@ -1,13 +1,14 @@
 // useArcView.js or useArcView.ts
 
 import {
-  useState,
-  useId,
-  useContext,
-  useCallback,
-  useEffect,
   createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useState,
 } from 'react';
+
 import { ArcViewContext } from '../components/ArcView/ArcViewContext';
 
 export const MapContext = createContext<
@@ -30,11 +31,12 @@ export function useCreateView(id?: string) {
     [mapId, onViewMount],
   );
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       onViewUnmount?.(mapId);
-    };
-  }, [mapId, onViewUnmount]);
+    },
+    [mapId, onViewUnmount],
+  );
 
   return { view, mapId, onViewReady };
 }

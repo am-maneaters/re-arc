@@ -53,12 +53,12 @@ export default function Example() {
   return (
     <ArcMapView
       center={[-118.805, 34.027]}
-      itemId={'2361e8f3f8114c0fa544090d2ff1cbe6'}
+      itemId="2361e8f3f8114c0fa544090d2ff1cbe6"
       zoom={7}
       style={{ height: '100%', flex: 1 }}
     >
       <ArcgisExpand position="top-right">
-        <ArcgisLayerList autoDestroyDisabled={true}></ArcgisLayerList>
+        <ArcgisLayerList autoDestroyDisabled={true} />
       </ArcgisExpand>
       <ArcgisPlacement position="bottom-left">
         <MapState />

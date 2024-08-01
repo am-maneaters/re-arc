@@ -1,11 +1,11 @@
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { SimpleRenderer } from '@arcgis/core/renderers';
 import { SimpleFillSymbol } from '@arcgis/core/symbols';
+import { ArcgisFeatureTable } from '@arcgis/map-components-react';
 import { ArcCSVLayer, ArcMapView, ArcUI } from 're-arc';
 import React from 'react';
 
 import { getCSVRenderer } from './helpers/FeatureSelectionHelpers';
-import { ArcgisFeatureTable } from '@arcgis/map-components-react';
 
 export default function Example() {
   const [mapView, setMapView] = React.useState<__esri.MapView>();
@@ -58,7 +58,7 @@ export default function Example() {
       </ArcMapView>
       {csvLayerView && mapView && (
         <ArcgisFeatureTable
-          referenceElement={'map'}
+          referenceElement="map"
           style={{ width: '100%', height: '250px', marginBottom: 4 }}
           layer={csvLayerView.layer as __esri.CSVLayer}
           highlightEnabled={false}

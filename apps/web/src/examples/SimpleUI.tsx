@@ -1,7 +1,6 @@
+import { ArcgisPlacement } from '@arcgis/map-components-react';
 import { CalciteButton } from '@esri/calcite-components-react';
 import { ArcMapView } from 're-arc';
-
-import { ArcgisPlacement } from '@arcgis/map-components-react';
 
 export default function Example() {
   return (
